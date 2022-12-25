@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import SignUp from "./Pages/SignUp";
+import SignUp from "./Pages/auth/SignUp";
 
 function App() {
   return (

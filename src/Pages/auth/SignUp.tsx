@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import SignUpForm from "../components/SignUpForm/SignUpForm";
-import MediaIcons from "../components/Utils/MediaIcons/MediaIcons";
-import ThulloLogo from "../asset/img/thullo-logo.png";
+import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import MediaIcons from "../../components/Utils/MediaIcons/MediaIcons";
+import ThulloLogo from "../../asset/img/thullo-logo.png";
 
 function SignUp() {
   return (
