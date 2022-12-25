@@ -1,7 +1,5 @@
 import { ImGoogle3 } from "react-icons/im";
-import { AiFillFacebook } from "react-icons/ai";
-import { AiFillTwitterCircle } from "react-icons/ai";
-import { AiOutlineGithub } from "react-icons/ai";
+import {AiFillFacebook, AiFillTwitterCircle, AiOutlineGithub} from "react-icons/ai";
 
 function MediaIcons() {
   const icons: any[] = [
@@ -12,7 +10,8 @@ function MediaIcons() {
   ].map((icon, i) => (
     <div
       key={i}
-      className="flex w-10 h-10 justify-center items-center text-color-border border border-color-border rounded-full mr-2 hover:text-color-btn hover:border-color-btn transition-all ease-in duration-300 cursor-pointer"
+      className="flex w-10 h-10 justify-center
+      items-center text-color-border border border-color-border rounded-full mr-2 hover:text-color-btn hover:border-color-btn transition-all ease-in duration-300 cursor-pointer"
     >
       {icon}
     </div>

@@ -26,7 +26,6 @@ function SignUpForm() {
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
     reset({
       fullName: "",
       email: "",
@@ -35,7 +34,7 @@ function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-8" noValidate>
       <InputComponent
         placeholder={"Full name"}
         type={"text"}
