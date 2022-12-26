@@ -8,7 +8,7 @@ const InputComponent: React.FC<{
   icon: any;
 }> = (props) => {
   const error: string = props.error[props.name]?.message
-    ? "text-color-red border-color-red"
+    ? "text-color-red border-color-red focus:outline-0 "
     : "border-color-border text-text-p-color";
 
   return (
