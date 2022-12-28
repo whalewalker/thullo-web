@@ -30,7 +30,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-8" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <InputComponent
         placeholder={"Email"}
         type={"email"}
