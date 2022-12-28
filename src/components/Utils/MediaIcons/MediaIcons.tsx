@@ -17,7 +17,7 @@ function MediaIcons() {
       items-center text-color-border border border-color-border rounded-lg  mr-2 hover:text-color-btn  mb-2 hover:border-color-btn transition-all ease-in duration-300 cursor-pointer "
     >
       <img src={logo.logo} alt={logo.name} className="w-6 h-6" />
-      <p className=" mx-auto">
+      <p className=" mx-auto text-color-black">
         {location.pathname.slice(1) === "login" ? "Login" : "Sign up"} with
         {` ${logo.name}`}
       </p>
