@@ -1,23 +1,30 @@
-import { ImGoogle3 } from "react-icons/im";
-import {AiFillFacebook, AiFillTwitterCircle, AiOutlineGithub} from "react-icons/ai";
+import fbLogo from "../../../asset/img/fb-logo.png";
+import githubLogo from "../../../asset/img/github-logo.png";
+import googleLogo from "../../../asset/img/google-logo.png";
+import { useLocation } from "react-router-dom";
 
 function MediaIcons() {
+  const location: { pathname: string } = useLocation();
+
   const icons: any[] = [
-    <ImGoogle3 className="w-5 h-5 text-current" />,
-    <AiFillFacebook className="w-5 h-5 text-current" />,
-    <AiFillTwitterCircle className="w-5 h-5 text-current" />,
-    <AiOutlineGithub className="w-5 h-5 text-current" />,
-  ].map((icon, i) => (
+    { logo: googleLogo, name: "Google" },
+    { logo: fbLogo, name: "Facebook" },
+    { logo: githubLogo, name: "Github" },
+  ].map((logo, i) => (
     <div
       key={i}
-      className="flex w-10 h-10 justify-center
-      items-center text-color-border border border-color-border rounded-full mr-2 hover:text-color-btn hover:border-color-btn transition-all ease-in duration-300 cursor-pointer"
+      className="flex w-full py-2 px-4 
+      items-center text-color-border border border-color-border rounded-lg  mr-2 hover:text-color-btn  mb-2 hover:border-color-btn transition-all ease-in duration-300 cursor-pointer "
     >
-      {icon}
+      <img src={logo.logo} alt={logo.name} className="w-6 h-6" />
+      <p className=" mx-auto">
+        {location.pathname.slice(1) === "login" ? "Login" : "Sign up"} with
+        {` ${logo.name}`}
+      </p>
     </div>
   ));
 
-  return <div className="flex mx-auto w-min">{icons}</div>;
+  return <div className="flex flex-col mx-auto">{icons}</div>;
 }
 
 export default MediaIcons;
