@@ -25,7 +25,7 @@ const AuthSection = () => {
           </p>
         </div>
         <MediaIcons />
-        <p className="mb-3 mt-1 after:content-[''] before:content-[''] flex after:flex-1 before:flex-1  after:border-b-2 before:border-b-2  after:m-auto before:m-auto  after:ml-2 before:mr-2 text-color-border border-color-border">
+        <p className="mb-3 mt-1 after:content-[''] before:content-[''] flex after:flex-1 before:flex-1  after:border-b before:border-b  after:m-auto before:m-auto  after:ml-2 before:mr-2 text-color-border border-color-border">
           OR
         </p>
         {location.pathname.slice(1) === "login" ? (
