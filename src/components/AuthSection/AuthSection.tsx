@@ -8,7 +8,7 @@ const AuthSection = () => {
   const location: { pathname: string } = useLocation();
 
   return (
-    <section className="flex justify-center items-center h-screen">
+    <section className="flex justify-center items-center py-5 min-h-screen ">
       <div className="w-1/3 border border-color-border rounded-3xl px-10 py-7 sm:w-full sm:border-0  lg:p-6 md:w-3/5 lg:w-1/2 xl:w-2/5">
         <img
           src={ThulloLogo}
@@ -24,15 +24,15 @@ const AuthSection = () => {
             multiple paths for you to choose
           </p>
         </div>
+        <MediaIcons />
+        <p className="mb-3 mt-1 after:content-[''] before:content-[''] flex after:flex-1 before:flex-1  after:border-b-2 before:border-b-2  after:m-auto before:m-auto  after:ml-2 before:mr-2 text-color-border border-color-border">
+          OR
+        </p>
         {location.pathname.slice(1) === "login" ? (
           <LoginForm />
         ) : (
           <SignUpForm />
         )}
-        <p className="text-center my-2 md:my-6 xl:my-4">
-          or continue with these social profile
-        </p>
-        <MediaIcons />
         <p className="mt-2.5 text-center md:mt-6 xl:mt-4">
           {location.pathname.slice(1) === "login"
             ? "Not a member?"
