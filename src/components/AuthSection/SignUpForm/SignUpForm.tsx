@@ -34,7 +34,7 @@ function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-8" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <InputComponent
         placeholder={"Full name"}
         type={"text"}
