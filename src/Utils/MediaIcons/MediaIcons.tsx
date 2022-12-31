@@ -1,7 +1,7 @@
-import fbLogo from "../../../asset/img/fb-logo.png";
-import githubLogo from "../../../asset/img/github-logo.png";
-import googleLogo from "../../../asset/img/google-logo.png";
-import twitterLogo from "../../../asset/img/twitter-logo.png";
+import fbLogo from "../../asset/img/fb-logo.png";
+import githubLogo from "../../asset/img/github-logo.png";
+import googleLogo from "../../asset/img/google-logo.png";
+import twitterLogo from "../../asset/img/twitter-logo.png";
 import { useLocation } from "react-router-dom";
 
 function MediaIcons() {
