@@ -8,6 +8,7 @@ module.exports = {
       "color-red": "rgb(220 38 38)",
       "color-white": "#fff",
       "color-btn": "#2F80ED",
+      "color-black": "#222",
     },
     screens: {
       "2xl": { max: "1535px" },
