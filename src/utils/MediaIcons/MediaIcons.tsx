@@ -3,6 +3,7 @@ import githubLogo from "../../asset/img/github-logo.png";
 import googleLogo from "../../asset/img/google-logo.png";
 import twitterLogo from "../../asset/img/twitter-logo.png";
 import { useLocation } from "react-router-dom";
+import React from "react";
 
 function MediaIcons() {
   const location: { pathname: string } = useLocation();

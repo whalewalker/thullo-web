@@ -1,3 +1,5 @@
+import React from "react";
+
 const InputComponent: React.FC<{
   placeholder: string;
   type: string;

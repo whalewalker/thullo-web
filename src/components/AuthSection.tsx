@@ -1,5 +1,6 @@
-import MediaIcons from "../../src/Utils/MediaIcons/MediaIcons";
+import MediaIcons from "../utils/MediaIcons/MediaIcons";
 import ThulloLogo from "../asset/img/thullo-logo.png";
+import React from "react";
 
 const AuthSection = () => {
   return (

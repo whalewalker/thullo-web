@@ -3,7 +3,7 @@ import React from "react";
 import FormCard from "../../components/FormCard";
 import {SubmitHandler, useForm} from "react-hook-form";
 import InputComponent from "../../components/InputComponent";
-import {registrationOption} from "../../Utils/formValidation";
+import {registrationOption} from "../../utils/formValidation";
 import {BsPersonCircle} from "react-icons/bs";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
