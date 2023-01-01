@@ -1,25 +1,24 @@
-import AuthSection from "../../components/AuthSection";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React from "react";
+import FormCard from "../../components/FormCard";
 import InputComponent from "../../components/InputComponent";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { registrationOption } from "../../utils/formValidation";
 import { AiOutlineMail } from "react-icons/ai";
-import { IoMdLock } from "react-icons/io";
-import FormCard from "../../components/FormCard";
-import React from "react";
-import { Link } from "react-router-dom";
+import thulloLogo from "../../asset/img/thullo-logo.png";
 import { useAppDispatch, useAppSelector } from "../../hooks/customHook";
-import { login } from "../../actions/authAction";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const ForgotPassword = () => {
   const dispatchFn = useAppDispatch();
   const isLoading = useAppSelector((state: any) => state.auth.isLoading);
   const errorMsg = useAppSelector((state: any) => state.auth.errorMsg);
   const error = useAppSelector((state: any) => state.auth.error);
 
-  const LoginForm = () => {
+  const navigate: Function = useNavigate();
+
+  const ForgotPasswordForm = () => {
     type FormData = {
       email: string;
-      password: string;
     };
 
     const {
@@ -30,15 +29,13 @@ const Login = () => {
     } = useForm<FormData>({
       defaultValues: {
         email: "",
-        password: "",
       },
     });
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-      dispatchFn(login(data));
+      navigate("/reset-password");
       reset({
         email: "",
-        password: "",
       });
     };
 
@@ -55,19 +52,8 @@ const Login = () => {
             <AiOutlineMail className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
           }
         />
-        <InputComponent
-          placeholder={"Password"}
-          type={"password"}
-          register={register}
-          error={errors}
-          name={"password"}
-          validation={registrationOption.password}
-          icon={
-            <IoMdLock className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
-          }
-        />
         <button
-          disabled={isLoading}
+          //   disabled={isLoading}
           type="submit"
           className="bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
         >
@@ -77,7 +63,7 @@ const Login = () => {
               viewBox="0 0 24 24"
             />
           )}
-          {isLoading ? "Loading..." : "Get started coding"}
+          {isLoading ? "Loading..." : "Get password"}
         </button>
       </form>
     );
@@ -85,19 +71,15 @@ const Login = () => {
 
   return (
     <FormCard>
-      <AuthSection />
-      <LoginForm />
-      <Link to={"/forgot-password"} className="mt-4 block text-color-btn">
-        Forgot password?
-      </Link>
-      <p className="mt-2.5 text-center md:mt-6 xl:mt-4">
-        Not a member?
-        <Link to="/sign-up" className="text-color-btn ml-1">
-          Create an account
-        </Link>
-      </p>
+      <img
+        src={thulloLogo}
+        alt="thullo-logo"
+        className="w-24 pb-3 cursor-pointer"
+      />
+      <h2 className=" text-2xl mt-6 mb-1">Forgot password</h2>
+      <p className="mb-6">Please enter your email to set a new password</p>
+      <ForgotPasswordForm />
     </FormCard>
   );
 };
-
-export default Login;
+export default ForgotPassword;
