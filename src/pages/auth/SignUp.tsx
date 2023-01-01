@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import {register as registerUser} from "../../actions/authAction";
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {useNavigate} from "react-router-dom";
+import ReactLoading from "react-loading";
 
 
 const SignUp = () => {
@@ -18,8 +19,6 @@ const SignUp = () => {
     const navigate = useNavigate()
 
     const isLoading: boolean = useAppSelector((state: any) => state.auth.isLoading);
-    const errorMsg: string = useAppSelector((state: any) => state.auth.errorMsg);
-    const error: boolean = useAppSelector((state: any) => state.auth.error);
 
     const SignUpForm = () => {
         type FormData = {
@@ -32,7 +31,7 @@ const SignUp = () => {
             register,
             handleSubmit,
             reset,
-            formState: { errors },
+            formState: {errors},
         } = useForm<FormData>({
             defaultValues: {
                 name: "",
@@ -42,7 +41,7 @@ const SignUp = () => {
         });
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
-            dispatchFn(registerUser(data, ()=> {
+            dispatchFn(registerUser(data, () => {
                 reset({
                     name: "",
                     email: "",
@@ -62,7 +61,7 @@ const SignUp = () => {
                     name={"name"}
                     validation={registrationOption.name}
                     icon={
-                        <BsPersonCircle className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
+                        <BsPersonCircle className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border"/>
                     }
                 />
                 <InputComponent
@@ -73,7 +72,7 @@ const SignUp = () => {
                     name={"email"}
                     validation={registrationOption.email}
                     icon={
-                        <AiOutlineMail className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
+                        <AiOutlineMail className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border"/>
                     }
                 />
                 <InputComponent
@@ -84,32 +83,34 @@ const SignUp = () => {
                     name={"password"}
                     validation={registrationOption.password}
                     icon={
-                        <IoMdLock className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
+                        <IoMdLock className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border"/>
                     }
                 />
                 <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex justify-center items-center bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
+                    className={` ${!isLoading && "py-2"} flex justify-center items-center bg-color-btn text-color-white w-full border border-color-btn rounded-lg ${!isLoading && "hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"} ${isLoading && "opacity-75"}`}
                 >
-                    {isLoading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"/>}
-                    {isLoading ? "Loading..." : "Start coding now"}
+                    {isLoading && (
+                        <ReactLoading type="bubbles" color="#fff" width={40} height={40}/>
+                    )}
+                    {isLoading ? "" : "Start coding now"}
                 </button>
 
             </form>
         );
     }
 
-  return (
-      <FormCard>
-          <AuthSection/>
-          <SignUpForm/>
+    return (
+        <FormCard>
+            <AuthSection/>
+            <SignUpForm/>
 
-          <p className="mt-2.5 text-center md:mt-6 xl:mt-4">Already a member?
-              <Link to="/login" className="text-color-btn ml-1">Login</Link>
-          </p>
-      </FormCard>
-  );
+            <p className="text-sm mt-2.5 text-center md:mt-6 xl:mt-4">Already a member?
+                <Link to="/login" className="text-color-btn ml-1">Login</Link>
+            </p>
+        </FormCard>
+    );
 }
 
 export default SignUp;

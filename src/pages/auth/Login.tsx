@@ -9,12 +9,11 @@ import React from "react";
 import {Link} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {login} from "../../actions/authAction";
+import ReactLoading from "react-loading";
 
 const Login = () => {
     const dispatchFn = useAppDispatch();
     const isLoading: boolean = useAppSelector((state: any) => state.auth.isLoading);
-    const errorMsg: string = useAppSelector((state: any) => state.auth.errorMsg);
-    const error: boolean = useAppSelector((state: any) => state.auth.error);
 
     const LoginForm = () => {
         type FormData = {
@@ -35,12 +34,12 @@ const Login = () => {
         });
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
-            dispatchFn(login(data), ()=> {
+            dispatchFn(login(data, ()=> {
                 reset({
                     email: "",
                     password: "",
-                });
-            });
+                })
+            }));
         };
 
         return (
@@ -70,10 +69,12 @@ const Login = () => {
                 <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex justify-center items-center bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
+                    className={` ${!isLoading && "py-2"} flex justify-center items-center bg-color-btn text-color-white w-full border border-color-btn rounded-lg ${!isLoading && "hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"} ${isLoading && "opacity-75"}`}
                 >
-                    {isLoading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"/>}
-                    {isLoading ? "Loading..." : "Login"}
+                    {isLoading && (
+                        <ReactLoading type="bubbles" color="#fff" width={40} height={40}/>
+                    )}
+                    {isLoading ? "" : "Login"}
                 </button>
 
             </form>
@@ -84,10 +85,10 @@ const Login = () => {
     <FormCard>
       <AuthSection />
       <LoginForm />
-      <Link to={"/forgot-password"} className="mt-4 block text-color-btn">
+      <Link to={"/forgot-password"} className="mt-1 block text-color-btn text-sm text-right">
         Forgot password?
       </Link>
-      <p className="mt-2.5 text-center md:mt-6 xl:mt-4">
+      <p className=" text-sm mt-2.5 text-center md:mt-6 xl:mt-4">
         Not a member?
         <Link to="/sign-up" className="text-color-btn ml-1">
           Create an account
