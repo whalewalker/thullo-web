@@ -87,7 +87,9 @@ const Login = () => {
     <FormCard>
       <AuthSection />
       <LoginForm />
-      <Link to={"/forgot-password"}>Forgot password?</Link>
+      <Link to={"/forgot-password"} className="mt-4 block text-color-btn">
+        Forgot password?
+      </Link>
       <p className="mt-2.5 text-center md:mt-6 xl:mt-4">
         Not a member?
         <Link to="/sign-up" className="text-color-btn ml-1">
