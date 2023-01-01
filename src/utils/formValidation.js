@@ -1,5 +1,5 @@
 export const registrationOption = {
-  fullName: {
+  name: {
     required: "Name is required",
     minLength: {
       value: 3,

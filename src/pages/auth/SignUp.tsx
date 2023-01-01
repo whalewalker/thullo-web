@@ -8,12 +8,22 @@ import {BsPersonCircle} from "react-icons/bs";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
 import {Link} from "react-router-dom";
+import {register as registerUser} from "../../actions/authAction";
+import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
+import {useNavigate} from "react-router-dom";
 
 
 const SignUp = () => {
+    const dispatchFn = useAppDispatch();
+    const navigate = useNavigate()
+
+    const isLoading: boolean = useAppSelector((state: any) => state.auth.isLoading);
+    const errorMsg: string = useAppSelector((state: any) => state.auth.errorMsg);
+    const error: boolean = useAppSelector((state: any) => state.auth.error);
+
     const SignUpForm = () => {
         type FormData = {
-            fullName: string;
+            name: string;
             email: string;
             password: string;
         };
@@ -25,18 +35,21 @@ const SignUp = () => {
             formState: { errors },
         } = useForm<FormData>({
             defaultValues: {
-                fullName: "",
+                name: "",
                 email: "",
                 password: "",
             },
         });
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
-            reset({
-                fullName: "",
-                email: "",
-                password: "",
-            });
+            dispatchFn(registerUser(data, ()=> {
+                reset({
+                    name: "",
+                    email: "",
+                    password: "",
+                });
+                navigate("/login")
+            }));
         };
 
         return (
@@ -46,8 +59,8 @@ const SignUp = () => {
                     type={"text"}
                     register={register}
                     error={errors}
-                    name={"fullName"}
-                    validation={registrationOption.fullName}
+                    name={"name"}
+                    validation={registrationOption.name}
                     icon={
                         <BsPersonCircle className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border" />
                     }
@@ -75,11 +88,14 @@ const SignUp = () => {
                     }
                 />
                 <button
+                    disabled={isLoading}
                     type="submit"
-                    className="bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
+                    className="flex justify-center items-center bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
                 >
-                    Start coding now
+                    {isLoading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"/>}
+                    {isLoading ? "Loading..." : "Start coding now"}
                 </button>
+
             </form>
         );
     }
