@@ -1,14 +1,21 @@
 import AuthSection from "../../components/AuthSection";
 import {SubmitHandler, useForm} from "react-hook-form";
 import InputComponent from "../../components/InputComponent";
-import {registrationOption} from "../../Utils/formValidation";
+import {registrationOption} from "../../utils/formValidation";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
 import FormCard from "../../components/FormCard";
 import React from "react";
 import {Link} from "react-router-dom"
+import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
+import {login} from "../../actions/authAction";
 
 const Login = () => {
+    const dispatchFn = useAppDispatch();
+    const isLoading  = useAppSelector((state: any) => state.auth.isLoading);
+    const errorMsg = useAppSelector((state: any) => state.auth.errorMsg);
+    const error = useAppSelector((state: any) => state.auth.error);
+
     const LoginForm = () => {
         type FormData = {
             email: string;
@@ -28,6 +35,7 @@ const Login = () => {
         });
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
+            dispatchFn(login(data));
             reset({
                 email: "",
                 password: "",
@@ -59,11 +67,14 @@ const Login = () => {
                     }
                 />
                 <button
+                    disabled={isLoading}
                     type="submit"
                     className="bg-color-btn text-color-white w-full py-2 border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"
                 >
-                    Start coding now
+                    {isLoading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"/>}
+                    {isLoading ? "Loading..." : "Get started coding"}
                 </button>
+
             </form>
         );
     };

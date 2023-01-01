@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import SignUp from "./Pages/auth/SignUp";
-import Login from "./Pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
+import Login from "./pages/auth/Login";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Routes>
