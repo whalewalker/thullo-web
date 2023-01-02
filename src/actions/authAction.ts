@@ -8,7 +8,7 @@ import {
 } from "../services/authService";
 import {extractErrorMessage} from "../utils/helperFn";
 import {toast} from "react-toastify";
-
+c
 
 export const login = (data: {}, callbackFn: Function) => {
     return async (dispatch: Function) => {
@@ -29,6 +29,20 @@ export const login = (data: {}, callbackFn: Function) => {
     }
 }
 
+const toastError = (msg: string) => {
+    toast.error(msg, {
+        hideProgressBar: true,
+        autoClose: 2000,
+    })
+}
+
+const toastSuccess = (msg: string) => {
+    toast.success(msg, {
+        hideProgressBar: true,
+        autoClose: 2000,
+    })
+}
+
 export const register = (data: {}, callbackFn: Function) => {
     return async (dispatch: Function) => {
         dispatch(authAction.setIsLoading(true));
@@ -39,18 +53,14 @@ export const register = (data: {}, callbackFn: Function) => {
 
             const verificationResponse: any = await verifyUserHandler(token);
             dispatch(authAction.setIsLoading(false));
-            toast.success(verificationResponse.data.message, {
-                hideProgressBar: true,
-                autoClose: 2000,
-            })
-
+            toastSuccess(verificationResponse.data.message)
             dispatch(authAction.setSuccessMsg(verificationResponse.data.message))
             callbackFn();
         } catch (err) {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            toast.error(extractErrorMessage(err));
+            toastError(extractErrorMessage(err));
             dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
         }
     }
@@ -71,7 +81,7 @@ export const forgetPassword = (email: string, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            toast.error(extractErrorMessage(err));
+            toastError(extractErrorMessage(err));
             dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
         }
     }
@@ -84,10 +94,7 @@ export const resetPassword = (data: {}, callbackFn: Function) => {
         try {
             const response: any = await resetPasswordHandler(data);
             dispatch(authAction.setIsLoading(false));
-            toast.success(response.data.message, {
-                hideProgressBar: true,
-                autoClose: 2000,
-            })
+            toastSuccess(response.data.message)
             dispatch(authAction.setSuccessMsg(response.data.message));
             callbackFn();
 
@@ -95,7 +102,7 @@ export const resetPassword = (data: {}, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(true));
             dispatch(authAction.setError(true))
-            toast.error(extractErrorMessage(err));
+            toastError(extractErrorMessage(err));
             dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
         }
     }
