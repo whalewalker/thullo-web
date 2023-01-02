@@ -8,7 +8,6 @@ import {
 } from "../services/authService";
 import {extractErrorMessage} from "../utils/helperFn";
 import {toast} from "react-toastify";
-c
 
 export const login = (data: {}, callbackFn: Function) => {
     return async (dispatch: Function) => {
