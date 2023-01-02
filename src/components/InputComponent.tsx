@@ -9,7 +9,8 @@ const InputComponent: React.FC<any> = (props) => {
         setVisible(!visible);
     }
 
-    const error: string = props.error[props.name]?.message
+
+    let  error = props.error[props.name] && props.error[props.name].message
         ? "text-color-red border-color-red"
         : "border-color-border text-text-p-color";
 
@@ -18,7 +19,7 @@ const InputComponent: React.FC<any> = (props) => {
             <div className="flex relative w-full">
                 <input
                     type={
-                        props.type == "password" ?
+                        props.type === "password" ?
                             visible ? "text" : "password"
                             : props.type
                     }
@@ -28,7 +29,7 @@ const InputComponent: React.FC<any> = (props) => {
                 />
                 {props.icon}
                 {
-                    props.type == "password" ?
+                    props.type === "password" ?
                         visible ?
                             <FaEyeSlash className="absolute w-5 h-5 top-2.5 right-2.5 text-color-border cursor-pointer"
                                         onClick={displayPassword}
@@ -41,7 +42,7 @@ const InputComponent: React.FC<any> = (props) => {
 
             </div>
             <small className="text-color-red pt-1">
-                {props.error[props.name]?.message}
+                {props.error[props.name] && props.error[props.name].message}
             </small>
         </div>
     );

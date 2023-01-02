@@ -8,7 +8,6 @@ import {
 } from "../services/authService";
 import {extractErrorMessage} from "../utils/helperFn";
 import {toast} from "react-toastify";
-import {AiFillCheckCircle} from "react-icons/ai"
 
 
 export const login = (data: {}, callbackFn: Function) => {
