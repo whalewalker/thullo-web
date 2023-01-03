@@ -42,11 +42,6 @@ const SignUp = () => {
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
             dispatchFn(registerUser(data, () => {
-                reset({
-                    name: "",
-                    email: "",
-                    password: "",
-                });
                 navigate("/login")
             }));
         };

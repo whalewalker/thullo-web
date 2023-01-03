@@ -8,22 +8,24 @@ import {
 } from "../services/authService";
 import {extractErrorMessage} from "../utils/helperFn";
 import {toast} from "react-toastify";
+import {ACCESS_TOKEN} from "../utils/constants";
 
 export const login = (data: {}, callbackFn: Function) => {
     return async (dispatch: Function) => {
         dispatch(authAction.setIsLoading(true));
         try {
             const response: any = await loginHandler(data);
-            localStorage.setItem("AccessToken", response.data.data.jwtToken)
+            localStorage.setItem(ACCESS_TOKEN, response.data.data.jwtToken)
 
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setData(response.data))
             callbackFn();
         } catch (err) {
-            console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
+            const errorMsg = extractErrorMessage(err)
+            toastError(extractErrorMessage(errorMsg));
+            dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
 }
@@ -59,8 +61,9 @@ export const register = (data: {}, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            toastError(extractErrorMessage(err));
-            dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
+            const errorMsg = extractErrorMessage(err)
+            toastError(extractErrorMessage(errorMsg));
+            dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
 }
@@ -80,8 +83,9 @@ export const forgetPassword = (email: string, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            toastError(extractErrorMessage(err));
-            dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
+            const errorMsg = extractErrorMessage(err)
+            toastError(extractErrorMessage(errorMsg));
+            dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
 }
@@ -101,8 +105,9 @@ export const resetPassword = (data: {}, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(true));
             dispatch(authAction.setError(true))
-            toastError(extractErrorMessage(err));
-            dispatch(authAction.setErrorMsg(extractErrorMessage(err)));
+            const errorMsg = extractErrorMessage(err)
+            toastError(extractErrorMessage(errorMsg));
+            dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
 }

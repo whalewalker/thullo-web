@@ -10,7 +10,7 @@ const InputComponent: React.FC<any> = (props) => {
     }
 
 
-    let  error = props.error[props.name] && props.error[props.name].message
+    let error = props.error[props.name] && props.error[props.name].message
         ? "text-color-red border-color-red"
         : "border-color-border text-text-p-color";
 
@@ -31,11 +31,10 @@ const InputComponent: React.FC<any> = (props) => {
                 {
                     props.type === "password" ?
                         visible ?
-                            <FaEyeSlash className="absolute w-5 h-5 top-2.5 right-2.5 text-color-border cursor-pointer"
-                                        onClick={displayPassword}
-                            /> :
                             <FaEye className="absolute w-5 h-5 top-2.5 right-2.5 text-color-border cursor-pointer"
                                    onClick={displayPassword}
+                            /> : <FaEyeSlash className="absolute w-5 h-5 top-2.5 right-2.5 text-color-border cursor-pointer"
+                                        onClick={displayPassword}
                             />
                         : null
                 }

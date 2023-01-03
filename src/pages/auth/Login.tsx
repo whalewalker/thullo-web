@@ -5,7 +5,7 @@ import {registrationOption} from "../../utils/formValidation";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
 import FormCard from "../../components/FormCard";
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {login} from "../../actions/authAction";
@@ -14,6 +14,7 @@ import ReactLoading from "react-loading";
 const Login = () => {
     const dispatchFn = useAppDispatch();
     const isLoading: boolean = useAppSelector((state: any) => state.auth.isLoading);
+
 
     const LoginForm = () => {
         type FormData = {
@@ -24,7 +25,6 @@ const Login = () => {
         const {
             register,
             handleSubmit,
-            reset,
             formState: {errors},
         } = useForm<FormData>({
             defaultValues: {
@@ -33,13 +33,10 @@ const Login = () => {
             },
         });
 
+
+
         const onSubmit: SubmitHandler<FormData> = (data) => {
-            dispatchFn(login(data, ()=> {
-                reset({
-                    email: "",
-                    password: "",
-                })
-            }));
+            dispatchFn(login(data, ()=> {}));
         };
 
         return (

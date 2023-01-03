@@ -9,3 +9,13 @@ B
 tailwind.config.js,0/9/0918cbb76f2c44f223706cec9d31a32cd1177ce4
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+E
+src/utils/helperFn.ts,e/c/ec4cb36dc19435650b7b28906c023b19e9a82fba
+F
+src/slice/authSlice.ts,d/1/d1aad2dec3d4c9ce29cbe1dcaf2ef441a60c7dac
+K
+src/services/authService.ts,7/9/79cef34dfa1e0aedd44d35d211b578920ea48b6a
+;
+src/App.tsx,8/3/835da56f32df714aaed6285a5b7fc3a7807851e4
+K
+src/utils/formValidation.js,a/f/afdffb6cfdfdc40074884152b4569e2492826ae9
