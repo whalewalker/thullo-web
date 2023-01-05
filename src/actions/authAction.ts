@@ -103,7 +103,7 @@ export const resetPassword = (data: {}, callbackFn: Function) => {
 
         } catch (err) {
             console.log(err);
-            dispatch(authAction.setIsLoading(true));
+            dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
             const errorMsg = extractErrorMessage(err)
             toastError(extractErrorMessage(errorMsg));
