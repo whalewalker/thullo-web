@@ -10,6 +10,8 @@ import Dashboard from "./pages/user//Dashboard";
 import DashboardMain from "./pages/user/DashboardMain";
 import Profile from "./pages/user/Profile";
 import User from "./pages/user/User";
+import ProfileEdit from "./pages/user/ProfileEdit";
+import ProfileMain from "./pages/user/ProfileMain";
 
 const App = () => {
   return (
@@ -25,12 +27,14 @@ const App = () => {
             <Route path="" element={<Navigate to={"dashboard"} />} />
             <Route path="dashboard" element={<DashboardMain />} />
           </Route>
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<Profile />}>
+            <Route path="" element={<ProfileMain />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
         </Route>
       </Routes>
       <ToastContainer limit={1} />
     </div>
   );
 };
-
 export default App;

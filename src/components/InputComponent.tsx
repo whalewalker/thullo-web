@@ -15,7 +15,8 @@ const InputComponent: React.FC<any> = (props) => {
         : "border-color-border text-text-p-color";
 
     return (
-        <div className="flex flex-col mb-3.5">
+        <div className="flex flex-col my-4 ">
+            {props.label && <label htmlFor={props.name} className="capitalize font-thin">{props.label}</label>}
             <div className="flex relative w-full">
                 <input
                     type={
@@ -25,7 +26,7 @@ const InputComponent: React.FC<any> = (props) => {
                     }
                     placeholder={props.placeholder}
                     {...props.register(props.name, props.validation)}
-                    className={`border  py-2 pl-11 pr-3 w-full rounded-lg outline-0 ${error}`}
+                    className={`border py-2 relative ${props.pl ? props.pl : "pl-11"} pr-3 ${props.width ? props.width : "w-full"} ${props.height && props.height}  rounded-lg outline-0 ${error}`}
                 />
                 {props.icon}
                 {

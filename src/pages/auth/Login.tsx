@@ -5,7 +5,7 @@ import {registrationOption} from "../../utils/formValidation";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
 import FormCard from "../../components/FormCard";
-import React, {useState} from "react";
+import React from "react";
 import {Link} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {login} from "../../actions/authAction";
