@@ -9,7 +9,7 @@ const ProfileMain = () => {
     { title: "NAME", text: "Xanthe Neal" },
     {
       title: "BIO",
-      text: "I am a software developer and a big fan of devchallenges...",
+      text: "I am a software developer and a big fan of thullo...",
     },
     { title: "PHONE", text: "08167304689" },
     { title: "EMAIL", text: "xanthe.neal@gmail.com" },
@@ -36,7 +36,7 @@ const ProfileMain = () => {
               </p>
             </div>
             <button
-              className="border border-color-grey-3 text-color-grey-3 self-start rounded-xl py-2 px-8"
+              className="border border-color-grey-3 text-color-grey-3 self-start rounded-xl py-2 px-8 hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in hover:border-color-btn"
               onClick={navigateToEditHandler}
             >
               edit
