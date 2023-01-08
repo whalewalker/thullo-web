@@ -9,6 +9,11 @@ module.exports = {
       "color-white": "#fff",
       "color-btn": "#2F80ED",
       "color-black": "#222",
+      "color-grey": "#F8F9FD",
+      "color-grey-1": "#F2F2F2",
+      "color-grey-2": "#E0E0E0",
+      "color-grey-3": "#828282",
+      "color-grey-4": "#4F4F4F",
     },
     screens: {
       "2xl": { max: "1535px" },
