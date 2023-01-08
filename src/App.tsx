@@ -13,6 +13,7 @@ import User from "./pages/user/User";
 import ProfileEdit from "./pages/user/ProfileEdit";
 import ProfileMain from "./pages/user/ProfileMain";
 import ProtectRoute from "./components/ProtectRoute";
+import PageNotFound from "./components/PageNotFound";
 
 const App = () => {
     return (
@@ -33,6 +34,7 @@ const App = () => {
                         <Route path="edit" element={<ProfileEdit/>}/>
                     </Route>
                 </Route>
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
             <ToastContainer limit={1}/>
         </>

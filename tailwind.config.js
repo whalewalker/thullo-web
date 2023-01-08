@@ -15,6 +15,7 @@ module.exports = {
       "color-grey-3": "#828282",
       "color-grey-4": "#4F4F4F",
     },
+
     screens: {
       "2xl": { max: "1535px" },
       // => @media (max-width: 1535px) { ... }
@@ -31,7 +32,11 @@ module.exports = {
       sm: { max: "639px" },
       // => @media (max-width: 639px) { ... }
     },
-    extend: {},
+    extend: {
+      backgroundImage:{
+        "page-not-found": "url('../asset/img/pageNotFound.png')"
+      }
+    },
   },
   plugins: [],
 };
