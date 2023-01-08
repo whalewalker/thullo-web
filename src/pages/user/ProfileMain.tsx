@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import profileImg from "../../asset/img/profile-pic.png";
 
 const ProfileMain = () => {
   const navigate = useNavigate();
   const userData = [
-    { title: "PHOTO", image: "image" },
+    { title: "PHOTO", image: profileImg },
     { title: "NAME", text: "Xanthe Neal" },
     {
       title: "BIO",
@@ -50,7 +51,13 @@ const ProfileMain = () => {
             >
               <p className="text-color-border text-sm w-1/3">{data.title}</p>
               {data.title === "PHOTO" ? (
-                <div>{data.image}</div>
+                <div className=" w-2/3">
+                  <img
+                    src={profileImg}
+                    alt={"profile-img"}
+                    className="w-[7rem] h-[7rem]"
+                  />
+                </div>
               ) : (
                 <div className="text-lg w-2/3">{data.text}</div>
               )}

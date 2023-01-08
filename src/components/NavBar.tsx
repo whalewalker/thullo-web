@@ -5,6 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
+import profileImg from "../asset/img/profile-pic.png";
 
 const NavBar = () => {
   const [displayNav, setDisplayNav] = useState(false);
@@ -16,7 +17,7 @@ const NavBar = () => {
   };
 
   return (
-    <header className="flex items-center px-16 h-16 2xl:px-8">
+    <header className="flex items-center px-16 h-16 2xl:px-8 sm:px-4">
       <img src={logo} alt="logo-img" className="w-24  cursor-pointer" />
       {!location.includes("profile") && (
         <div className="ml-auto mr-10 flex rounded-lg overflow-hidden shadow-lg sm:hidden ">
@@ -36,7 +37,11 @@ const NavBar = () => {
         }`}
         onClick={toggleNavHandler}
       >
-        {/* <img src = {} alt = {} /> */}
+        <img
+          src={profileImg}
+          alt={"profile-img"}
+          className="w-11 h-11 mr-1 sm:w-9 sm:h-9"
+        />
         <p>Xanthe Neal</p>
         {displayNav ? (
           <RiArrowUpSFill className="ml-2 w-6 h-6" />
