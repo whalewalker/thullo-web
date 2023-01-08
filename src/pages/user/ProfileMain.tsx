@@ -21,7 +21,7 @@ const ProfileMain = () => {
   };
 
   return (
-    <section className="bg-color-grey min-h-screen pt-8 pb-10">
+    <section className=" min-h-screen pt-8 pb-10">
       <div className="mx-auto w-2/3 flex flex-col items-center lg:w-5/6 sm:w-full">
         <h2 className="text-4xl text-color-black">Personal info</h2>
         <p className="text-color-black text-lg font-light mt-2">
