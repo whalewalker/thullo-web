@@ -1,7 +1,16 @@
 import React from 'react';
 import pageNotFoundBg from "../asset/img/page-not-found-bg.png";
+import {useNavigate} from "react-router-dom";
 
 const PageNotFound = () => {
+    const navigate = useNavigate();
+
+    const toHomepageHandler = () => {
+        navigate("/user/dashboard")
+    }
+    const previousPageHandler = () => {
+        navigate(-1);
+    }
     return (
         <div
             className={`flex justify-center items-center text-center min-h-screen w-full bg-center bg-no-repeat bg-cover`} style={{
@@ -14,8 +23,8 @@ const PageNotFound = () => {
                     moved or deleted.</p>
                 
                 <div className="flex items-center justify-center mt-6 ">
-                    <button className="text-color-white uppercase text-sm font-extralight border border-[#0765E3] bg-[#0765E3] rounded-full mr-3 px-10 py-2.5">go back</button>
-                    <button className="border uppercase text-sm font-extralight px-10 py-2.5 rounded-full border-[#959595] text-[#959595]">home page</button>
+                    <button className="text-color-white uppercase text-sm font-extralight border border-[#0765E3] bg-[#0765E3] rounded-full mr-3 px-10 py-2.5" onClick={previousPageHandler}>go back</button>
+                    <button className="border uppercase text-sm font-extralight px-10 py-2.5 rounded-full border-[#959595] text-[#959595]" onClick={toHomepageHandler}>home page</button>
                 </div>
             </main>
         </div>
