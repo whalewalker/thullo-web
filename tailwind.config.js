@@ -14,6 +14,7 @@ module.exports = {
       "color-grey-2": "#E0E0E0",
       "color-grey-3": "#828282",
       "color-grey-4": "#4F4F4F",
+      "color-black-transparent": "rgba(0, 0, 0, 0.1)",
     },
 
     screens: {
@@ -23,7 +24,7 @@ module.exports = {
       xl: { max: "1279px" },
       // => @media (max-width: 1279px) { ... }
 
-      lg: { max: "1023px" },
+      lg: { max: "1024px" },
       // => @media (max-width: 1023px) { ... }
 
       md: { max: "850px" },
@@ -33,9 +34,15 @@ module.exports = {
       // => @media (max-width: 639px) { ... }
     },
     extend: {
-      backgroundImage:{
-        "page-not-found": "url('../asset/img/pageNotFound.png')"
-      }
+      backgroundImage: {
+        "page-not-found": "url('../asset/img/pageNotFound.png')",
+      },
+      gridTemplateColumns: {
+        16: "repeat(auto-fit, minmax(15rem, 1fr))",
+      },
+      boxShadow: {
+        "3xl": " 0px 2px 2px 0px #0000000D",
+      },
     },
   },
   plugins: [],
