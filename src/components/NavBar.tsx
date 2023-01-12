@@ -26,7 +26,7 @@ const NavBar = () => {
           <input
             type="text"
             placeholder="keyword..."
-            className="px-4 py-2 border-0 outline-0"
+            className="px-4 py-2 border-0 outline-0 w-[17rem]"
           />
           <button className=" bg-color-btn text-color-white px-6 rounded-lg text-sm">
             Search
@@ -53,7 +53,9 @@ const NavBar = () => {
       </div>
       {displayNav && (
         <div
-          className="absolute right-8 top-16  bg-color-white shadow-lg flex flex-col py-2 px-4 rounded-lg"
+          className={`absolute right-8 top-16  bg-color-white shadow-lg flex flex-col py-2 px-4 rounded-lg sm:w-full sm:right-0 ${
+            displayNav ? "sm:animation-dowm" : "sm:animation-up"
+          }`}
           onClick={toggleNavHandler}
         >
           <NavLink
