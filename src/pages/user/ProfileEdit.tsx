@@ -133,7 +133,7 @@ const ProfileEdit = () => {
         <p className="uppercase ml-6 text-text-p-color text-sm cursor-pointer">
           CHANGE PHOTO
         </p>
-        <input type="file" className="opacity-0" onChange={(e) => {
+        <input type="file" className="opacity-0" accept="image/*" onChange={(e) => {
             // @ts-ignore
             setProfileImg(fileHandler(e))
         }} />

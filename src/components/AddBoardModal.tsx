@@ -57,8 +57,7 @@ const AddBoardModal = (props: {
     };
 
     return (
-        <div
-            className="w-full h-screen fixed bg-color-black-transparent flex items-center justify-center top-0 left-0 z-30 ">
+        <div className="w-full h-screen fixed bg-color-black-transparent flex items-center justify-center top-0 left-0 z-30 ">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
@@ -67,7 +66,7 @@ const AddBoardModal = (props: {
                 <div className="relative w-full ">
                     <label className="w-full cursor-pointer">
                         <img src={boardImg} alt="board-img" className="h-[7rem] object-cover w-full rounded-lg"/>
-                        <input type="file" className="opacity-0" onChange={imgChangeHandler}/>
+                        <input type="file" className="opacity-0" accept="image/*" onChange={imgChangeHandler}/>
                     </label>
                     <div
                         className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer"
