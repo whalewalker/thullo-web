@@ -12,16 +12,18 @@ const BoardItem = ({ img, boardName, collaborators }: Board) => {
 
   return (
     <div className="bg-color-white p-3 rounded-lg ">
-      <img
-        src={img}
-        alt="board-img"
-        className="rounded-lg cursor-pointer w-full h-[9rem]"
-        onClick={() => {
-          navigate(`/user/board/${boardName}`);
-        }}
-      />
+      <div className="rounded-lg cursor-pointer w-full h-[9rem] overflow-hidden">
+        <img
+          src={img}
+          alt="board-img"
+          className=" hover:scale-[1.1] object-cover w-full h-[9rem] relative transition-all duration-300 ease-linear"
+          onClick={() => {
+            navigate(`/user/board/${boardName}`);
+          }}
+        />
+      </div>
+
       <p
-        className="font-medium text-base my-3 cursor-pointer"
         onClick={() => {
           navigate(`/user/board/${boardName}`);
         }}
