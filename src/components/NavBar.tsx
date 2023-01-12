@@ -18,7 +18,7 @@ const NavBar = () => {
 
   return (
     <header
-      className={`flex items-center px-16 h-16 2xl:px-8 sm:px-4 shadow-3xl`}
+      className={`flex items-center px-16 h-20 2xl:px-8 sm:px-4 shadow-3xl opacity-90 shadow-[#F6F2F1]`}
     >
       <img src={logo} alt="logo-img" className="w-24  cursor-pointer" />
       {!location.includes("profile") && (

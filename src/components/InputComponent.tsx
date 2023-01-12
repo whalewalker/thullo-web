@@ -33,9 +33,10 @@ const InputComponent: React.FC<any> = (props) => {
           {...props.register(props.name, props.validation)}
           className={`border py-2 relative ${
             props.pl ? props.pl : "pl-11"
-          } pr-3 ${props.width ? props.width : "w-full"} ${
-            props.height && props.height
-          }  rounded-lg outline-0 ${error} md:w-full`}
+          } pr-3 ${props.width ? props.width : "w-full"} 
+          ${props.height && props.height} 
+          ${props.shadow && props.shadow}
+           rounded-lg outline-0 ${error} md:w-full`}
         />
         {props.icon}
         {props.type === "password" ? (

@@ -21,7 +21,7 @@ const boardsArray: Board[] = [
   {
     img: boardImg,
     boardName: "Simple Project Board",
-    collaborators: [collabs, collabs, collabs, collabs, collabs],
+    collaborators: [collabs, "wale", "joker", "chi"],
     privateState: true,
   },
   {
@@ -33,7 +33,7 @@ const boardsArray: Board[] = [
   {
     img: boardImg,
     boardName: "Habit Building Board",
-    collaborators: [collabs, collabs, collabs, collabs],
+    collaborators: [collabs, "sam", "abdul", "tobi"],
     privateState: false,
   },
 ];
@@ -62,7 +62,7 @@ const DashboardMain = () => {
             + Add
           </button>
         </div>
-        <div className="grid grid-cols-16 gap-7 mt-10">
+        <div className="grid grid-cols-16 gap-6 mt-10">
           {boardsList.map((board, i) => (
             <BoardItem
               key={i}

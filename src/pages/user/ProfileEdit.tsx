@@ -6,6 +6,7 @@ import InputComponent from "../../components/InputComponent";
 import { registrationOption } from "../../utils/formValidation";
 import ReactLoading from "react-loading";
 import { useAppSelector } from "../../hooks/customHook";
+import {fileHandler} from "../../utils/helperFn"
 
 const ProfileEdit = () => {
   const isLoading: boolean = useAppSelector(
@@ -115,12 +116,7 @@ const ProfileEdit = () => {
     );
   };
 
-  const fileHandler = (e: any) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImg(URL.createObjectURL(e.target.files[0]));
-      console.log(URL.createObjectURL(e.target.files[0]));
-    }
-  };
+
 
   return (
     <FormCard width={"w-3/5"}>
@@ -137,7 +133,10 @@ const ProfileEdit = () => {
         <p className="uppercase ml-6 text-text-p-color text-sm cursor-pointer">
           CHANGE PHOTO
         </p>
-        <input type="file" className="opacity-0" onChange={fileHandler} />
+        <input type="file" className="opacity-0" onChange={(e) => {
+            // @ts-ignore
+            setProfileImg(fileHandler(e))
+        }} />
       </label>
 
       <ProfileForm />
