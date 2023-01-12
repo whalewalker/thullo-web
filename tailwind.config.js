@@ -43,6 +43,21 @@ module.exports = {
       boxShadow: {
         "3xl": " 0px 2px 2px 0px #0000000D",
       },
+      keyframes: {
+        down: {
+          "0%, 100%": { height: "0rem" },
+          "100%": { height: "9.3125rem" },
+        },
+        up: {
+          "0%, 100%": { height: "9.3125rem" },
+          "100%": { height: "0rem" },
+        },
+      },
+
+      animation: {
+        up: "up .3 ease-in",
+        down: "down .3 ease-in",
+      },
     },
   },
   plugins: [],
