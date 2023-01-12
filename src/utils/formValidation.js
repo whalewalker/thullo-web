@@ -32,4 +32,15 @@ export const registrationOption = {
       message: "Password cannot be greater than 20 characters",
     },
   },
+  boardName: {
+    required: "Board name is required",
+    minLength: {
+      value: 5,
+      message: "Name must have at least 5 characters",
+    },
+    maxLength: {
+      value: 20,
+      message: "Name cannot be greater than 20 characters",
+    },
+  },
 };
