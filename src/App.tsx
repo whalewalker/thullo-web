@@ -25,7 +25,14 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
-        <Route path="user" element={<User />}>
+        <Route
+          path="user"
+          element={
+            <ProtectRoute>
+              <User />
+            </ProtectRoute>
+          }
+        >
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Navigate to={"dashboard"} />} />
             <Route path="dashboard" element={<DashboardMain />} />
