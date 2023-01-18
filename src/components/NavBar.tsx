@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import logo from "../asset/img/thullo-logo.png";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import { NavLink, useLocation } from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import profileImg from "../asset/img/profile-pic.png";
+import {ACCESS_TOKEN} from "../utils/constants";
 
 const NavBar = () => {
   const [displayNav, setDisplayNav] = useState(false);
   const location: string = useLocation().pathname;
-  console.log(location);
+  const navigate = useNavigate();
 
   const toggleNavHandler = () => {
     setDisplayNav(!displayNav);
   };
+
+  const signOutHandler = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    navigate("/login")
+  }
 
   return (
     <header
@@ -80,7 +86,7 @@ const NavBar = () => {
             <FaUserCircle className="mr-2" />
             Profile
           </NavLink>
-          <button className="flex items-center border-t border-color-grey-2 px-3 py-2 mt-3 text-color-red">
+          <button className="flex items-center border-t border-color-grey-2 px-3 py-2 mt-3 text-color-red" onClick={signOutHandler}>
             <TbLogout className="mr-2" /> Logout
           </button>
         </div>

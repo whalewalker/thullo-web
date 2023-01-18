@@ -8,7 +8,7 @@ interface Board {
   img: string;
   boardName: string;
   collaborators: string[];
-  privateState: Boolean;
+  privateState: boolean;
 }
 
 const boardsArray: Board[] = [
@@ -21,7 +21,7 @@ const boardsArray: Board[] = [
   {
     img: boardImg,
     boardName: "Simple Project Board",
-    collaborators: [collabs, "wale", "joker", "chi"],
+    collaborators: [collabs, "wale", "joker", "chi", "hellen"],
     privateState: true,
   },
   {
