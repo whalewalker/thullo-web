@@ -1,11 +1,10 @@
-import React from "react"
+import React from "react";
 import ComposeInternalLayouts from "../components/HOC/ComposeInternalLayouts";
 
 const Dashboard = React.lazy(() => import("../pages/user//DashboardMain"));
-const Profile = React.lazy(()=> import("../pages/user/ProfileMain"));
+const Profile = React.lazy(() => import("../pages/user/ProfileMain"));
 const EditProfile = React.lazy(() => import("../pages/user/ProfileEdit"));
-const BoardDetail = React.lazy(()=> import("../components/BoardDetail"));
-
+const BoardDetail = React.lazy(() => import("../pages/user/BoardDetail"));
 
 // const import DashboardMain from "./pages/user/DashboardMain";
 // import Profile from "./pages/user/Profile";
@@ -17,25 +16,25 @@ const BoardDetail = React.lazy(()=> import("../components/BoardDetail"));
 // import BoardDetail from "./components/BoardDetail";
 
 const privateRoutes = [
-    {
-        path: "dashboard",
-        component: ComposeInternalLayouts(Dashboard),
-    },
+  {
+    path: "dashboard",
+    component: ComposeInternalLayouts(Dashboard),
+  },
 
-    {
-        path: "profile",
-        component: ComposeInternalLayouts(Profile),
-    },
+  {
+    path: "profile",
+    component: ComposeInternalLayouts(Profile),
+  },
 
-    {
-        path: "edit",
-        component: ComposeInternalLayouts(EditProfile),
-    },
+  {
+    path: "edit",
+    component: ComposeInternalLayouts(EditProfile),
+  },
 
-    {
-        path: "board/:boardId",
-        component: ComposeInternalLayouts(BoardDetail),
-    },
+  {
+    path: "board/:boardId",
+    component: ComposeInternalLayouts(BoardDetail),
+  },
 ];
 
-export  default privateRoutes;
+export default privateRoutes;

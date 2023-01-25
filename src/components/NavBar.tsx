@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import logo from "../asset/img/thullo-logo.png";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import profileImg from "../asset/img/profile-pic.png";
-import {ACCESS_TOKEN} from "../utils/constants";
+import { ACCESS_TOKEN } from "../utils/constants";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 
 const NavBar = () => {
   const [displayNav, setDisplayNav] = useState(false);
   const location: string = useLocation().pathname;
   const navigate = useNavigate();
+  const { boardId } = useParams();
 
   const toggleNavHandler = () => {
     setDisplayNav(!displayNav);
@@ -19,14 +21,30 @@ const NavBar = () => {
 
   const signOutHandler = () => {
     localStorage.removeItem(ACCESS_TOKEN);
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
     <header
       className={`flex items-center px-16 h-20 2xl:px-8 sm:px-4 shadow-3xl opacity-90 shadow-[#F6F2F1]`}
     >
       <img src={logo} alt="logo-img" className="w-24  cursor-pointer" />
+      {boardId && (
+        <div className="flex items-center ml-10">
+          <p className="pr-3 py-1 border-r border-color-grey-2 text-text-p-color font-medium text-lg">
+            {boardId}
+          </p>
+          <p
+            className="flex items-center ml-5 bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3"
+            onClick={() => {
+              navigate("/user/dashboard");
+            }}
+          >
+            <BsFillGrid3X3GapFill className="w-3 h-3 text-current mr-2" />
+            All board
+          </p>
+        </div>
+      )}
       {!location.includes("profile") && (
         <div className="ml-auto mr-10 flex justify-between rounded-lg overflow-hidden shadow-md sm:hidden p-1">
           <input
@@ -86,7 +104,10 @@ const NavBar = () => {
             <FaUserCircle className="mr-2" />
             Profile
           </NavLink>
-          <button className="flex items-center border-t border-color-grey-2 px-3 py-2 mt-3 text-color-red" onClick={signOutHandler}>
+          <button
+            className="flex items-center border-t border-color-grey-2 px-3 py-2 mt-3 text-color-red"
+            onClick={signOutHandler}
+          >
             <TbLogout className="mr-2" /> Logout
           </button>
         </div>
