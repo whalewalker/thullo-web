@@ -25,10 +25,10 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
       </p>
       <StrictModeDroppable droppableId={column.columnId}>
         {(provided, snapshot) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef} className="">
+          <ul {...provided.droppableProps} ref={provided.innerRef} className="min-h-full">
             {/* list of draggables */}
             {column.cards.map((card: any, i: number) => (
-              <DragDropCard key={i} card={card} index={i} />
+              <DragDropCard key={card.cardId} card={card} index={i} />
             ))}
             {provided.placeholder}
           </ul>
