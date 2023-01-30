@@ -6,7 +6,7 @@ import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";
 import FormCard from "../../components/FormCard";
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {login} from "../../actions/authAction";
 import ReactLoading from "react-loading";
@@ -14,7 +14,7 @@ import ReactLoading from "react-loading";
 const Login = () => {
     const dispatchFn = useAppDispatch();
     const isLoading: boolean = useAppSelector((state: any) => state.auth.isLoading);
-
+    const navigate = useNavigate();
 
     const LoginForm = () => {
         type FormData = {
@@ -36,7 +36,9 @@ const Login = () => {
 
 
         const onSubmit: SubmitHandler<FormData> = (data) => {
-            dispatchFn(login(data, ()=> {}));
+            dispatchFn(login(data, ()=> {
+                navigate("/user/profile")
+            }));
         };
 
         return (

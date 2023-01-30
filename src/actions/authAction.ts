@@ -6,8 +6,7 @@ import {
     resetPasswordHandler,
     verifyUserHandler
 } from "../services/authService";
-import {extractErrorMessage} from "../utils/helperFn";
-import {toast} from "react-toastify";
+import {extractErrorMessage, toastError, toastSuccess} from "../utils/helperFn";
 import {ACCESS_TOKEN} from "../utils/constants";
 
 export const login = (data: {}, callbackFn: Function) => {
@@ -30,19 +29,7 @@ export const login = (data: {}, callbackFn: Function) => {
     }
 }
 
-const toastError = (msg: string) => {
-    toast.error(msg, {
-        hideProgressBar: true,
-        autoClose: 2000,
-    })
-}
 
-const toastSuccess = (msg: string) => {
-    toast.success(msg, {
-        hideProgressBar: true,
-        autoClose: 2000,
-    })
-}
 
 export const register = (data: {}, callbackFn: Function) => {
     return async (dispatch: Function) => {
