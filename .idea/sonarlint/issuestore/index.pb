@@ -10,8 +10,6 @@ P
  src/pages/user/DashboardMain.tsx,1/6/1647b45c82f4ad7c39473b78f77a988bc0a35114
 L
 src/components/BoardItem.tsx,e/c/ecc7840edddad56cf237d19ed9c0a06d6db19b60
-Q
-!src/components/InputComponent.tsx,6/0/60736e126460d77d9c45f54487a045ae495ddb18
 P
  src/components/AddBoardModal.tsx,e/9/e9aa712a708a1effdbce7205be537fbc6488f034
 G
@@ -40,3 +38,11 @@ K
 src/components/FormCard.tsx,9/e/9ec3057e94e200fbc68cbd2086e6bc58b88079be
 F
 src/slice/userSlice.ts,1/6/16daf5422fd3189a81f90c092676ef90cb9f3a8d
+N
+src/components/AuthSection.tsx,f/9/f9d5b2248fee12ae3cce9ce2080b6dbad0cafd78
+B
+tailwind.config.js,0/9/0918cbb76f2c44f223706cec9d31a32cd1177ce4
+>
+src/api/api.ts,7/4/7416d243078528a1a4472aabfc6ddc6c3de82b0e
+=
+tsconfig.json,6/1/61ebb9fd6e8cf9082658121d5d81e297791dacd0

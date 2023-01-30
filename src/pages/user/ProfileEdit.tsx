@@ -106,6 +106,7 @@ const ProfileEdit = () => {
                     type="email"
                     register={register}
                     error={errors}
+                    disabled={true}
                     name="email"
                     validation={registrationOption.email}
                 />
