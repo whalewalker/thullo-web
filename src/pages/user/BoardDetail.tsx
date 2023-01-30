@@ -6,6 +6,10 @@ import { BsThreeDots } from "react-icons/bs";
 import boardImg from "../../asset/img/test-board-img.jpg";
 import collabs from "../../asset/img/profile-pic - Copy.png";
 import DragAndDropBox from "../../components/DragAndDropBox";
+import AddAnotherCardForm from "../../components/AddAnotherCardForm";
+import { useSelector, useDispatch } from "react-redux";
+import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
+import { dragAndDropAction } from "../../slice/dragAndDropSlice";
 
 interface Board {
   img: string;
@@ -44,6 +48,25 @@ const boardsArray: Board[] = [
 const BoardDetail = () => {
   const { boardId } = useParams();
 
+  const dispatchFn = useDispatch();
+
+  const columnId = useSelector(
+    (state: { dragAndDrop: { columnId: string } }) => state.dragAndDrop.columnId
+  );
+
+  const columnsState = useSelector(
+    (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
+  );
+
+  const newColumnModal = useSelector(
+    (state: { dragAndDrop: { newColumnModal: boolean } }) =>
+      state.dragAndDrop.newColumnModal
+  );
+
+  const toggleNewColumnModal = () => {
+    dispatchFn(dragAndDropAction.toggleNewColumnModal(true));
+  };
+
   const [boardItem] = boardsArray.filter(
     (board) => board.boardName === boardId
   );
@@ -53,7 +76,7 @@ const BoardDetail = () => {
   };
 
   return (
-    <section className="flex items-center flex-col px-8">
+    <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] ">
       <div className="flex items-center my-8 w-full">
         <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3">
           {boardItem.privateState && (
@@ -90,9 +113,20 @@ const BoardDetail = () => {
           Show Menu
         </p>
       </div>
-      <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-16 gap-7 ">
+      <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 gap-7 overflow-y-scroll flex-1 items-start  scrollbar-thin scrollbar-thumb-[#E0E0E0] scrollbar-track-gray-100">
         <DragAndDropBox />
+        {Object.values(columnsState).length < 5 && (
+          <button
+            className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"
+            onClick={toggleNewColumnModal}
+          >
+            Add another list
+            <BsPlusLg className="text-current " />
+          </button>
+        )}
       </div>
+      {columnId && <AddAnotherCardForm />}
+      {newColumnModal && <AddAnotherColumnForm />}
     </section>
   );
 };
