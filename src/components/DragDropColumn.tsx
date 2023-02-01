@@ -2,7 +2,7 @@ import React from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import { dragAndDropAction } from "../slice/dragAndDropSlice";
 
 interface dragDropColumn {
@@ -46,9 +46,8 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
         {(provided) => (
           <ul
             {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="min-h-[.5rem]"
-          >
+            ref={provided.innerRef}>
+
             {/* list of draggables */}
             {column.cards.map((card: Card, i: number) => (
               <DragDropCard key={card.cardId} card={card} index={i} />
@@ -59,7 +58,7 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
       </StrictModeDroppable>
       <button
         onClick={onAddCardHandler}
-        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full mt-5"
+        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full"
       >
         Add another card
         <BsPlusLg className="text-current " />
