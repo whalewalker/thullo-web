@@ -43,4 +43,15 @@ export const registrationOption = {
       message: "Name cannot be greater than 20 characters",
     },
   },
+  cardName: {
+    required: "Board name is required",
+    minLength: {
+      value: 5,
+      message: "Name must have at least 5 characters",
+    },
+    maxLength: {
+      value: 20,
+      message: "Name cannot be greater than 20 characters",
+    },
+  },
 };
