@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slice/authSlice";
+import userReducer from "./slice/userSlice";
 import dragAndDropReducer from "./slice/dragAndDropSlice";
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    dragAndDrop: dragAndDropReducer,
-  },
-});
+ const  store = configureStore({
+    reducer: {
+        auth: authReducer,
+        user: userReducer,
+        dragAndDrop: dragAndDropReducer,
+
+    }
+})
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

@@ -28,7 +28,7 @@ const DragDropCard = ({ card, index }: { card: CardItem; index: number }) => {
             <img
               src={card.img}
               alt={card.cardTitle}
-              className="rounded-lg mb-3 h-40 w-full"
+              className="rounded-lg mb-3 h-40 w-full object-cover"
             />
           )}
           <p className="text-[#000] font-normal mb-3">{card.cardTitle}</p>
