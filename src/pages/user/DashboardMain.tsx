@@ -42,7 +42,7 @@ const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] = useState(false);
   const [boardsList, setBoardsList] = useState(boardsArray);
 
-  const toggleAddBoardModalHandler = () => {
+  const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
     setDisplayAddBoardModal((prevState) => !prevState);
   };
 

@@ -10,13 +10,11 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectRoute from "./components/ProtectRoute";
 import User from "./pages/user/User";
-import Dashboard from "./pages/user/Dashboard";
 import DashboardMain from "./pages/user/DashboardMain";
-import BoardDetail from "./components/BoardDetail";
+import BoardDetail from "./pages/user/BoardDetail";
 import Profile from "./pages/user/Profile";
 import ProfileMain from "./pages/user/ProfileMain";
 import ProfileEdit from "./pages/user/ProfileEdit";
-
 
 const App = () => {
 
@@ -39,19 +37,16 @@ const App = () => {
             </ProtectRoute>
           }
         >
-          <Route path="" element={<Dashboard />}>
-            <Route path="" element={<Navigate to={"dashboard"} />} />
             <Route path="dashboard" element={<DashboardMain />} />
-          </Route>
-          <Route path="board/:boardId" element={<BoardDetail />} />
-          <Route path="profile" element={<Profile />}>
-            <Route path="" element={<ProfileMain />} />
-            <Route path="edit" element={<ProfileEdit />} />
-          </Route>
+            <Route path="board/:boardId" element={<BoardDetail />} />
+            <Route path="profile" element={<Profile />}>
+                <Route path="" element={<ProfileMain />} />
+                <Route path="edit" element={<ProfileEdit />} />
+            </Route>
         </Route>
-        <Route path="*" element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <ToastContainer limit={1} />
+        <ToastContainer limit={1} />
     </>
   );
 };
