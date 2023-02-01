@@ -59,7 +59,7 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
       </StrictModeDroppable>
       <button
         onClick={onAddCardHandler}
-        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full mt-10"
+        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full mt-5"
       >
         Add another card
         <BsPlusLg className="text-current " />
