@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
-import dragDropColumns from "../utils/dragAndDropData";
 import DragDropColumn from "./DragDropColumn";
 import { useSelector, useDispatch } from "react-redux";
 import { dragAndDropAction } from "../slice/dragAndDropSlice";
@@ -23,10 +22,10 @@ const DragAndDropBox = () => {
   );
   const dispatchFn = useDispatch();
 
-  const onDragEnd = ({ destination, source }: DropResult) => {
+  function onDragEnd ({ destination, source }: DropResult)  {
     // Make sure we have a valid destination
     if (!destination) {
-      return null;
+      return ;
     }
 
     // If the source and destination columns are the same
@@ -35,7 +34,7 @@ const DragAndDropBox = () => {
       source.droppableId === destination.droppableId &&
       destination.index === source.index
     ) {
-      return null;
+      return ;
     }
 
     // Set start and end variables
@@ -63,7 +62,7 @@ const DragAndDropBox = () => {
       };
       //   // Update the state
       dispatchFn(dragAndDropAction.moveCardWithinColumn(newCol));
-      return null;
+      return ;
     } else {
       // If start is different from end, we need to update multiple columns
       // Filter the start list like before
@@ -98,19 +97,20 @@ const DragAndDropBox = () => {
 
       dispatchFn(dragAndDropAction.moveCardBetweenColumns(newCols));
 
-      return null;
+      return ;
     }
-  };
+  }
 
-  const onDragStart = (start: DragStart) => {
+  function onDragStart (start: DragStart)  {
     console.log(start);
    
-  };
+  }
+
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {Object.values(dragDropColumnsState).map((column: any, i) => (
-        <DragDropColumn key={i} column={column} />
+      {Object.values(dragDropColumnsState).map((column: any, _) => (
+        <DragDropColumn key={column.columnId} column={column} />
       ))}
     </DragDropContext>
   );
