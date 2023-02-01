@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import FormCard from "../../components/FormCard";
-import profileImage from "../../asset/img/profile.png";
+import profileImage from "../../asset/img/profile.png"
+import FormCard from "../../components/FormCard"
+import InputComponent from "../../components/InputComponent"
 import { SubmitHandler, useForm } from "react-hook-form";
-import InputComponent from "../../components/InputComponent";
 import { registrationOption } from "../../utils/formValidation";
 import ReactLoading from "react-loading";
 import { useAppSelector } from "../../hooks/customHook";

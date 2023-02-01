@@ -22,5 +22,3 @@ L
 src/components/BoardItem.tsx,e/c/ecc7840edddad56cf237d19ed9c0a06d6db19b60
 H
 src/pages/auth/Login.tsx,0/0/0005e03db3b17ba89a6bd3f710dcb805f325588d
-N
-src/pages/user/ProfileEdit.tsx,b/5/b51df4697844d8db225bc2d5166b9f4f56902ced
