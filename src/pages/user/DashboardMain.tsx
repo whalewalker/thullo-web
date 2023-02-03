@@ -3,6 +3,8 @@ import boardImg from "../../asset/img/test-board-img.jpg";
 import collabs from "../../asset/img/profile-pic - Copy.png";
 import BoardItem from "../../components/BoardItem";
 import AddBoardModal from "../../components/AddBoardModal";
+import {useDispatch} from "react-redux";
+import {addBoard} from "../../actions/boardAction";
 
 interface Board {
   img: string;
@@ -40,6 +42,7 @@ const boardsArray: Board[] = [
 
 const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] = useState(false);
+
   const [boardsList, setBoardsList] = useState(boardsArray);
 
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {

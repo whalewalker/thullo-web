@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import emptyImg from "../asset/img/empty img.jpg";
 import {RxCross2} from "react-icons/rx";
 import {AiFillPicture, AiOutlinePlus} from "react-icons/ai";
@@ -8,6 +8,10 @@ import {registrationOption} from "../utils/formValidation";
 import {SubmitHandler, useForm} from "react-hook-form";
 import collabs from "../asset/img/profile-pic - Copy.png";
 import {fileHandler} from "../utils/helperFn";
+import {useDispatch} from "react-redux";
+import {addBoard} from "../actions/boardAction";
+import {useAppDispatch, useAppSelector} from "../hooks/customHook";
+import ReactLoading from "react-loading";
 
 const AddBoardModal = (props: {
     closeModal: any;
@@ -15,9 +19,13 @@ const AddBoardModal = (props: {
     addBoard: any;
 }) => {
     const [boardImg, setBoardImg] = useState(emptyImg);
+    const [file, setFile] = useState();
     const [privateBoard, setPrivateBoard] = useState(false);
+    const dispatchFn = useAppDispatch();
+    const {data: boardData, isLoading} = useAppSelector(state => state.board);
 
-    const imgChangeHandler = (e: { target: { files: any } }) => {
+    const imageHandler = (e: { target: { files: any } }) => {
+        setFile(e.target.files[0]);
         // @ts-ignore
         setBoardImg(fileHandler(e))
     }
@@ -29,6 +37,10 @@ const AddBoardModal = (props: {
     const togglePrivateHandler = () => {
         setPrivateBoard((prevState) => !prevState);
     };
+
+    useEffect(()=> {
+
+    }, [dispatchFn, isLoading, boardData])
 
     type FormData = {
         boardName: string;
@@ -44,20 +56,32 @@ const AddBoardModal = (props: {
         },
     });
 
-    const onSubmit: SubmitHandler<FormData> = (data) => {
-        const formData = {
-            img: boardImg,
-            boardName: data.boardName,
+    const onSubmit: SubmitHandler<FormData> = async (data) => {
+        await dispatchFn(addBoard(file, data.boardName))
+        let formData = {
+            img: "",
+            boardName: "",
             collaborators: [collabs],
             privateState: privateBoard,
         };
+        if (boardData && boardData.data) {
+            formData = {
+                img: boardData.data.imageUrl,
+                boardName: boardData.data.name,
+                collaborators: [collabs],
+                privateState: privateBoard,
+            };
+        }
+        if (isLoading) {
+            await props.addBoard(formData);
+            props.closeModal();
+        }
 
-        props.addBoard(formData);
-        props.closeModal();
     };
 
     return (
-        <div className="w-full h-screen fixed bg-color-black-transparent flex items-center justify-center top-0 left-0 z-30 ">
+        <div
+            className="w-full h-screen fixed bg-color-black-transparent flex items-center justify-center top-0 left-0 z-30 ">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
@@ -66,7 +90,7 @@ const AddBoardModal = (props: {
                 <div className="relative w-full ">
                     <label className="w-full cursor-pointer">
                         <img src={boardImg} alt="board-img" className="h-[7rem] object-cover w-full rounded-lg"/>
-                        <input type="file" className="opacity-0" accept="image/*" onChange={imgChangeHandler}/>
+                        <input type="file" className="opacity-0" accept="image/*" onChange={imageHandler}/>
                     </label>
                     <div
                         className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer"
@@ -99,7 +123,7 @@ const AddBoardModal = (props: {
                     </label>
                     <input
                         type="file"
-                        onChange={imgChangeHandler}
+                        onChange={imageHandler}
                         accept="image/*"
                         id="board-img"
                         className="hidden"
@@ -131,9 +155,17 @@ const AddBoardModal = (props: {
                         type="submit"
                         className={`font-medium cursor-pointer text-sm  rounded-lg border-0 py-2.5 px-4 flex items-center bg-color-btn text-color-white`}
                     >
-                        <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white"/>
-                        <span>Create</span>
+                        {isLoading && (
+                            <ReactLoading type="bubbles" color="#fff" width={40} height={40}/>
+                        )}
+                        {isLoading ? "" : (
+                            <>
+                                <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white"/>
+                                <span>Create</span>
+                            </>
+                        )}
                     </button>
+
                 </div>
             </form>
         </div>

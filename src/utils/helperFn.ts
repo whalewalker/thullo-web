@@ -1,6 +1,6 @@
 import {toast} from "react-toastify";
 
-export const extractErrorMessage = (error: any) => {
+export const extractMessage = (error: any) => {
     return (
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||

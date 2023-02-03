@@ -1,5 +1,5 @@
 import {userAction} from "../slice/userSlice";
-import {extractErrorMessage, toastError, toastSuccess} from "../utils/helperFn";
+import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
 import {getCurrentUser, updateUserDetails} from "../services/userService";
 
 export const getUserDetails = () => {
@@ -12,8 +12,8 @@ export const getUserDetails = () => {
         } catch (err) {
             dispatch(userAction.setIsLoading(false));
             dispatch(userAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(userAction.setErrorMsg(errorMsg));
         }
     }
@@ -31,8 +31,8 @@ export const updateUserProfile = (data: {}, callbackFn: Function) => {
         } catch (err) {
             dispatch(userAction.setIsLoading(false));
             dispatch(userAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(userAction.setErrorMsg(errorMsg));
         }
     }

@@ -6,7 +6,7 @@ import {
     resetPasswordHandler,
     verifyUserHandler
 } from "../services/authService";
-import {extractErrorMessage, toastError, toastSuccess} from "../utils/helperFn";
+import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
 import {ACCESS_TOKEN} from "../utils/constants";
 
 export const login = (data: {}, callbackFn: Function) => {
@@ -22,8 +22,8 @@ export const login = (data: {}, callbackFn: Function) => {
         } catch (err) {
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
@@ -48,8 +48,8 @@ export const register = (data: {}, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
@@ -70,8 +70,8 @@ export const forgetPassword = (email: string, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
@@ -92,8 +92,8 @@ export const resetPassword = (data: {}, callbackFn: Function) => {
             console.log(err);
             dispatch(authAction.setIsLoading(false));
             dispatch(authAction.setError(true))
-            const errorMsg = extractErrorMessage(err)
-            toastError(extractErrorMessage(errorMsg));
+            const errorMsg = extractMessage(err)
+            toastError(extractMessage(errorMsg));
             dispatch(authAction.setErrorMsg(errorMsg));
         }
     }
