@@ -23,3 +23,13 @@ J
 src/api/api.ts,7/4/7416d243078528a1a4472aabfc6ddc6c3de82b0e
 =
 src/index.tsx,5/a/5ab44fe33ca96299f51ad4778a73e425b92bf439
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
+I
+src/actions/authAction.ts,b/a/bae7de3b5eea7911cd6eefb4946f986e37abb1af
+J
+src/actions/boardAction.ts,7/d/7d3c40afe4cf3edcbe7b9e676d48f69be8b9c57d
+L
+src/services/boardService.ts,8/e/8e43b15b85c4c810f1bc016e35a154a8ad209fab
+I
+src/actions/userAction.ts,1/5/157b8728f9adfeb3c42dee0778c0d3da131f1bf6
