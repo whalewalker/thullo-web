@@ -38,7 +38,7 @@ module.exports = {
         "page-not-found": "url('../asset/img/pageNotFound.png')",
       },
       gridTemplateColumns: {
-        16: "repeat(auto-fit, minmax(15rem, 1fr))",
+        16: "repeat(auto-fit, minmax(15rem, 25rem))",
       },
       boxShadow: {
         "3xl": " 0px 2px 2px 0px #0000000D",
