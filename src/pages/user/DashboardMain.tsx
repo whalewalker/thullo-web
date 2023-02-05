@@ -1,56 +1,29 @@
 import React, { useState } from "react";
-import boardImg from "../../asset/img/test-board-img.jpg";
-import collabs from "../../asset/img/profile-pic - Copy.png";
 import BoardItem from "../../components/BoardItem";
 import AddBoardModal from "../../components/AddBoardModal";
-import {useDispatch} from "react-redux";
-import {addBoard} from "../../actions/boardAction";
+import { useAppSelector } from "../../hooks/customHook";
 
 interface Board {
-  img: string;
-  boardName: string;
-  collaborators: string[];
-  privateState: boolean;
+  name: string;
+  imageUrl: string;
+  collaborators: undefined | string[];
+  taskColumns: {
+    id: string;
+    name: string;
+    tasks: [];
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
-
-const boardsArray: Board[] = [
-  {
-    img: boardImg,
-    boardName: "Devchallenges Board",
-    collaborators: [collabs, collabs, collabs],
-    privateState: false,
-  },
-  {
-    img: boardImg,
-    boardName: "Simple Project Board",
-    collaborators: [collabs, "wale", "joker", "chi", "hellen"],
-    privateState: true,
-  },
-  {
-    img: boardImg,
-    boardName: "Kanban Template",
-    collaborators: [collabs, collabs],
-    privateState: true,
-  },
-  {
-    img: boardImg,
-    boardName: "Habit Building Board",
-    collaborators: [collabs, "sam", "abdul", "tobi"],
-    privateState: false,
-  },
-];
 
 const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] = useState(false);
 
-  const [boardsList, setBoardsList] = useState(boardsArray);
+  // getting the board list data
+  const boardList: Board[] = useAppSelector((state) => state.board.boardList);
 
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
     setDisplayAddBoardModal((prevState) => !prevState);
-  };
-
-  const addBoardHandler = (board: Board) => {
-    setBoardsList((prevState) => [board, ...prevState]);
   };
 
   return (
@@ -66,22 +39,18 @@ const DashboardMain = () => {
           </button>
         </div>
         <div className="grid grid-cols-16 gap-6 mt-10">
-          {boardsList.map((board, i) => (
+          {boardList.map((board, i) => (
             <BoardItem
               key={i}
-              img={board.img}
-              boardName={board.boardName}
+              img={board.imageUrl}
+              boardName={board.name}
               collaborators={board.collaborators}
             />
           ))}
         </div>
       </div>
       {displayAddBoardModal && (
-        <AddBoardModal
-          closeModal={toggleAddBoardModalHandler}
-          boardArray={boardsArray}
-          addBoard={addBoardHandler}
-        />
+        <AddBoardModal closeModal={toggleAddBoardModalHandler} />
       )}
     </section>
   );

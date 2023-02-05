@@ -1,5 +1,5 @@
 import React from "react";
-import {Routes, Route, Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,13 +17,9 @@ import ProfileMain from "./pages/user/ProfileMain";
 import ProfileEdit from "./pages/user/ProfileEdit";
 
 const App = () => {
-
-
   return (
     <>
-
       <Routes>
-
         <Route path="/" element={<Navigate to={"/user/dashboard"} />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="login" element={<Login />} />
@@ -37,16 +33,16 @@ const App = () => {
             </ProtectRoute>
           }
         >
-            <Route path="dashboard" element={<DashboardMain />} />
-            <Route path="board/:boardId" element={<BoardDetail />} />
-            <Route path="profile" element={<Profile />}>
-                <Route path="" element={<ProfileMain />} />
-                <Route path="edit" element={<ProfileEdit />} />
-            </Route>
+          <Route path="dashboard" element={<DashboardMain />} />
+          <Route path="board/:boardId" element={<BoardDetail />} />
+          <Route path="profile" element={<Profile />}>
+            <Route path="" element={<ProfileMain />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
         </Route>
-          <Route path="*" element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
-        <ToastContainer limit={1} />
+      <ToastContainer limit={1} />
     </>
   );
 };

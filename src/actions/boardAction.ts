@@ -1,23 +1,25 @@
-import {userAction} from "../slice/userSlice";
-import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
-import {createBoard} from "../services/boardService";
+import { extractMessage, toastError, toastSuccess } from "../utils/helperFn";
+import { createBoard } from "../services/boardService";
+import { boardAction } from "../slice/boardSlice";
 
 export const addBoard = (file: any, boardName: string) => {
-    return async (dispatch: Function) => {
-        dispatch(userAction.setIsLoading(true));
-        try {
-            const response: any = await createBoard(file, boardName);
-            console.log("Board response ==> ", response)
-            dispatch(userAction.setIsLoading(false));
-            toastSuccess(extractMessage(response.data.message));
-            dispatch(userAction.setData(response.data))
+  return async (dispatch: Function) => {
+    dispatch(boardAction.setIsLoading(true));
+    try {
+      // sending a request for board to be added
+      const response: any = await createBoard(file, boardName);
+      console.log(response.data);
+      dispatch(boardAction.setIsLoading(false));
+      toastSuccess(extractMessage(response.data.message));
 
-        } catch (err) {
-            dispatch(userAction.setIsLoading(false));
-            dispatch(userAction.setError(true))
-            const errorMsg = extractMessage(err)
-            toastError(extractMessage(errorMsg));
-            dispatch(userAction.setErrorMsg(errorMsg));
-        }
+      // dispatching an action that adds board to boardList
+      dispatch(boardAction.addBoardToBoardList(response.data));
+    } catch (err) {
+      dispatch(boardAction.setIsLoading(false));
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
     }
-}
+  };
+};
