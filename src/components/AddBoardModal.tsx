@@ -154,7 +154,7 @@ const AddBoardModal = (props: { closeModal: any }) => {
           </button>
           <button
             type="submit"
-            className={`font-medium cursor-pointer text-sm  rounded-lg border-0 py-2.5 px-4 flex items-center bg-color-btn text-color-white`}
+            className={`font-medium cursor-pointer text-sm  rounded-lg border-0 ${ isLoading ? "py-0" : "py-2.5"}  px-4 flex items-center bg-color-btn text-color-white`}
           >
             {isLoading && (
               <ReactLoading
