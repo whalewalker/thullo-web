@@ -76,15 +76,15 @@ const BoardDetail = () => {
   };
 
   return (
-    <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] ">
-      <div className="flex items-center my-8 w-full">
-        <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3">
+    <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4">
+      <div className="flex items-center my-8 w-full sm:mt-[4rem]  sm:flex-wrap sm:justify-between">
+        <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-1">
           {boardItem.privateState && (
             <IoMdLock className="w-3 h-3 text-current mr-2" />
           )}
           {boardItem.privateState ? "Private" : "Public"}
         </p>
-        <div className="flex items-center ml-4">
+        <div className="flex items-center ml-4 sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
           {boardItem.collaborators.map((userAvatar, i) => {
             return isImage(userAvatar) ? (
               <img
@@ -108,12 +108,12 @@ const BoardDetail = () => {
             <BsPlusLg className="text-color-white " />
           </div>
         </div>
-        <p className="ml-auto flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3">
+        <p className="ml-auto flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-2">
           <BsThreeDots className="w-3 h-3 text-current mr-2" />
           Show Menu
         </p>
       </div>
-      <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 gap-7 overflow-y-scroll flex-1 items-start  scrollbar-thin scrollbar-thumb-[#E0E0E0] scrollbar-track-gray-100">
+      <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll ">
         <DragAndDropBox />
         {Object.values(columnsState).length < 5 && (
           <button
