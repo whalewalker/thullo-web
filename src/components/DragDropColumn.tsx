@@ -2,7 +2,7 @@ import React from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
-import {useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { dragAndDropAction } from "../slice/dragAndDropSlice";
 
 interface dragDropColumn {
@@ -46,8 +46,9 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
         {(provided) => (
           <ul
             {...provided.droppableProps}
-            ref={provided.innerRef}>
-
+            ref={provided.innerRef}
+            className="min-h-[0.5rem]"
+          >
             {/* list of draggables */}
             {column.cards.map((card: Card, i: number) => (
               <DragDropCard key={card.cardId} card={card} index={i} />

@@ -8,7 +8,6 @@ export const addBoard = (file: any, boardName: string) => {
     try {
       // sending a request for board to be added
       const response: any = await createBoard(file, boardName);
-      console.log(response.data);
       dispatch(boardAction.setIsLoading(false));
       toastSuccess(extractMessage(response.data.message));
 
