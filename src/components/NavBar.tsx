@@ -90,7 +90,7 @@ const NavBar = () => {
       </div>
       {displayNav && (
         <div
-          className={`absolute right-8 top-16  bg-color-white shadow-lg flex flex-col py-2 px-4 rounded-lg sm:w-full sm:right-0 ${
+          className={`absolute right-8 top-16  bg-color-white shadow-lg z-[100] flex flex-col py-2 px-4 rounded-lg sm:w-full sm:right-0 ${
             displayNav ? "sm:animation-dowm" : "sm:animation-up"
           }`}
           onClick={toggleNavHandler}
