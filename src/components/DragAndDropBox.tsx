@@ -2,7 +2,9 @@ import React from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector } from "../hooks/customHook";
 import { dragAndDropAction } from "../slice/dragAndDropSlice";
+import { useParams } from "react-router-dom";
 
 interface dragDropColumn {
   columnTitle: string;
@@ -16,16 +18,37 @@ interface dragDropColumn {
   }[];
 }
 
+interface Board {
+  name: string;
+  imageUrl: string;
+  collaborators: undefined | string[];
+  taskColumns: {
+    id: string;
+    name: string;
+    tasks: [];
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
 const DragAndDropBox = () => {
-  const dragDropColumnsState = useSelector(
-    (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
+  // const dragDropColumnsState = useSelector(
+  //   (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
+  // );
+  const { boardId } = useParams();
+
+  const boardList = useAppSelector((state) => state.board.boardList);
+
+  const [boardItem]: Board[] = boardList.filter(
+    (board: Board) => board.name === boardId
   );
+
   const dispatchFn = useDispatch();
 
-  function onDragEnd ({ destination, source }: DropResult)  {
+  function onDragEnd({ destination, source }: DropResult) {
     // Make sure we have a valid destination
     if (!destination) {
-      return ;
+      return;
     }
 
     // If the source and destination columns are the same
@@ -34,14 +57,14 @@ const DragAndDropBox = () => {
       source.droppableId === destination.droppableId &&
       destination.index === source.index
     ) {
-      return ;
+      return;
     }
 
     // Set start and end variables
-    const [start]: any = Object.values(dragDropColumnsState).filter(
+    const [start]: any = boardItem.taskColumns.filter(
       (column: any) => column.columnId === source.droppableId
     );
-    const [end]: any = Object.values(dragDropColumnsState).filter(
+    const [end]: any = boardItem.taskColumns.filter(
       (column: any) => column.columnId === destination.droppableId
     );
 
@@ -49,20 +72,20 @@ const DragAndDropBox = () => {
     if (start === end) {
       //   // Move the item within the list
       //   // Start by making a new list without the dragged item
-      const newCards = start.cards.slice();
-      const [removedCard] = newCards.splice(source.index, 1);
+      const newTasks = start.tasks.slice();
+      const [removedCard] = newTasks.splice(source.index, 1);
 
       //   // Then insert the item at the right location
-      newCards.splice(destination.index, 0, removedCard);
+      newTasks.splice(destination.index, 0, removedCard);
 
       //   // Then create a new copy of the column object
       const newCol: any = {
         ...start,
-        cards: newCards,
+        tasks: newTasks,
       };
       //   // Update the state
       dispatchFn(dragAndDropAction.moveCardWithinColumn(newCol));
-      return ;
+      return;
     } else {
       // If start is different from end, we need to update multiple columns
       // Filter the start list like before
@@ -97,20 +120,18 @@ const DragAndDropBox = () => {
 
       dispatchFn(dragAndDropAction.moveCardBetweenColumns(newCols));
 
-      return ;
+      return;
     }
   }
 
-  function onDragStart (start: DragStart)  {
+  function onDragStart(start: DragStart) {
     console.log(start);
-   
   }
-
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {Object.values(dragDropColumnsState).map((column: any, _) => (
-        <DragDropColumn key={column.columnId} column={column} />
+      {boardItem.taskColumns.map((column: any, _) => (
+        <DragDropColumn key={String(column.id)} column={column} />
       ))}
     </DragDropContext>
   );
