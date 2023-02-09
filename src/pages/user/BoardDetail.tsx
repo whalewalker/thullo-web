@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
@@ -7,107 +7,108 @@ import boardImg from "../../asset/img/test-board-img.jpg";
 import collabs from "../../asset/img/profile-pic - Copy.png";
 import DragAndDropBox from "../../components/DragAndDropBox";
 import AddAnotherCardForm from "../../components/AddAnotherCardForm";
-import { useSelector, useDispatch } from "react-redux";
 import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { dragAndDropAction } from "../../slice/dragAndDropSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
+import { getBoards } from "../../actions/boardAction";
 
 interface Board {
-  img: string;
-  boardName: string;
-  collaborators: string[];
-  privateState: boolean;
+  name: string;
+  imageUrl: string;
+  collaborators: undefined | string[];
+  taskColumns: {
+    id: string;
+    name: string;
+    tasks: [];
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
-
-const boardsArray: Board[] = [
-  {
-    img: boardImg,
-    boardName: "Devchallenges Board",
-    collaborators: [collabs, collabs, collabs],
-    privateState: false,
-  },
-  {
-    img: boardImg,
-    boardName: "Simple Project Board",
-    collaborators: [collabs, "wale", "joker", "chi", "hellen"],
-    privateState: true,
-  },
-  {
-    img: boardImg,
-    boardName: "Kanban Template",
-    collaborators: [collabs, collabs],
-    privateState: true,
-  },
-  {
-    img: boardImg,
-    boardName: "Habit Building Board",
-    collaborators: [collabs, "sam", "abdul", "tobi"],
-    privateState: false,
-  },
-];
 
 const BoardDetail = () => {
   const { boardId } = useParams();
 
-  const dispatchFn = useDispatch();
+  const dispatchFn = useAppDispatch();
 
-  const columnId = useSelector(
-    (state: { dragAndDrop: { columnId: string } }) => state.dragAndDrop.columnId
+  // const columnId = useSelector(
+  //   (state: { dragAndDrop: { columnId: string } }) => state.dragAndDrop.columnId
+  // );
+
+  const displayAddTaskForm = useAppSelector(
+    (state) => state.board.displayAddTaskForm
   );
 
-  const columnsState = useSelector(
-    (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
-  );
+  // const columnsState = useSelector(
+  //   (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
+  // );
 
-  const newColumnModal = useSelector(
-    (state: { dragAndDrop: { newColumnModal: boolean } }) =>
-      state.dragAndDrop.newColumnModal
-  );
+  // const newColumnModal = useSelector(
+  //   (state: { dragAndDrop: { newColumnModal: boolean } }) =>
+  //     state.dragAndDrop.newColumnModal
+  // );
 
   const toggleNewColumnModal = () => {
     dispatchFn(dragAndDropAction.toggleNewColumnModal(true));
   };
 
-  const [boardItem] = boardsArray.filter(
-    (board) => board.boardName === boardId
+  const boardList = useAppSelector((state) => state.board.boardList);
+  const task = useAppSelector((state) => state.board.task);
+
+  const [boardItem] = boardList.filter(
+    (board: Board) => board.name === boardId
   );
+  console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
 
+  useEffect(() => {
+    dispatchFn(getBoards());
+  }, [dispatchFn]);
+
   return (
     <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4">
       <div className="flex items-center my-8 w-full sm:mt-[4rem]  sm:flex-wrap sm:justify-between">
-        <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-1">
+        {/* <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-1">
           {boardItem.privateState && (
             <IoMdLock className="w-3 h-3 text-current mr-2" />
           )}
           {boardItem.privateState ? "Private" : "Public"}
-        </p>
-        <div className="flex items-center ml-4 sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators.map((userAvatar, i) => {
-            return isImage(userAvatar) ? (
-              <img
-                src={userAvatar}
-                alt="collab-img"
-                key={i}
-                className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
-                  i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"
-                }`}
-              />
-            ) : (
-              <p
-                key={i}
-                className="w-8 h-8 flex items-center justify-center bg-[#BDBDBD] mr-1 text-color-white rounded-lg text-xs"
-              >
-                {userAvatar.slice(0, 2).toUpperCase()}
-              </p>
-            );
-          })}
-          <div className="w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ml-2 cursor-pointer">
+        </p> */}
+
+        <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
+          {boardItem.collaborators &&
+            boardItem.collaborators.map((userAvatar: string, i: number) => {
+              return isImage(userAvatar) ? (
+                <img
+                  src={userAvatar}
+                  alt="collab-img"
+                  key={i}
+                  className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
+                    i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"
+                  }`}
+                />
+              ) : (
+                <p
+                  key={i}
+                  className="w-8 h-8 flex items-center justify-center bg-[#BDBDBD] mr-1 text-color-white rounded-lg text-xs"
+                >
+                  {userAvatar.slice(0, 2).toUpperCase()}
+                </p>
+              );
+            })}
+          <div
+            className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ${
+              boardItem.collaborators && boardItem.collaborators.length > 0
+                ? "ml-2"
+                : ""
+            } cursor-pointer`}
+          >
             <BsPlusLg className="text-color-white " />
           </div>
         </div>
+
         <p className="ml-auto flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-2">
           <BsThreeDots className="w-3 h-3 text-current mr-2" />
           Show Menu
@@ -115,7 +116,7 @@ const BoardDetail = () => {
       </div>
       <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll ">
         <DragAndDropBox />
-        {Object.values(columnsState).length < 5 && (
+        {
           <button
             className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"
             onClick={toggleNewColumnModal}
@@ -123,10 +124,10 @@ const BoardDetail = () => {
             Add another list
             <BsPlusLg className="text-current " />
           </button>
-        )}
+        }
       </div>
-      {columnId && <AddAnotherCardForm />}
-      {newColumnModal && <AddAnotherColumnForm />}
+      {displayAddTaskForm && <AddAnotherCardForm boardId={boardItem.id} />}
+      {/* {newColumnModal && <AddAnotherColumnForm />} */}
     </section>
   );
 };
