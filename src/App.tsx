@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import PageNotFound from "./components/PageNotFound";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
@@ -15,8 +14,15 @@ import BoardDetail from "./pages/user/BoardDetail";
 import Profile from "./pages/user/Profile";
 import ProfileMain from "./pages/user/ProfileMain";
 import ProfileEdit from "./pages/user/ProfileEdit";
+import { useAppDispatch } from "./hooks/customHook";
+import { getBoards } from "./actions/boardAction";
 
 const App = () => {
+  const dispatchFn = useAppDispatch();
+
+  useEffect(() => {
+    dispatchFn(getBoards());
+  }, [dispatchFn]);
   return (
     <>
       <Routes>
