@@ -2,21 +2,24 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 
-interface CardItem {
-  img: string | undefined;
-  cardTitle: string;
-  cardId: string;
-  labels: { bgColor: string; textColor: string; text: string }[];
-  collabs: string[];
+interface Card {
+  comments: [];
+  contributors: [];
+  createdAt: string;
+  description: null;
+  id: 1;
+  imageUrl: string;
+  name: string;
+  updatedAt: string;
 }
 
 const isImage = (url: string) => {
   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
 };
 
-const DragDropCard = ({ card, index }: { card: CardItem; index: number }) => {
+const DragDropCard = ({ card, index }: { card: Card; index: number }) => {
   return (
-    <Draggable draggableId={card.cardId} index={index}>
+    <Draggable draggableId={String(card.id)} index={index}>
       {(provided) => (
         <li
           ref={provided.innerRef}
@@ -24,15 +27,15 @@ const DragDropCard = ({ card, index }: { card: CardItem; index: number }) => {
           {...provided.dragHandleProps}
           className="bg-color-white rounded-lg  p-3 mb-4"
         >
-          {card.img && (
+          {card.imageUrl && (
             <img
-              src={card.img}
-              alt={card.cardTitle}
+              src={card.imageUrl}
+              alt={card.name}
               className="rounded-lg mb-3 h-40 w-full object-cover"
             />
           )}
-          <p className="text-[#000] font-normal mb-3">{card.cardTitle}</p>
-          {card.labels && (
+          <p className="text-[#000] font-normal mb-3">{card.name}</p>
+          {/* {card.labels && (
             <div className="flex items-center mb-4">
               {card.labels.map((label, i) => (
                 <p
@@ -43,11 +46,11 @@ const DragDropCard = ({ card, index }: { card: CardItem; index: number }) => {
                 </p>
               ))}
             </div>
-          )}
+          )} */}
 
           <div className="flex items-center ">
-            {card.collabs &&
-              card.collabs.map((userAvatar, i) => {
+            {card.contributors &&
+              card.contributors.map((userAvatar: any, i) => {
                 return isImage(userAvatar) ? (
                   <img
                     src={userAvatar}
