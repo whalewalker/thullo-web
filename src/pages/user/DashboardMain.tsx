@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BoardItem from "../../components/BoardItem";
 import AddBoardModal from "../../components/AddBoardModal";
-import { useAppSelector } from "../../hooks/customHook";
+import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
+import { getBoards } from "../../actions/boardAction";
 
 interface Board {
   name: string;
@@ -19,12 +20,19 @@ interface Board {
 const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] = useState(false);
 
+  const dispatchFn = useAppDispatch();
+
   // getting the board list data
   const boardList: Board[] = useAppSelector((state) => state.board.boardList);
+  console.log(boardList);
 
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
     setDisplayAddBoardModal((prevState) => !prevState);
   };
+
+  // useEffect(() => {
+  //   dispatchFn(getBoards());
+  // }, [dispatchFn]);
 
   return (
     <section className="min-h-screen bg-[#F8F9FD] pt-14">
@@ -38,16 +46,18 @@ const DashboardMain = () => {
             + Add
           </button>
         </div>
-        <div className="grid grid-cols-16 gap-6 mt-10">
-          {boardList.map((board, i) => (
-            <BoardItem
-              key={i}
-              img={board.imageUrl}
-              boardName={board.name}
-              collaborators={board.collaborators}
-            />
-          ))}
-        </div>
+        {boardList.length > 0 && (
+          <div className="grid grid-cols-18 gap-6 mt-10 justify-between">
+            {boardList.map((board, i) => (
+              <BoardItem
+                key={i}
+                img={board.imageUrl}
+                boardName={board.name}
+                collaborators={board.collaborators}
+              />
+            ))}
+          </div>
+        )}
       </div>
       {displayAddBoardModal && (
         <AddBoardModal closeModal={toggleAddBoardModalHandler} />
