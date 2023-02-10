@@ -1,38 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-
-interface Board {
-  name: string;
-  id: string;
-  imageUrl: string;
-  collaborators: undefined | string[];
-  taskColumns: {
-    id: string;
-    name: string;
-    tasks: [];
-    createdAt: string;
-    updatedAt: string;
-  }[];
-}
-
-interface dragDropColumn {
-  id: string;
-  name: string;
-  tasks: [];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Task {
-  id: number;
-  name: string;
-  imageUrl: string;
-  position: number;
-  description: null | string;
-  comments: [];
-  contributors: [];
-  createdAt: string;
-  updatedAt: string;
-}
+import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
@@ -41,7 +8,6 @@ const boardSlice = createSlice({
   name: "board",
   initialState: {
     displayAddTaskForm: false,
-    task: false,
     columnId: "",
     isLoading: false,
     successMsg: "",
@@ -91,8 +57,6 @@ const boardSlice = createSlice({
 
       const boardItem = state.boardList[boardItemIndex];
 
-      // console.log(current(boardItem));
-
       const boardColumnIndex = boardItem.taskColumns.findIndex(
         (column: dragDropColumn) => column.id === columnId
       );
@@ -105,19 +69,9 @@ const boardSlice = createSlice({
         task,
       ];
 
-      // console.log(current(boardColumn));
+      const list = state.boardList;
 
-      // const newTasks = [...boardColumn.tasks, cardData];
-
-      // console.log(current(newTasks));
-
-      // // boardColumn.tasks = newTasks;
-
-      // state.boardList[boardItemIndex] = boardItem;
-
-      // console.log(current(state.boardList));
-
-      // boardCol;
+      localStorage.setItem("boardList", JSON.stringify(list));
     },
 
     // moveTaskWithinBoardTaskColumn(
