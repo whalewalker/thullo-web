@@ -1,23 +1,17 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
+import { Task } from "../utils/types";
 
-interface Card {
-  comments: [];
-  contributors: [];
-  createdAt: string;
-  description: null;
-  id: 1;
-  imageUrl: string;
-  name: string;
-  updatedAt: string;
-}
 
-const isImage = (url: string) => {
-  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-};
 
-const DragDropCard = ({ card, index }: { card: Card; index: number }) => {
+
+const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
+
+  const isImage = (url: string) => {
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  };
+
   return (
     <Draggable draggableId={String(card.id)} index={index}>
       {(provided) => (
