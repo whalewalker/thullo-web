@@ -1,40 +1,12 @@
 import React from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
-import { useSelector, useDispatch } from "react-redux";
-import { useAppSelector } from "../hooks/customHook";
+import { useAppSelector, useAppDispatch } from "../hooks/customHook";
 import { dragAndDropAction } from "../slice/dragAndDropSlice";
 import { useParams } from "react-router-dom";
-
-interface dragDropColumn {
-  columnTitle: string;
-  columnId: string;
-  cards: {
-    img: string | undefined;
-    cardTitle: string;
-    cardId: string;
-    labels: { bgColor: string; textColor: string; text: string }[];
-    collabs: string[];
-  }[];
-}
-
-interface Board {
-  name: string;
-  imageUrl: string;
-  collaborators: undefined | string[];
-  taskColumns: {
-    id: string;
-    name: string;
-    tasks: [];
-    createdAt: string;
-    updatedAt: string;
-  }[];
-}
+import { Board } from "../utils/types";
 
 const DragAndDropBox = () => {
-  // const dragDropColumnsState = useSelector(
-  //   (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
-  // );
   const { boardId } = useParams();
 
   const boardList = useAppSelector((state) => state.board.boardList);
@@ -43,7 +15,7 @@ const DragAndDropBox = () => {
     (board: Board) => board.name === boardId
   );
 
-  const dispatchFn = useDispatch();
+  const dispatchFn = useAppDispatch();
 
   function onDragEnd({ destination, source }: DropResult) {
     // Make sure we have a valid destination
@@ -60,13 +32,18 @@ const DragAndDropBox = () => {
       return;
     }
 
+    // console.log(boardItem.taskColumns);
+    // console.log(source);
+
     // Set start and end variables
     const [start]: any = boardItem.taskColumns.filter(
-      (column: any) => column.columnId === source.droppableId
+      (column: any) => String(column.id) === source.droppableId
     );
     const [end]: any = boardItem.taskColumns.filter(
-      (column: any) => column.columnId === destination.droppableId
+      (column: any) => String(column.id) === destination.droppableId
     );
+
+    // console.log(start, end);
 
     // If start is the same as end, we're in the same column
     if (start === end) {
@@ -75,21 +52,25 @@ const DragAndDropBox = () => {
       const newTasks = start.tasks.slice();
       const [removedCard] = newTasks.splice(source.index, 1);
 
+      // console.log(removedCard);
+
       //   // Then insert the item at the right location
       newTasks.splice(destination.index, 0, removedCard);
+      // console.log(destination);
 
       //   // Then create a new copy of the column object
       const newCol: any = {
         ...start,
         tasks: newTasks,
       };
+      // console.log(newCol);
       //   // Update the state
       dispatchFn(dragAndDropAction.moveCardWithinColumn(newCol));
       return;
     } else {
       // If start is different from end, we need to update multiple columns
       // Filter the start list like before
-      const newStartCard = start.cards.filter(
+      const newStartCard = start.tasks.filter(
         (_: any, idx: number) => idx !== source.index
       );
 
@@ -100,15 +81,15 @@ const DragAndDropBox = () => {
       };
 
       // Make a new end list array
-      const newEndCard = [...end.cards];
+      const newEndCard = [...end.tasks];
 
       // Insert the item into the end list
-      newEndCard.splice(destination.index, 0, start.cards[source.index]);
+      newEndCard.splice(destination.index, 0, start.tasks[source.index]);
 
       // Create a new end column
       const newEndCol = {
         ...end,
-        cards: newEndCard,
+        tasks: newEndCard,
       };
 
       // Update the state
@@ -125,7 +106,7 @@ const DragAndDropBox = () => {
   }
 
   function onDragStart(start: DragStart) {
-    console.log(start);
+    // console.log(start);
   }
 
   return (
