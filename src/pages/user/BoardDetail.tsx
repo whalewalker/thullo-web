@@ -1,71 +1,37 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { IoMdLock } from "react-icons/io";
+// import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
-import boardImg from "../../asset/img/test-board-img.jpg";
-import collabs from "../../asset/img/profile-pic - Copy.png";
 import DragAndDropBox from "../../components/DragAndDropBox";
 import AddAnotherCardForm from "../../components/AddAnotherCardForm";
-import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
+// import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { dragAndDropAction } from "../../slice/dragAndDropSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
-import { getBoards } from "../../actions/boardAction";
-
-interface Board {
-  name: string;
-  imageUrl: string;
-  collaborators: undefined | string[];
-  taskColumns: {
-    id: string;
-    name: string;
-    tasks: [];
-    createdAt: string;
-    updatedAt: string;
-  }[];
-}
+import { Board } from "../../utils/types";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
 
   const dispatchFn = useAppDispatch();
 
-  // const columnId = useSelector(
-  //   (state: { dragAndDrop: { columnId: string } }) => state.dragAndDrop.columnId
-  // );
-
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
   );
-
-  // const columnsState = useSelector(
-  //   (state: { dragAndDrop: { data: {} } }) => state.dragAndDrop.data
-  // );
-
-  // const newColumnModal = useSelector(
-  //   (state: { dragAndDrop: { newColumnModal: boolean } }) =>
-  //     state.dragAndDrop.newColumnModal
-  // );
 
   const toggleNewColumnModal = () => {
     dispatchFn(dragAndDropAction.toggleNewColumnModal(true));
   };
 
   const boardList = useAppSelector((state) => state.board.boardList);
-  const task = useAppSelector((state) => state.board.task);
 
   const [boardItem] = boardList.filter(
     (board: Board) => board.name === boardId
   );
-  console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
-
-  useEffect(() => {
-    dispatchFn(getBoards());
-  }, [dispatchFn]);
 
   return (
     <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4">
@@ -78,7 +44,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators &&
+          {boardItem.collaborators.length > 0 &&
             boardItem.collaborators.map((userAvatar: string, i: number) => {
               return isImage(userAvatar) ? (
                 <img
