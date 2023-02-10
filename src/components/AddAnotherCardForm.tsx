@@ -6,18 +6,14 @@ import InputComponent from "./InputComponent";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { fileHandler } from "../utils/helperFn";
-import { useDispatch } from "react-redux";
 import { boardAction } from "../slice/boardSlice";
 import { addTask } from "../actions/boardAction";
 import ReactLoading from "react-loading";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
-import { dragAndDropAction } from "../slice/dragAndDropSlice";
 
 const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
   const [cardImg, setCardImg] = useState(emptyImg);
   const [cardImgFile, setCardImgFile] = useState();
-
-  console.log(boardId);
 
   const columnId = useAppSelector((state) => state.board.columnId);
 
