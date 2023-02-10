@@ -3,31 +3,10 @@ import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
 import { useDispatch } from "react-redux";
-import { dragAndDropAction } from "../slice/dragAndDropSlice";
 import { boardAction } from "../slice/boardSlice";
+import { Task, dragDropColumn } from "../utils/types";
 
-interface dragDropColumn {
-  column: {
-    id: string;
-    name: string;
-    tasks: [];
-    createdAt: string;
-    updatedAt: string;
-  };
-}
-
-interface Card {
-  comments: [];
-  contributors: [];
-  createdAt: string;
-  description: null;
-  id: 1;
-  imageUrl: string;
-  name: string;
-  updatedAt: string;
-}
-
-const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
+const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
   const dispatchFn = useDispatch();
 
   const onAddCardModalHandler = () => {
@@ -52,7 +31,7 @@ const DragDropColumn: React.FC<dragDropColumn> = ({ column }) => {
             className="min-h-[0.5rem]"
           >
             {/* list of draggables */}
-            {column.tasks.map((card: Card, i: number) => (
+            {column.tasks.map((card: Task, i: number) => (
               <DragDropCard key={String(card.id)} card={card} index={i} />
             ))}
             {provided.placeholder}
