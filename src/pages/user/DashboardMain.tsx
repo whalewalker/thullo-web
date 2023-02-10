@@ -3,19 +3,7 @@ import BoardItem from "../../components/BoardItem";
 import AddBoardModal from "../../components/AddBoardModal";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
 import { getBoards } from "../../actions/boardAction";
-
-interface Board {
-  name: string;
-  imageUrl: string;
-  collaborators: undefined | string[];
-  taskColumns: {
-    id: string;
-    name: string;
-    tasks: [];
-    createdAt: string;
-    updatedAt: string;
-  }[];
-}
+import { Board } from "../../utils/types";
 
 const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] = useState(false);
@@ -24,15 +12,14 @@ const DashboardMain = () => {
 
   // getting the board list data
   const boardList: Board[] = useAppSelector((state) => state.board.boardList);
-  console.log(boardList);
 
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
     setDisplayAddBoardModal((prevState) => !prevState);
   };
 
-  // useEffect(() => {
-  //   dispatchFn(getBoards());
-  // }, [dispatchFn]);
+  useEffect(() => {
+    dispatchFn(getBoards());
+  }, [dispatchFn]);
 
   return (
     <section className="min-h-screen bg-[#F8F9FD] pt-14">
