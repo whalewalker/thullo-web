@@ -40,6 +40,7 @@ module.exports = {
       gridTemplateColumns: {
         16: "repeat(auto-fit, minmax(15rem, 25rem))",
         17: "repeat(5, minmax(15rem, 25rem))",
+        18: "repeat(4, minmax(15rem, 25rem))",
       },
       boxShadow: {
         "3xl": " 0px 2px 2px 0px #0000000D",
