@@ -1,10 +1,10 @@
 export interface Board {
   name: string;
-  id: string;
+  id: number;
   imageUrl: string;
   collaborators: undefined | string[];
   taskColumns: {
-    id: string;
+    id: number;
     name: string;
     tasks: [];
     createdAt: string;
@@ -13,7 +13,7 @@ export interface Board {
 }
 
 export interface dragDropColumn {
-  id: string;
+  id: number;
   name: string;
   tasks: [];
   createdAt: string;

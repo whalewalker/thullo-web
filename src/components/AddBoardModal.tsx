@@ -15,11 +15,13 @@ const AddBoardModal = (props: { closeModal: any }) => {
   const [boardImg, setBoardImg] = useState(emptyImg);
   const [file, setFile] = useState();
   const [privateBoard, setPrivateBoard] = useState(false);
+  const [checkFile, setCheckFile] = useState(false);
   const dispatchFn = useAppDispatch();
   const isLoading = useAppSelector((state) => state.board.isLoading);
 
   const imageHandler = (e: { target: { files: any } }) => {
     setFile(e.target.files[0]);
+    setCheckFile(false);
     // @ts-ignore
     setBoardImg(fileHandler(e));
   };
@@ -49,6 +51,11 @@ const AddBoardModal = (props: { closeModal: any }) => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if (!file) {
+      setCheckFile(true);
+      console.log("empty image");
+      return;
+    }
     await dispatchFn(addBoard(file, data.boardName));
     props.closeModal();
 
@@ -88,11 +95,16 @@ const AddBoardModal = (props: { closeModal: any }) => {
             />
             <input
               type="file"
-              className="opacity-0"
+              className="hidden"
               accept="image/*"
               onChange={imageHandler}
             />
           </label>
+          {checkFile && (
+            <small className="text-color-red pt-1">
+              Please add a board Image
+            </small>
+          )}
           <div
             className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer"
             onClick={resetBoardImgHandler}
@@ -154,7 +166,9 @@ const AddBoardModal = (props: { closeModal: any }) => {
           </button>
           <button
             type="submit"
-            className={`font-medium cursor-pointer text-sm  rounded-lg border-0 ${ isLoading ? "py-0" : "py-2.5"}  px-4 flex items-center bg-color-btn text-color-white`}
+            className={`font-medium cursor-pointer text-sm  rounded-lg border-0 ${
+              isLoading ? "py-0" : "py-2.5"
+            }  px-4 flex items-center bg-color-btn text-color-white`}
           >
             {isLoading && (
               <ReactLoading

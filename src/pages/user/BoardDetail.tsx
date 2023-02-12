@@ -29,6 +29,8 @@ const BoardDetail = () => {
     (board: Board) => board.name === boardId
   );
 
+  console.log(boardItem);
+
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
@@ -44,31 +46,30 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators.length > 0 &&
-            boardItem.collaborators.map((userAvatar: string, i: number) => {
-              return isImage(userAvatar) ? (
-                <img
-                  src={userAvatar}
-                  alt="collab-img"
-                  key={i}
-                  className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
-                    i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"
-                  }`}
-                />
-              ) : (
-                <p
-                  key={i}
-                  className="w-8 h-8 flex items-center justify-center bg-[#BDBDBD] mr-1 text-color-white rounded-lg text-xs"
-                >
-                  {userAvatar.slice(0, 2).toUpperCase()}
-                </p>
-              );
-            })}
+          {/* {boardItem.collaborators.length > 0
+            ? boardItem.collaborators.map((userAvatar: string, i: number) => {
+                return isImage(userAvatar) ? (
+                  <img
+                    src={userAvatar}
+                    alt="collab-img"
+                    key={i}
+                    className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
+                      i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"
+                    }`}
+                  />
+                ) : (
+                  <p
+                    key={i}
+                    className="w-8 h-8 flex items-center justify-center bg-[#BDBDBD] mr-1 text-color-white rounded-lg text-xs"
+                  >
+                    {userAvatar.slice(0, 2).toUpperCase()}
+                  </p>
+                );
+              })
+            : ""} */}
           <div
             className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ${
-              boardItem.collaborators && boardItem.collaborators.length > 0
-                ? "ml-2"
-                : ""
+              boardItem.collaborators.length > 0 ? "ml-2" : ""
             } cursor-pointer`}
           >
             <BsPlusLg className="text-color-white " />

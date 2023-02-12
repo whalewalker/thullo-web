@@ -10,7 +10,9 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
   const dispatchFn = useDispatch();
 
   const onAddCardModalHandler = () => {
-    const columnId: any = column.id;
+    const columnId: number | null | any = column.id;
+
+    console.log(typeof columnId);
 
     dispatchFn(boardAction.setColumnId(columnId));
 
@@ -40,7 +42,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
       </StrictModeDroppable>
       <button
         onClick={onAddCardModalHandler}
-        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full"
+        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
       >
         Add another card
         <BsPlusLg className="text-current " />

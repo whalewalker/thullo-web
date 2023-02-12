@@ -19,13 +19,10 @@ export const createBoard = async (
     },
   };
   let fd = new FormData();
+  fd.append("boardName", boardName);
   fd.append("file", file);
 
-  return await api.post(
-    `/api/v1/thullo/create-board?boardName=${boardName}`,
-    fd,
-    config
-  );
+  return await api.post(`/api/v1/thullo/boards`, fd, config);
 };
 
 export const getAllBoards = async (): Promise<any> => {
@@ -46,7 +43,7 @@ export const createTask = async ({
   taskName,
   file,
 }: {
-  columnId: string;
+  columnId: number;
   taskName: string;
   file: any;
 }): Promise<any> => {
@@ -63,9 +60,29 @@ export const createTask = async ({
   fd.append("name", taskName);
   file && fd.append("file", file);
 
-  return await api.post(
-    `/api/v1/thullo/create-task/${Number(columnId)}`,
-    fd,
-    config
-  );
+  return await api.post(`api/v1/thullo/tasks/${Number(columnId)}`, fd, config);
+};
+
+export const moveTask = async ({
+  taskId,
+  newColumnId,
+  position,
+}: {
+  taskId: number;
+  newColumnId: number;
+  position: number;
+}): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  let raw =
+    '{\n    "taskId": taskId,\n    "newColumnId": newColumnId,\n    "position": position\n}';
+
+  return await api.put(`/api/v1/thullo/tasks/move`, raw, config);
 };

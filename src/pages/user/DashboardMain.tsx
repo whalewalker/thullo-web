@@ -23,7 +23,7 @@ const DashboardMain = () => {
 
   return (
     <section className="min-h-screen bg-[#F8F9FD] pt-14">
-      <div className="w-[80%] mx-auto md:w-[90%]">
+      <div className="w-[83%] xl:w-[85%]  mx-auto lg:w-[90%]">
         <div className="flex items-center justify-between w-full">
           <p className="text-lg font-medium">All boards</p>
           <button
@@ -34,8 +34,8 @@ const DashboardMain = () => {
           </button>
         </div>
         {boardList.length > 0 && (
-          <div className="grid grid-cols-18 gap-6 mt-10 justify-between">
-            {boardList.map((board, i) => (
+          <div className="grid grid-cols-18 gap-6 mt-10 pb-10 justify-between xl:grid-cols-[repeat(3,_minmax(15rem,_23rem))] lg:grid-cols-[repeat(3,_minmax(15rem,_17rem))] md:grid-cols-[repeat(2,_20rem)] smd:grid-cols-[repeat(2,_16.5rem)] sm:grid-cols-1">
+            {boardList.map((board: Board, i) => (
               <BoardItem
                 key={i}
                 img={board.imageUrl}

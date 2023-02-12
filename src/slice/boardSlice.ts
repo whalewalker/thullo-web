@@ -8,7 +8,7 @@ const boardSlice = createSlice({
   name: "board",
   initialState: {
     displayAddTaskForm: false,
-    columnId: "",
+    columnId: null,
     isLoading: false,
     successMsg: "",
     errorMsg: "",
@@ -47,7 +47,7 @@ const boardSlice = createSlice({
 
     addTask(
       state: any,
-      action: { payload: { boardId: string; columnId: string; task: Task } }
+      action: { payload: { boardId: number; columnId: number; task: Task } }
     ) {
       const { boardId, columnId, task } = action.payload;
 
@@ -73,86 +73,70 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardList", JSON.stringify(list));
     },
+    moveTaskWithinBoardTaskColumn(
+      state: any,
+      action: { payload: { boardId: number; newColumn: dragDropColumn } }
+    ) {
+      const { boardId, newColumn } = action.payload;
 
-    // moveTaskWithinBoardTaskColumn(
-    //   state: any,
-    //   action: { payload: { boardName: string; newColumn: dragDropColumn } }
-    // ) {
-    //   const { boardName, newColumn } = action.payload;
+      // process
+      // find the index of existing board
+      const boardIndex: number = state.boardList.findIndex(
+        (board: Board) => board.id === boardId
+      );
 
-    //   // process
-    //   // find the index of existing board
-    //   const boardIndex: number = state.boardList.findIndex(
-    //     (board: Board) => board.data.name === boardName
-    //   );
-    //   // find  board
-    //   const newBoard: Board = state.boardList[boardIndex];
+      // find  board
+      const newBoard: Board = state.boardList[boardIndex];
 
-    //   // find index of column
-    //   const columnIndex = newBoard.data.taskColumns.findIndex(
-    //     (column) => column.id === newColumn.id
-    //   );
-    //   // change the column on new board
-    //   newBoard.data.taskColumns[columnIndex] = newColumn;
+      // find index of column
+      const columnIndex: number = newBoard.taskColumns.findIndex(
+        (column) => column.id === newColumn.id
+      );
+      // change the column on new board
+      state.boardList[boardIndex].taskColumns[columnIndex] = newColumn;
 
-    //   // using the index of the board, put the new board in the board list array
-    //   state.boardList[boardIndex] = newBoard;
+      const list = state.boardList;
 
-    //   // const [boardItem]: Board[] = state.boardList.filter(
-    //   //   (board: Board) => board.data.name === boardName
-    //   // );
+      localStorage.setItem("boardList", JSON.stringify(list));
+    },
+    moveTaskBetweenBoardTaskColumns(
+      state: any,
+      action: {
+        payload: {
+          boardId: number;
+          startColumn: dragDropColumn;
+          endColumn: dragDropColumn;
+        };
+      }
+    ) {
+      const { boardId, startColumn, endColumn } = action.payload;
 
-    //   // const previousColumnIndex = boardItem.data.taskColumns.findIndex(
-    //   //   (column) => column.id === newColumn.id
-    //   // );
+      // process
+      // find the index of existing board
+      const boardIndex: number = state.boardList.findIndex(
+        (board: Board) => board.id === boardId
+      );
+      // find  board
+      const newBoard: Board = state.boardList[boardIndex];
 
-    //   // boardItem.data.taskColumns[previousColumnIndex] = newColumn;
-    // },
-    // moveTaskBetweenBoardTaskColumns(
-    //   state: any,
-    //   action: {
-    //     payload: {
-    //       boardName: string;
-    //       startColumn: dragDropColumn;
-    //       endColumn: dragDropColumn;
-    //     };
-    //   }
-    // ) {
-    //   const { boardName, startColumn, endColumn } = action.payload;
+      // find index of columns
+      const startColumnIndex: number = newBoard.taskColumns.findIndex(
+        (column) => column.id === startColumn.id
+      );
 
-    //   // process
-    //   // find the index of existing board
-    //   const boardIndex: number = state.boardList.findIndex(
-    //     (board: Board) => board.data.name === boardName
-    //   );
-    //   // find  board
-    //   const newBoard: Board = state.boardList[boardIndex];
+      const endColumnIndex = newBoard.taskColumns.findIndex(
+        (column) => column.id === endColumn.id
+      );
 
-    //   // find index of columns
-    //   const startColumnIndex = newBoard.data.taskColumns.findIndex(
-    //     (column) => column.id === startColumn.id
-    //   );
+      // change the columns on new board
+      state.boardList[boardIndex].taskColumns[startColumnIndex] = startColumn;
 
-    //   const endColumnIndex = newBoard.data.taskColumns.findIndex(
-    //     (column) => column.id === endColumn.id
-    //   );
+      state.boardList[boardIndex].taskColumns[endColumnIndex] = endColumn;
 
-    //   // change the columns on new board
-    //   newBoard.data.taskColumns[startColumnIndex] = startColumn;
+      const list = state.boardList;
 
-    //   newBoard.data.taskColumns[endColumnIndex] = endColumn;
-
-    //   // using the index of the board, put the new board in the board list array
-    //   state.boardList[boardIndex] = newBoard;
-    // },
-
-    // addTaskToBoardTaskColumn(state: any, action: any) {
-    //   // process
-    //   // find board index
-    //   // find board
-    //   // find column
-    //   // add task to column task array
-    // },
+      localStorage.setItem("boardList", JSON.stringify(list));
+    },
     toggleDispayAddTaskForm(state: any, action: { payload: boolean }) {
       state.displayAddTaskForm = action.payload;
     },
