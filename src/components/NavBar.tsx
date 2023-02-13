@@ -44,19 +44,19 @@ const NavBar = () => {
             {boardId}
           </p>
           <p
-            className="flex items-center ml-5 bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3"
+            className="flex items-center ml-5 bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 hover:text-color-grey-4 transition-all duration-300 ease-linear hover:bg-color-grey-2"
             onClick={() => {
               navigate("/user/dashboard");
             }}
           >
             <BsFillGrid3X3GapFill className="w-3 h-3 text-current mr-2" />
-            All board
+            All boards
           </p>
         </div>
       )}
       {!location.includes("profile") && (
         <div
-          className={`ml-auto mr-10 flex justify-between rounded-lg overflow-hidden shadow-md sm:hidden p-1 ${
+          className={`ml-auto mr-10 smd:mr-4 smd:ml-1 flex justify-between rounded-lg overflow-hidden shadow-md sm:hidden p-1 ${
             boardId && "lg:hidden"
           }`}
         >
@@ -90,7 +90,7 @@ const NavBar = () => {
       </div>
       {displayNav && (
         <div
-          className={`absolute right-8 top-16  bg-color-white shadow-lg flex flex-col py-2 px-4 rounded-lg sm:w-full sm:right-0 ${
+          className={`absolute right-8 top-16  bg-color-white shadow-lg z-[100] flex flex-col py-2 px-4 rounded-lg sm:w-full sm:right-0 ${
             displayNav ? "sm:animation-dowm" : "sm:animation-up"
           }`}
           onClick={toggleNavHandler}

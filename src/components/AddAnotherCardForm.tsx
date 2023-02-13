@@ -6,17 +6,26 @@ import InputComponent from "./InputComponent";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { fileHandler } from "../utils/helperFn";
-import { useDispatch } from "react-redux";
-import { dragAndDropAction } from "../slice/dragAndDropSlice";
+import { boardAction } from "../slice/boardSlice";
+import { addTask } from "../actions/boardAction";
+import ReactLoading from "react-loading";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 
-const AddAnotherCardForm = () => {
+const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
   const [cardImg, setCardImg] = useState(emptyImg);
+  const [cardImgFile, setCardImgFile] = useState();
 
-  const dispatchFn = useDispatch();
+  const columnId = useAppSelector((state) => state.board.columnId);
+
+  const isLoading = useAppSelector((state) => state.board.isLoading);
+
+  const dispatchFn = useAppDispatch();
 
   const imgChangeHandler = (e: { target: { files: any } }) => {
     // @ts-ignore
+
     setCardImg(fileHandler(e));
+    setCardImgFile(e.target.files[0]);
   };
 
   const resetcardImgHandler = () => {
@@ -41,20 +50,23 @@ const AddAnotherCardForm = () => {
     target: { dataset: { close: string } };
   }) => {
     if (e.target.dataset.close) {
-      dispatchFn(dragAndDropAction.changeColumnId(""));
+      dispatchFn(boardAction.toggleDispayAddTaskForm(false));
     }
   };
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    const image = cardImg === emptyImg ? undefined : cardImg;
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    // const imageUrl = cardImg === emptyImg ? undefined : cardImg;
+    const imageFile = cardImgFile === emptyImg ? undefined : cardImgFile;
 
     const formData: any = {
-      img: image,
-      cardName: data.cardName,
+      columnId: columnId,
+      boardId: boardId,
+      taskName: data.cardName,
+      file: imageFile,
     };
 
-    dispatchFn(dragAndDropAction.addCardToColumn(formData));
-    dispatchFn(dragAndDropAction.changeColumnId(""));
+    await dispatchFn(addTask(formData));
+    dispatchFn(boardAction.toggleDispayAddTaskForm(false));
   };
 
   return (
@@ -124,17 +136,34 @@ const AddAnotherCardForm = () => {
           <button
             className="border-0 outline-none text-[#828282] mr-4 hover:text-color-btn transition-all duration-300 ease-in"
             onClick={() => {
-              dispatchFn(dragAndDropAction.changeColumnId(""));
+              dispatchFn(boardAction.toggleDispayAddTaskForm(false));
             }}
+            type="button"
           >
             cancel
           </button>
           <button
             type="submit"
-            className={`font-medium cursor-pointer text-sm  rounded-lg border-0 py-2.5 px-4 flex items-center bg-color-btn text-color-white`}
+            className={`font-medium cursor-pointer text-sm  rounded-lg border-0  ${
+              isLoading ? "py-0" : "py-2.5"
+            }  px-4 flex items-center bg-color-btn text-color-white`}
           >
-            <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white" />
-            <span>Create</span>
+            {isLoading && (
+              <ReactLoading
+                type="bubbles"
+                color="#fff"
+                width={40}
+                height={40}
+              />
+            )}
+            {isLoading ? (
+              ""
+            ) : (
+              <>
+                <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white" />
+                <span>Create</span>
+              </>
+            )}
           </button>
         </div>
       </form>

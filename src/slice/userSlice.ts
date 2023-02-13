@@ -1,5 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface UserData {
+  data: {
+    name: string;
+    imageUrl: string;
+    bio: string;
+    phoneNumber: string;
+    email: string;
+  };
+}
+
+const currentUser: any = localStorage.getItem("userData");
+
+const storedUserData = JSON.parse(currentUser);
+
 const userSlice = createSlice({
   name: "auth",
   initialState: {
@@ -7,7 +21,15 @@ const userSlice = createSlice({
     successMsg: "",
     errorMsg: "",
     error: false,
-    currentUserData: { data: { name: "" } },
+    currentUserData: storedUserData || {
+      data: {
+        name: "",
+        imageUrl: "",
+        bio: "",
+        phoneNumber: "",
+        email: "",
+      },
+    },
   },
   reducers: {
     setIsLoading: (state: any, action: { payload: boolean }) => {
@@ -22,8 +44,9 @@ const userSlice = createSlice({
     setError: (state: any, action: { payload: boolean }) => {
       state.error = action.payload;
     },
-    setCurrentUserData: (state: any, action: any) => {
+    setCurrentUserData: (state: any, action: { payload: UserData }) => {
       state.currentUserData = action.payload;
+      localStorage.setItem("userData", JSON.stringify(action.payload));
     },
   },
 });

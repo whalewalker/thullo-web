@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-interface Board {
+const BoardItem = ({
+  img,
+  boardName,
+  collaborators,
+}: {
   img: string;
   boardName: string;
-  collaborators: undefined | string[];
-}
-
-const BoardItem = ({ img, boardName, collaborators }: Board) => {
+  collaborators: string[] | undefined;
+}) => {
   const navigate = useNavigate();
   const viewBoardHandler = () => navigate(`/user/board/${boardName}`);
 
@@ -16,7 +18,7 @@ const BoardItem = ({ img, boardName, collaborators }: Board) => {
   };
 
   return (
-    <div className="bg-color-white p-3 rounded-lg shadow-3xl shadow-[#F6F2F1] cursor-pointer">
+    <div className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer">
       <div
         className="rounded-lg  w-full h-[10rem] overflow-hidden"
         onClick={viewBoardHandler}
@@ -36,7 +38,8 @@ const BoardItem = ({ img, boardName, collaborators }: Board) => {
       </p>
       <div className="flex items-center">
         {collaborators &&
-          collaborators.slice(0, 3).map((userAvatar, i) => {
+          collaborators.length > 0 &&
+          collaborators.slice(0, 3).map((userAvatar: any, i) => {
             return isImage(userAvatar) ? (
               <img
                 src={userAvatar}

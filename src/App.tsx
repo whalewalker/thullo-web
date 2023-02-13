@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import PageNotFound from "./components/PageNotFound";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
