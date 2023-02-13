@@ -8,6 +8,7 @@ const boardSlice = createSlice({
   name: "board",
   initialState: {
     displayAddTaskForm: false,
+    displayAddColumnForm: false,
     columnId: null,
     isLoading: false,
     successMsg: "",
@@ -139,6 +140,9 @@ const boardSlice = createSlice({
     },
     toggleDispayAddTaskForm(state: any, action: { payload: boolean }) {
       state.displayAddTaskForm = action.payload;
+    },
+    toggleDispayAddColumnForm(state: any) {
+      state.displayAddColumnForm = !state.displayAddColumnForm;
     },
   },
 });
