@@ -3,11 +3,11 @@ import { AiOutlinePlus } from "react-icons/ai";
 import InputComponent from "./InputComponent";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { dragAndDropAction } from "../slice/dragAndDropSlice";
+import { useAppDispatch } from "../hooks/customHook";
+import { boardAction } from "../slice/boardSlice";
 
 const AddAnotherColumnForm = () => {
-  const dispatchFn = useDispatch();
+  const dispatchFn = useAppDispatch();
 
   type FormData = {
     columnName: string;
@@ -27,15 +27,14 @@ const AddAnotherColumnForm = () => {
     target: { dataset: { close: string } };
   }) => {
     if (e.target.dataset.close) {
-      dispatchFn(dragAndDropAction.toggleNewColumnModal(false));
+      dispatchFn(boardAction.toggleDispayAddColumnForm());
     }
   };
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const columnName: string = data.columnName;
+    // const columnName: string = data.columnName;
 
-    dispatchFn(dragAndDropAction.addNewColumn(columnName));
-    dispatchFn(dragAndDropAction.toggleNewColumnModal(false));
+    dispatchFn(boardAction.toggleDispayAddColumnForm());
   };
 
   return (
@@ -66,7 +65,7 @@ const AddAnotherColumnForm = () => {
           <button
             className="border-0 outline-none text-[#828282] mr-4 hover:text-color-btn transition-all duration-300 ease-in"
             onClick={() => {
-              dispatchFn(dragAndDropAction.toggleNewColumnModal(false));
+              dispatchFn(boardAction.toggleDispayAddColumnForm());
             }}
           >
             cancel
