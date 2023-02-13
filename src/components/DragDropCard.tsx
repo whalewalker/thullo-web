@@ -3,11 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 import { Task } from "../utils/types";
 
-
-
-
 const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
-
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
@@ -19,7 +15,7 @@ const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="bg-color-white rounded-lg  p-3 mb-4"
+          className="bg-color-white rounded-lg  p-3 mb-4 shadow-3xl"
         >
           {card.imageUrl && (
             <img
@@ -63,7 +59,11 @@ const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
                   </p>
                 );
               })}
-            <div className="w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ml-2 cursor-pointer">
+            <div
+              className={`w-8 h-8 mt-5 flex items-center rounded-lg justify-center ${
+                card.contributors.length > 0 ? "ml-2" : "ml-0"
+              } bg-color-btn  cursor-pointer`}
+            >
               <BsPlusLg className="text-color-white " />
             </div>
           </div>
