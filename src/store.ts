@@ -2,13 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slice/authSlice";
 import userReducer from "./slice/userSlice";
 import boardReducer from "./slice/boardSlice";
-import dragAndDropReducer from "./slice/dragAndDropSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    // dragAndDrop: dragAndDropReducer,
     board: boardReducer,
   },
 });
