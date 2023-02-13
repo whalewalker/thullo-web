@@ -5,10 +5,10 @@ import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import DragAndDropBox from "../../components/DragAndDropBox";
 import AddAnotherCardForm from "../../components/AddAnotherCardForm";
-// import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
-import { dragAndDropAction } from "../../slice/dragAndDropSlice";
+import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
 import { Board } from "../../utils/types";
+import { boardAction } from "../../slice/boardSlice";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -20,10 +20,13 @@ const BoardDetail = () => {
   );
 
   const toggleNewColumnModal = () => {
-    dispatchFn(dragAndDropAction.toggleNewColumnModal(true));
+    dispatchFn(boardAction.toggleDispayAddColumnForm());
   };
 
   const boardList = useAppSelector((state) => state.board.boardList);
+  const displayAddColumnForm = useAppSelector(
+    (state) => state.board.displayAddColumnForm
+  );
 
   const [boardItem] = boardList.filter(
     (board: Board) => board.name === boardId
@@ -46,7 +49,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {/* {boardItem.collaborators.length > 0
+          {boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {
                 return isImage(userAvatar) ? (
                   <img
@@ -66,7 +69,7 @@ const BoardDetail = () => {
                   </p>
                 );
               })
-            : ""} */}
+            : ""}
           <div
             className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ${
               boardItem.collaborators.length > 0 ? "ml-2" : ""
@@ -94,7 +97,7 @@ const BoardDetail = () => {
         }
       </div>
       {displayAddTaskForm && <AddAnotherCardForm boardId={boardItem.id} />}
-      {/* {newColumnModal && <AddAnotherColumnForm />} */}
+      {displayAddColumnForm && <AddAnotherColumnForm />}
     </section>
   );
 };
