@@ -9,6 +9,8 @@ const boardSlice = createSlice({
   initialState: {
     displayAddTaskForm: false,
     displayAddColumnForm: false,
+    displayTaskModal: false,
+    taskId: undefined,
     columnId: null,
     isLoading: false,
     successMsg: "",
@@ -34,7 +36,7 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardList", JSON.stringify(action.payload));
     },
-    setColumnId(state: any, action: any) {
+    setColumnId(state: any, action: { payload: number | undefined }) {
       state.columnId = action.payload;
     },
 
@@ -143,6 +145,17 @@ const boardSlice = createSlice({
     },
     toggleDispayAddColumnForm(state: any) {
       state.displayAddColumnForm = !state.displayAddColumnForm;
+    },
+    toggleDisplayTaskModal(
+      state: any,
+      action: {
+        payload: { cardId: number | undefined; columnId: number | undefined };
+      }
+    ) {
+      const { cardId, columnId } = action.payload;
+      state.taskId = cardId;
+      state.columnId = columnId;
+      state.displayTaskModal = !state.displayTaskModal;
     },
   },
 });
