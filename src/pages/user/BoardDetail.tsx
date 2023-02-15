@@ -9,6 +9,7 @@ import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
 import { Board } from "../../utils/types";
 import { boardAction } from "../../slice/boardSlice";
+import TaskModal from "../../components/TaskModal";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -17,6 +18,10 @@ const BoardDetail = () => {
 
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
+  );
+
+  const displayTaskModal = useAppSelector(
+    (state) => state.board.displayTaskModal
   );
 
   const toggleNewColumnModal = () => {
@@ -32,7 +37,7 @@ const BoardDetail = () => {
     (board: Board) => board.name === boardId
   );
 
-  console.log(boardItem);
+  // console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -98,6 +103,7 @@ const BoardDetail = () => {
       </div>
       {displayAddTaskForm && <AddAnotherCardForm boardId={boardItem.id} />}
       {displayAddColumnForm && <AddAnotherColumnForm />}
+      {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>
   );
 };
