@@ -34,7 +34,12 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
           >
             {/* list of draggables */}
             {column.tasks.map((card: Task, i: number) => (
-              <DragDropCard key={String(card.id)} card={card} index={i} />
+              <DragDropCard
+                key={String(card.id)}
+                card={card}
+                columnId={column.id}
+                index={i}
+              />
             ))}
             {provided.placeholder}
           </ul>
