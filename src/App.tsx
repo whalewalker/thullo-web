@@ -41,7 +41,7 @@ const App = () => {
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <ToastContainer limit={1} />
+      <ToastContainer limit={1} autoClose={2000} />
     </>
   );
 };
