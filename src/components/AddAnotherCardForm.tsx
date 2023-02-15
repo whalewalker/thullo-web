@@ -50,6 +50,7 @@ const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
     target: { dataset: { close: string } };
   }) => {
     if (e.target.dataset.close) {
+      dispatchFn(boardAction.setColumnId());
       dispatchFn(boardAction.toggleDispayAddTaskForm(false));
     }
   };
