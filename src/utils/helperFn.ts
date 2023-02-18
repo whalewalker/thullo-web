@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { UNSPLASH_ACCESS_KEY } from "./constants";
 
 export const extractMessage = (error: any) => {
   return (
@@ -25,4 +26,17 @@ export const toastSuccess = (msg: string) => {
     hideProgressBar: true,
     autoClose: 2000,
   });
+};
+
+export const getUnsplashPictures = async (imageName: string): Promise<any> => {
+  const res = await fetch(
+    `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
+  );
+  console.log(res);
+
+  const data = await res.json();
+
+  const result = data.results;
+
+  return result;
 };
