@@ -20,13 +20,13 @@ interface Btns {
 
 const actionBtns: Btns[] = [
   {
-    title: "Members",
-    icon: <FaUserFriends className="text-current w-2.5 h-2.5 mr-3" />,
-  },
-  {
     title: "Labels",
 
     icon: <MdLabel className="text-current w-2.5 h-2.5 mr-3" />,
+  },
+  {
+    title: "Members",
+    icon: <FaUserFriends className="text-current w-2.5 h-2.5 mr-3" />,
   },
 ];
 
@@ -114,6 +114,13 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
               Actions
             </p>
+            <label
+              className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
+              htmlFor="task-image"
+            >
+              <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
+              <span>Cover</span>
+            </label>
             {actionBtns.map((btn: Btns, i) => (
               <button
                 key={i}
@@ -123,13 +130,6 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 {btn.title}
               </button>
             ))}
-            <label
-              className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
-              htmlFor="task-image"
-            >
-              <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
-              <span>Cover</span>
-            </label>
           </div>
         </div>
       </div>
