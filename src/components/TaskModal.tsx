@@ -12,6 +12,7 @@ import Attachments from "./Attachments";
 import CommentBox from "./CommentBox";
 import CommentList from "./CommentList";
 import { fileHandler } from "../utils/helperFn";
+import UnsplashModal from "./UnsplashModal";
 
 interface Btns {
   title: string;
@@ -32,6 +33,8 @@ const actionBtns: Btns[] = [
 
 const TaskModal = ({ boardId }: { boardId: number }) => {
   const dispatchFn = useAppDispatch();
+
+  const [displayUnsplashModal, setDisplayUnsplashModal] = useState(false);
 
   const boardList = useAppSelector((state) => state.board.boardList);
   const columnId = useAppSelector((state) => state.board.columnId);
@@ -73,65 +76,84 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
       data-close="close"
       className="cursor-pointer w-screen h-screen flex items-center justify-center absolute top-0 left-0 bg-color-black-transparent "
     >
-      <div className="w-[50%] h-[85vh] bg-color-white p-6 rounded-lg  overflow-y-auto scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default">
-        <div className="w-full h-[10rem]  rounded-lg relative">
-          <img
-            src={imageUrl}
-            alt={cardItem.name}
-            className="  object-cover w-full h-[10rem] relative rounded-lg"
-          />
-          <input
-            className="hidden"
-            type={"file"}
-            accept="image/*"
-            id="task-image"
-            onChange={onSetTaskImageHandler}
-          />
-          <div className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer ">
-            <RxCross2 className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="flex mt-3 justify-between">
-          <div className="w-[70%]">
-            <p className="text-[#000000] font-normal text-base">
-              {cardItem.name}
-            </p>
-            <p className="text-text-p-color text-xs font-semibold mt-1">
-              <span className="text-[#BDBDBD] ">In list: </span>
-              {columnItem.name}
-            </p>
-            <DescriptionEditor />
-            <Attachments />
-            <CommentBox
-              taskId={cardItem.id}
-              boardRef={cardItem.boardRef}
-              columnId={columnItem.id}
-            />
-            <CommentList comments={cardItem.comments} />
-          </div>
-          <div className="w-[25%]">
-            <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
-              <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
-              Actions
-            </p>
+      <div className="w-[50%] h-[85vh] md:w-[90%] relative">
+        <div className="w-full h-full  bg-color-white p-6 rounded-lg  overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
+          <div className="w-full h-[10rem]  rounded-lg relative">
             <label
-              className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
               htmlFor="task-image"
+              className="w-full h-[10rem] cursor-pointer"
             >
-              <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
-              <span>Cover</span>
+              <img
+                src={imageUrl}
+                alt={cardItem.name}
+                className="  object-cover w-full h-[10rem] relative rounded-lg"
+              />
             </label>
-            {actionBtns.map((btn: Btns, i) => (
-              <button
-                key={i}
-                className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm "
+
+            <input
+              className="hidden"
+              type={"file"}
+              accept="image/*"
+              id="task-image"
+              onChange={onSetTaskImageHandler}
+            />
+            <div className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer ">
+              <RxCross2 className="w-6 h-6" />
+            </div>
+          </div>
+          <div className="flex mt-3 justify-between">
+            <div className="w-[70%]">
+              <p className="text-[#000000] font-normal text-base">
+                {cardItem.name}
+              </p>
+              <p className="text-text-p-color text-xs font-semibold mt-1">
+                <span className="text-[#BDBDBD] ">In list: </span>
+                {columnItem.name}
+              </p>
+              <DescriptionEditor />
+              <Attachments />
+              <CommentBox
+                taskId={cardItem.id}
+                boardRef={cardItem.boardRef}
+                columnId={columnItem.id}
+              />
+              <CommentList comments={cardItem.comments} />
+            </div>
+            <div className="w-[25%] relative">
+              <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
+                <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
+                Actions
+              </p>
+              <label
+                className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
+                htmlFor="task-image"
+                onMouseOver={() => {
+                  setDisplayUnsplashModal(true);
+                }}
+                onMouseLeave={() => {
+                  setDisplayUnsplashModal(false);
+                }}
               >
-                {btn.icon}
-                {btn.title}
-              </button>
-            ))}
+                <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
+                <span>Cover</span>
+              </label>
+              {actionBtns.map((btn: Btns, i) => (
+                <button
+                  key={i}
+                  className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm "
+                >
+                  {btn.icon}
+                  {btn.title}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
+        <UnsplashModal
+          display={displayUnsplashModal}
+          setUrl={setImgUrl}
+          setDisplay={setDisplayUnsplashModal}
+        />
       </div>
     </div>
   );
