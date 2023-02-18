@@ -11,6 +11,7 @@ import DescriptionEditor from "./DescriptionEditor";
 import Attachments from "./Attachments";
 import CommentBox from "./CommentBox";
 import CommentList from "./CommentList";
+import { fileHandler } from "../utils/helperFn";
 
 interface Btns {
   title: string;
@@ -24,11 +25,8 @@ const actionBtns: Btns[] = [
   },
   {
     title: "Labels",
+
     icon: <MdLabel className="text-current w-2.5 h-2.5 mr-3" />,
-  },
-  {
-    title: "Cover",
-    icon: <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />,
   },
 ];
 
@@ -64,6 +62,11 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     }
   };
 
+  const onSetTaskImageHandler = (e: {}) => {
+    const url = fileHandler(e);
+    setImgUrl(url);
+  };
+
   return (
     <div
       onClick={closeTaskModalHandler}
@@ -76,6 +79,13 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
             src={imageUrl}
             alt={cardItem.name}
             className="  object-cover w-full h-[10rem] relative rounded-lg"
+          />
+          <input
+            className="hidden"
+            type={"file"}
+            accept="image/*"
+            id="task-image"
+            onChange={onSetTaskImageHandler}
           />
           <div className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer ">
             <RxCross2 className="w-6 h-6" />
@@ -92,7 +102,11 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
             </p>
             <DescriptionEditor />
             <Attachments />
-            <CommentBox taskId={cardItem.id} boardRef={cardItem.boardRef} columnId = {columnItem.id}/>
+            <CommentBox
+              taskId={cardItem.id}
+              boardRef={cardItem.boardRef}
+              columnId={columnItem.id}
+            />
             <CommentList comments={cardItem.comments} />
           </div>
           <div className="w-[25%]">
@@ -101,14 +115,21 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               Actions
             </p>
             {actionBtns.map((btn: Btns, i) => (
-              <label
+              <button
                 key={i}
                 className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm "
               >
                 {btn.icon}
                 {btn.title}
-              </label>
+              </button>
             ))}
+            <label
+              className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
+              htmlFor="task-image"
+            >
+              <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
+              <span>Cover</span>
+            </label>
           </div>
         </div>
       </div>
