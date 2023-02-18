@@ -40,7 +40,7 @@ const UnsplashModal = ({
   return (
     <div
       className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[5rem] rounded-lg p-2  shadow-4xl cursor-default ${
-        display ? "opacity-100 visible" : "opacity-0 invisible"
+        display ? "opacity-100 visible" : "delay-1000 opacity-0 invisible"
       }`}
       onMouseEnter={() => {
         setDisplay(true);
