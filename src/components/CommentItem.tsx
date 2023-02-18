@@ -2,8 +2,12 @@ import React from "react";
 import profileImage from "../asset/img/profile-pic.jpg";
 
 const CommentItem = ({ message, name }: { message: string; name: string }) => {
+  const regex = /(@\w+|#\w+)/g;
+  const parts = message.split(regex);
+  console.log(parts);
+
   return (
-    <div className="w-full flex flex-col border-b border-color-grey-1 last:border-0 pt-2 pb-1">
+    <div className="w-full flex flex-col border-b border-color-grey-2 last:border-0 pt-2 pb-1">
       <div className="flex mb-2 items-start">
         <img
           src={profileImage}
@@ -26,7 +30,17 @@ const CommentItem = ({ message, name }: { message: string; name: string }) => {
           </button>
         </div>
       </div>
-      <div className="text-[#000000] text-sm font-normal py-2">{message}</div>
+      <div className="text-[#000000] text-sm font-normal py-2">
+        {parts.map((part, index) =>
+          regex.test(part) ? (
+            <span key={index} className="text-[#2F80ED]">
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </div>
     </div>
   );
 };

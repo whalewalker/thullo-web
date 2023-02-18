@@ -78,7 +78,7 @@ const UnsplashModal = ({
               src={image.url}
               alt={image.alt}
               key={image.id}
-              className="w-[3.2rem] h-[3.2rem] rounded-lg object-cover"
+              className="w-[3.2rem] h-[3.2rem] rounded-lg object-cover cursor-pointer"
               onClick={() => {
                 setUrl(image.url);
               }}
