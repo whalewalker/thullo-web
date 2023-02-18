@@ -79,7 +79,7 @@ const NavBar = () => {
         <img
           src={profileImg}
           alt={"profile-img"}
-          className="w-11 h-11 mr-1 sm:w-9 sm:h-9 rounded-lg"
+          className="w-9 h-9 ml-4 mr-1 sm:w-9 sm:h-9 rounded-lg"
         />
         <p className="font-medium">{name}</p>
         {displayNav ? (
