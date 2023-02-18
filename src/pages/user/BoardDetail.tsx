@@ -73,7 +73,7 @@ const BoardDetail = () => {
                   </p>
                 );
               })
-            : ""} */}
+            : ""}
           <div
             className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn cursor-pointer`}
           >
