@@ -67,7 +67,7 @@ const Attachments = () => {
   const sliceNumber = displayMoreAttachments ? attachments.length : 3;
 
   return (
-    <div className="mt-3 w-full mb-6">
+    <div className="mt-3 w-full mb-5">
       <div className="flex items-center">
         <p className="flex text-[#bdbdbd] items-center">
           <MdDescription className="text-current w-2.5 h-2.5" />
