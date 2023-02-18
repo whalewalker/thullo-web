@@ -56,3 +56,10 @@ export interface Task {
     updatedAt: string;
   }[];
 }
+
+export interface Comment {
+  id: number;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}

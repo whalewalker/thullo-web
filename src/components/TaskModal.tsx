@@ -9,6 +9,8 @@ import { MdLabel } from "react-icons/md";
 import { AiFillPicture } from "react-icons/ai";
 import DescriptionEditor from "./DescriptionEditor";
 import Attachments from "./Attachments";
+import CommentBox from "./CommentBox";
+import CommentList from "./CommentList";
 
 interface Btns {
   title: string;
@@ -84,13 +86,14 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
             <p className="text-[#000000] font-normal text-base">
               {cardItem.name}
             </p>
-            <p className="text-text-p-color text-xs font-semibold">
+            <p className="text-text-p-color text-xs font-semibold mt-1">
               <span className="text-[#BDBDBD] ">In list: </span>
               {columnItem.name}
             </p>
-
             <DescriptionEditor />
             <Attachments />
+            <CommentBox taskId={cardItem.id} boardRef={cardItem.boardRef} columnId = {columnItem.id}/>
+            <CommentList comments={cardItem.comments} />
           </div>
           <div className="w-[25%]">
             <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">

@@ -87,7 +87,7 @@ const DescriptionEditor = () => {
           <button
             type="button"
             onClick={toggleDisplayEditor}
-            className="text-base py-1 px-2 text-color-grey-3 bg-color-grey border border-color-grey  ml-3 rounded-lg"
+            className=" hover:bg-color-white hover:text-color-grey-4 hover:border-color-grey-4 text-base py-1 px-2 text-color-grey-3 bg-color-grey border border-color-grey  ml-3 rounded-lg transition-all duration-300 ease-linear"
           >
             Cancel
           </button>

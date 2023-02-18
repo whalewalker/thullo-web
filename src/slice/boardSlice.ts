@@ -10,6 +10,7 @@ const boardSlice = createSlice({
     displayAddTaskForm: false,
     displayAddColumnForm: false,
     displayTaskModal: false,
+    boardTag: "",
     taskId: undefined,
     columnId: null,
     isLoading: false,
@@ -157,6 +158,21 @@ const boardSlice = createSlice({
       state.columnId = columnId;
       state.displayTaskModal = !state.displayTaskModal;
     },
+    setBoardTag(state: any, action: { payload: string }) {
+      state.boardTag = action.payload;
+    },
+    addCommentToTaskComments(
+      state: any,
+      action: {
+        payload: {
+          user: string;
+          boardRef: string;
+          columnId: number;
+          taskId: number;
+          comment: string;
+        };
+      }
+    ) {},
   },
 });
 

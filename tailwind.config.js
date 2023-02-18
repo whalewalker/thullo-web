@@ -46,6 +46,7 @@ module.exports = {
       },
       boxShadow: {
         "3xl": " 2px 2px 2px 0px #0000000D",
+        "4xl": " 0px 2px 8px 0px #0000001A",
       },
       keyframes: {
         down: {

@@ -1,17 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
 
 const BoardItem = ({
   img,
   boardName,
   collaborators,
+  boardRef,
 }: {
   img: string;
   boardName: string;
   collaborators: string[] | undefined;
+  boardRef: string;
 }) => {
+  const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
-  const viewBoardHandler = () => navigate(`/user/board/${boardName}`);
+  const viewBoardHandler: any = async (e: {
+    target: { dataset: { board: string } };
+  }) => {
+    console.log("ref", e.target);
+    const reference = e.target.dataset.board;
+    console.log(reference);
+
+    await dispatchFn(boardAction.setBoardTag(reference));
+    navigate(`/user/board/${boardName}`);
+  };
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -25,6 +39,7 @@ const BoardItem = ({
       >
         <img
           src={img}
+          data-board={boardRef}
           alt="board-img"
           className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
         />

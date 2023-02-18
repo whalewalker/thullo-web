@@ -2,20 +2,19 @@ import React from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
 import { useAppSelector, useAppDispatch } from "../hooks/customHook";
-import { useParams } from "react-router-dom";
 import { Board, dragDropColumn } from "../utils/types";
 import {
   moveTaskWithinColumn,
   moveTaskBetweenColumn,
-} from "../actions/boardAction";
+} from "../actions/taskActions";
 
 const DragAndDropBox = () => {
-  const { boardId } = useParams();
-
   const boardList = useAppSelector((state) => state.board.boardList);
 
+  const boardRef = useAppSelector((state) => state.board.boardTag);
+
   const [boardItem]: Board[] = boardList.filter(
-    (board: Board) => board.name === boardId
+    (board: Board) => board.boardTag === boardRef
   );
 
   const dispatchFn = useAppDispatch();

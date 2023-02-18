@@ -43,10 +43,12 @@ const DragDropCard = ({
             <img
               src={card.imageUrl}
               alt={card.name}
-              className="rounded-lg mb-3 h-40 w-full object-cover"
+              className="rounded-lg mb-1 h-40 w-full object-cover"
             />
           )}
-          <small className="text-sm text-color-grey-3">{card.boardRef}</small>
+          <small className="text-[10px] text-color-grey-3">
+            {card.boardRef}
+          </small>
           <p className="text-[#000] font-normal mb-3">{card.name}</p>
           {card.labels && (
             <div className="flex items-center mb-4 w-full flex-wrap">

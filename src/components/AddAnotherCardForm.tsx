@@ -7,9 +7,9 @@ import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { fileHandler } from "../utils/helperFn";
 import { boardAction } from "../slice/boardSlice";
-import { addTask } from "../actions/boardAction";
 import ReactLoading from "react-loading";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
+import { addTask } from "../actions/taskActions";
 
 const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
   const [cardImg, setCardImg] = useState(emptyImg);

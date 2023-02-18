@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 // import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
@@ -12,10 +11,9 @@ import { boardAction } from "../../slice/boardSlice";
 import TaskModal from "../../components/TaskModal";
 
 const BoardDetail = () => {
-  const { boardId } = useParams();
-
   const dispatchFn = useAppDispatch();
 
+  const boardRef = useAppSelector((state) => state.board.boardTag);
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
   );
@@ -33,11 +31,14 @@ const BoardDetail = () => {
     (state) => state.board.displayAddColumnForm
   );
 
+  console.log(boardRef);
+  console.log(boardList);
+
   const [boardItem] = boardList.filter(
-    (board: Board) => board.name === boardId
+    (board: Board) => board.boardTag === boardRef
   );
 
-  // console.log(boardItem);
+  console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -54,7 +55,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators.length > 0
+          {/* {boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {
                 return isImage(userAvatar) ? (
                   <img
@@ -74,11 +75,9 @@ const BoardDetail = () => {
                   </p>
                 );
               })
-            : ""}
+            : ""} */}
           <div
-            className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ${
-              boardItem.collaborators.length > 0 ? "ml-2" : ""
-            } cursor-pointer`}
+            className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn cursor-pointer`}
           >
             <BsPlusLg className="text-color-white " />
           </div>

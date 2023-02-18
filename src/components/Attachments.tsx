@@ -22,6 +22,7 @@ const months = [
 
 const Attachments = () => {
   const [attachments, setAttachments] = useState([]);
+  const [displayMoreAttachments, setDisplayMoreAttachments] = useState(false);
 
   const fileUploadHandler = (e: { target: { files: any } }) => {
     console.log(e.target.files[0]);
@@ -59,8 +60,14 @@ const Attachments = () => {
     );
   };
 
+  const toggleDisplayMoreAttachmentsHandler = () => {
+    setDisplayMoreAttachments((prevState) => !prevState);
+  };
+
+  const sliceNumber = displayMoreAttachments ? attachments.length : 3;
+
   return (
-    <div className="mt-3 w-full">
+    <div className="mt-3 w-full mb-6">
       <div className="flex items-center">
         <p className="flex text-[#bdbdbd] items-center">
           <MdDescription className="text-current w-2.5 h-2.5" />
@@ -81,13 +88,25 @@ const Attachments = () => {
           Add
         </label>
       </div>
-      <div className="mt-3">
-        {attachments.map(
-          (file: { name: string; image: string; date: string }, i) => (
+      <div
+        className={`mt-3 h-[15rem] ${
+          displayMoreAttachments ? " overflow-auto scroll" : "overflow-hidden"
+        } `}
+      >
+        {attachments
+          .slice(0, sliceNumber)
+          .map((file: { name: string; image: string; date: string }, i) => (
             <AttachedItem key={i} fileData={file} />
-          )
-        )}
+          ))}
       </div>
+      {attachments.length > 3 && (
+        <p
+          className="text-sm text-color-grey-3 cursor-pointer mt-1"
+          onClick={toggleDisplayMoreAttachmentsHandler}
+        >
+          {displayMoreAttachments ? "Show less" : "Show more"}
+        </p>
+      )}
     </div>
   );
 };
