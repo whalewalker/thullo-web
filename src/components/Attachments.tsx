@@ -89,7 +89,7 @@ const Attachments = () => {
         </label>
       </div>
       <div
-        className={`mt-3  ${
+        className={`mt-3  transition-all duration-300 ease-out ${
           displayMoreAttachments
             ? "h-[15rem] overflow-auto scroll"
             : "overflow-hidden"
