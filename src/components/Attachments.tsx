@@ -89,7 +89,7 @@ const Attachments = () => {
         </label>
       </div>
       <div
-        className={`mt-3 h-[15rem] ${
+        className={`mt-3 h-max-[15rem] ${
           displayMoreAttachments ? " overflow-auto scroll" : "overflow-hidden"
         } `}
       >
