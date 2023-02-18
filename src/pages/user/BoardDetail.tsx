@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 // import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
@@ -13,7 +14,7 @@ import TaskModal from "../../components/TaskModal";
 const BoardDetail = () => {
   const dispatchFn = useAppDispatch();
 
-  const boardRef = useAppSelector((state) => state.board.boardTag);
+  const boardTag = useAppSelector((state) => state.board.boardTag);
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
   );
@@ -31,14 +32,11 @@ const BoardDetail = () => {
     (state) => state.board.displayAddColumnForm
   );
 
-  console.log(boardRef);
-  console.log(boardList);
-
   const [boardItem] = boardList.filter(
-    (board: Board) => board.boardTag === boardRef
+    (board: Board) => board.boardTag === boardTag
   );
 
-  console.log(boardItem);
+  // console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -55,7 +53,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {/* {boardItem.collaborators.length > 0
+          {boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {
                 return isImage(userAvatar) ? (
                   <img

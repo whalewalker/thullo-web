@@ -83,7 +83,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
         </div>
         <div className="flex mt-3 justify-between">
           <div className="w-[70%]">
-            <p className="text-[#000000] font-normal text-base">
+            <p className="text-[#000000] font-normal text-base leading-6">
               {cardItem.name}
             </p>
             <p className="text-text-p-color text-xs font-semibold mt-1">

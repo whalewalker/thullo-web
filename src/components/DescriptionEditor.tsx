@@ -30,7 +30,7 @@ const DescriptionEditor = () => {
   };
 
   return (
-    <div className="w-full mt-2">
+    <div className="w-full mt-6">
       <div className="flex items-cente">
         <p className="flex text-[#bdbdbd] items-center">
           <MdDescription className="text-current w-2.5 h-2.5" />

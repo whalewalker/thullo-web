@@ -5,7 +5,7 @@ import { Comment } from "../utils/types";
 const commentLists = [
   {
     name: "Ejim Favour",
-    message: "@dan I have added the required tasks in the other boards",
+    message: "Hey @Jane, have you seen the new #React tutorial yet?",
   },
   { name: "Ezima Daniel", message: "@ejim please forward the tasks" },
   {

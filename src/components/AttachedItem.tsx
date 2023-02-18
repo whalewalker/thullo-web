@@ -15,7 +15,7 @@ const AttachedItem = ({
         <img
           src={fileData.image}
           alt={fileData.name}
-          className="w-[4.5rem] h-[4.5rem] rounded-lg"
+          className="w-[4.5rem] h-[4.5rem] rounded-lg object-cover"
         />
       ) : (
         <p className="w-[4.5rem] h-[4.5rem] flex items-center justify-center bg-[#BDBDBD] mr-1 text-color-white rounded-lg text-xl">
