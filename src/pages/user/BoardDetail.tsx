@@ -15,6 +15,7 @@ const BoardDetail = () => {
   const dispatchFn = useAppDispatch();
 
   const boardTag = useAppSelector((state) => state.board.boardTag);
+
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
   );
@@ -32,11 +33,9 @@ const BoardDetail = () => {
     (state) => state.board.displayAddColumnForm
   );
 
-  const [boardItem] = boardList.filter(
-    (board: Board) => board.boardTag === boardTag
-  );
-
-  // console.log(boardItem);
+  const [boardItem] = boardList.filter((board: Board) => {
+    return board.boardTag === boardTag;
+  });
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);

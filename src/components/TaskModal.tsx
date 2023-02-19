@@ -124,9 +124,8 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
                 Actions
               </p>
-              <label
+              <button
                 className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
-                htmlFor="task-image"
                 onMouseOver={() => {
                   setDisplayUnsplashModal(true);
                 }}
@@ -136,7 +135,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               >
                 <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
                 <span>Cover</span>
-              </label>
+              </button>
               {actionBtns.map((btn: Btns, i) => (
                 <button
                   key={i}

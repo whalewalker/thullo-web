@@ -3,6 +3,7 @@ import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
+const storedBoardTag: any = localStorage.getItem("boardTag");
 
 const boardSlice = createSlice({
   name: "board",
@@ -10,7 +11,7 @@ const boardSlice = createSlice({
     displayAddTaskForm: false,
     displayAddColumnForm: false,
     displayTaskModal: false,
-    boardTag: "",
+    boardTag: storedBoardTag || "",
     taskId: undefined,
     columnId: null,
     isLoading: false,
@@ -160,6 +161,8 @@ const boardSlice = createSlice({
     },
     setBoardTag(state: any, action: { payload: string }) {
       state.boardTag = action.payload;
+
+      localStorage.setItem("boardTag", action.payload);
     },
     addCommentToTaskComments(
       state: any,
