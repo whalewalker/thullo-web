@@ -52,16 +52,16 @@ const LabelModal = ({
       }}
     >
       <p className="text-xs font-semibold text-color-grey-4">Label</p>
-      <p className="text-xs font-normal text-color-grey-3 ">
+      <p className="text-xs font-normal text-color-grey-3 leading-6">
         Select a name and color
       </p>
       <form className="mt-2.5 flex flex-col" onSubmit={submitLabelHandler}>
         <input
           type="text"
-          placeholder="label..."
+          placeholder="Label..."
           value={labelInput}
           onChange={changeLabelInput}
-          className="w-full border-0 outline-0 shadow-4xl py-1 px-2 rounded-lg mb-3"
+          className="w-full border-0 outline-0 shadow-4xl py-2 px-2 rounded-lg mb-3 !text-[12px]"
         />
         <div className="grid grid-cols-4 gap-1 my-2.5">
           {colorArray.map((color: Color) => (

@@ -52,7 +52,7 @@ const UnsplashModal = ({
       }}
     >
       <p className="text-xs font-semibold text-color-grey-4">Photo Search</p>
-      <p className="text-color-grey-3 font-normal text-xs">
+      <p className="text-color-grey-3 font-normal text-xs leading-6">
         Search Unsplash for photos
       </p>
       <form
@@ -61,16 +61,16 @@ const UnsplashModal = ({
       >
         <input
           type="text"
-          placeholder="keyword..."
-          className="px-2 py-1 border-0 outline-0 w-full "
+          placeholder="Keywords..."
+          className="px-2 py-1 border-0 outline-0 w-full !text-[12px]"
           value={searchImageName}
           onChange={searchImageHandler}
         />
         <button
           type="submit"
-          className=" bg-color-btn text-color-white p-2 flex justify-center items-center  rounded-lg text-sm flex-1"
+          className="bg-color-btn text-color-white p-2 flex justify-center items-center  rounded-lg text-sm flex-1  hover: transition-all duration-300 ease-in"
         >
-          <FiSearch className="w-5 h-5 text-color-white" />
+          <FiSearch className="w-4 h-4 text-color-white" />
         </button>
       </form>
       {images && (
