@@ -13,6 +13,7 @@ import CommentBox from "./CommentBox";
 import CommentList from "./CommentList";
 import { fileHandler } from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
+import LabelModal from "./LabelModal";
 
 interface Btns {
   title: string;
@@ -20,6 +21,11 @@ interface Btns {
 }
 
 const actionBtns: Btns[] = [
+  {
+    title: "Cover",
+
+    icon: <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />,
+  },
   {
     title: "Labels",
 
@@ -34,7 +40,7 @@ const actionBtns: Btns[] = [
 const TaskModal = ({ boardId }: { boardId: number }) => {
   const dispatchFn = useAppDispatch();
 
-  const [displayUnsplashModal, setDisplayUnsplashModal] = useState(false);
+  const [displayUnsplashModal, setDisplayUnsplashModal] = useState("");
 
   const boardList = useAppSelector((state) => state.board.boardList);
   const columnId = useAppSelector((state) => state.board.columnId);
@@ -124,22 +130,19 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
                 Actions
               </p>
-              <button
-                className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm  cursor-pointer"
-                onMouseOver={() => {
-                  setDisplayUnsplashModal(true);
-                }}
-                onMouseLeave={() => {
-                  setDisplayUnsplashModal(false);
-                }}
-              >
-                <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />
-                <span>Cover</span>
-              </button>
               {actionBtns.map((btn: Btns, i) => (
                 <button
                   key={i}
                   className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm "
+                  onClick={() => {
+                    setDisplayUnsplashModal(btn.title);
+                  }}
+                  onMouseOver={() => {
+                    setDisplayUnsplashModal(btn.title);
+                  }}
+                  onMouseLeave={() => {
+                    setDisplayUnsplashModal("");
+                  }}
                 >
                   {btn.icon}
                   {btn.title}
@@ -151,6 +154,10 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
         <UnsplashModal
           display={displayUnsplashModal}
           setUrl={setImgUrl}
+          setDisplay={setDisplayUnsplashModal}
+        />
+        <LabelModal
+          display={displayUnsplashModal}
           setDisplay={setDisplayUnsplashModal}
         />
       </div>
