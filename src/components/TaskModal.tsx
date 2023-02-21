@@ -82,7 +82,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
       data-close="close"
       className="cursor-pointer w-screen h-screen flex items-center justify-center absolute top-0 left-0 bg-color-black-transparent "
     >
-      <div className="w-[50%] h-[85vh] md:w-[90%] relative">
+      <div className="w-[50%] h-[90vh] md:w-[90%] relative">
         <div className="w-full h-full  bg-color-white p-6 rounded-lg  overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
           <div className="w-full h-[10rem]  rounded-lg relative">
             <label
