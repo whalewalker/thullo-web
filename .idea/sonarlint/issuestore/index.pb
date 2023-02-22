@@ -33,3 +33,19 @@ A
 tsconfig.json,6/1/61ebb9fd6e8cf9082658121d5d81e297791dacd0
 <
 package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
+N
+src/components/Attachments.tsx,8/7/878d7187203b179f82c2256c5f6c0a9e22ea0699
+L
+src/components/TaskModal.tsx,6/1/613386e4dd2f79fa419464e0b60672565f56fd63
+N
+src/pages/user/BoardDetail.tsx,6/f/6fbc3849ec4083521d6219d083d7338fe72811c7
+G
+src/pages/user/User.tsx,5/5/5591b7920d33ea95cb970403a76fa8e4878c41fe
+N
+src/pages/user/ProfileEdit.tsx,b/5/b51df4697844d8db225bc2d5166b9f4f56902ced
+J
+src/pages/user/Profile.tsx,8/3/831a3580cac3bf0ac67e242666a0c96f8c0fcef1
+N
+src/pages/user/ProfileMain.tsx,b/3/b3f098fd0adac328897c4b80d1730fdb75ff9786
+B
+tailwind.config.js,0/9/0918cbb76f2c44f223706cec9d31a32cd1177ce4

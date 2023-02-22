@@ -11,7 +11,7 @@ const commentLists = [
   {
     name: "Abdulahi Joseph",
     message:
-      "@ejim and @dan, weldone for your awesome work. Looking forward to progressing...",
+      "@ejim and @dan, weldone for your awesome work. Looking forward to progressing.. https://google.com",
   },
 ];
 
