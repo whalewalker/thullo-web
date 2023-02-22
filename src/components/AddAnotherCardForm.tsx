@@ -11,7 +11,13 @@ import ReactLoading from "react-loading";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { addTask } from "../actions/taskActions";
 
-const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
+const AddAnotherCardForm = ({
+  boardId,
+  boardTag,
+}: {
+  boardId: number;
+  boardTag: string;
+}) => {
   const [cardImg, setCardImg] = useState(emptyImg);
   const [cardImgFile, setCardImgFile] = useState();
 
@@ -62,6 +68,7 @@ const AddAnotherCardForm = ({ boardId }: { boardId: string }) => {
     const formData: any = {
       columnId: columnId,
       boardId: boardId,
+      boardTag,
       taskName: data.cardName,
       file: imageFile,
     };

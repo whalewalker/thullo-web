@@ -9,10 +9,12 @@ const checkToken = () => {
 
 export const createTask = async ({
   columnId,
+  boardTag,
   taskName,
   file,
 }: {
-  columnId: number;
+  columnId: string;
+  boardTag: string;
   taskName: string;
   file: any;
 }): Promise<any> => {
@@ -27,18 +29,25 @@ export const createTask = async ({
 
   let fd = new FormData();
   fd.append("name", taskName);
+  fd.append("status", columnId);
   file && fd.append("file", file);
 
-  return await api.post(`api/v1/thullo/tasks/${Number(columnId)}`, fd, config);
+  return await api.post(
+    `https://thullo-backend-production.up.railway.app/api/v1/thullo/tasks/${boardTag}`,
+    fd,
+    config
+  );
 };
 
 export const moveTask = async ({
-  taskId,
-  newColumnId,
+  boardRef,
+  boardTag,
+  status,
   position,
 }: {
-  taskId: number;
-  newColumnId: number;
+  boardRef: string;
+  boardTag: string;
+  status: string;
   position: number;
 }): Promise<any> => {
   await checkToken();
@@ -50,8 +59,12 @@ export const moveTask = async ({
     },
   };
 
-  let data = { taskId, newColumnId, position };
-  return await api.put(`api/v1/thullo/tasks/move`, data, config);
+  let data = { boardRef, status, position };
+  return await api.put(
+    `api/v1/thullo/tasks/${boardTag}/move`,
+    JSON.stringify(data),
+    config
+  );
 };
 
 export const createCommentReq = async ({

@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
-import { Board, dragDropColumn, Task } from "../utils/types";
+import { dragDropColumn, Task } from "../utils/types";
 import emptyImg from "../asset/img/no-image.jpg";
 import { RxCross2 } from "react-icons/rx";
 import { FaUserCircle, FaUserFriends } from "react-icons/fa";
@@ -14,6 +14,8 @@ import CommentList from "./CommentList";
 import { fileHandler } from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
+import MembersList from "./MembersList";
+import AddMemberModal from "./AddMemberModal";
 
 interface Btns {
   title: string;
@@ -39,17 +41,15 @@ const actionBtns: Btns[] = [
 
 const TaskModal = ({ boardId }: { boardId: number }) => {
   const dispatchFn = useAppDispatch();
+  const [addMemberModal, setAddMemberModal] = useState(false);
+  const [displayModal, setDisplayModal] = useState("");
 
-  const [displayUnsplashModal, setDisplayUnsplashModal] = useState("");
-
-  const boardList = useAppSelector((state) => state.board.boardList);
+  const boardItem = useAppSelector((state) => state.board.boardItem);
   const columnId = useAppSelector((state) => state.board.columnId);
   const cardId = useAppSelector((state) => state.board.taskId);
 
-  const [boardItem] = boardList.filter((board: Board) => board.id === boardId);
-
-  const columnItem = boardItem.taskColumns.filter(
-    (column: dragDropColumn) => column.id === columnId
+  const columnItem = boardItem.taskColumn.filter(
+    (column: dragDropColumn) => column.name === columnId
   )[0];
 
   const [cardItem] = columnItem.tasks.filter(
@@ -103,7 +103,17 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               id="task-image"
               onChange={onSetTaskImageHandler}
             />
-            <div className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer ">
+            <div
+              className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer "
+              onClick={() => {
+                dispatchFn(
+                  boardAction.toggleDisplayTaskModal({
+                    cardId: undefined,
+                    columnId: undefined,
+                  })
+                );
+              }}
+            >
               <RxCross2 className="w-6 h-6" />
             </div>
           </div>
@@ -133,32 +143,44 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               {actionBtns.map((btn: Btns, i) => (
                 <button
                   key={i}
-                  className="flex w-full items-center bg-color-grey-1 rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm "
+                  className={`flex w-full items-center  rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
+                    displayModal === btn.title
+                      ? "bg-color-grey"
+                      : "bg-color-grey-1"
+                  }`}
                   onClick={() => {
-                    setDisplayUnsplashModal(btn.title);
+                    setDisplayModal(btn.title);
                   }}
                   onMouseOver={() => {
-                    setDisplayUnsplashModal(btn.title);
+                    setDisplayModal(btn.title);
                   }}
                   onMouseLeave={() => {
-                    setDisplayUnsplashModal("");
+                    setDisplayModal("");
                   }}
                 >
                   {btn.icon}
                   {btn.title}
                 </button>
               ))}
+              <MembersList
+                display={displayModal}
+                setDisplay={setDisplayModal}
+                setMemberModalDisplay={setAddMemberModal}
+              />
             </div>
           </div>
         </div>
         <UnsplashModal
-          display={displayUnsplashModal}
+          display={displayModal}
           setUrl={setImgUrl}
-          setDisplay={setDisplayUnsplashModal}
+          setDisplay={setDisplayModal}
         />
-        <LabelModal
-          display={displayUnsplashModal}
-          setDisplay={setDisplayUnsplashModal}
+        <LabelModal display={displayModal} setDisplay={setDisplayModal} />
+        <AddMemberModal
+          display={displayModal}
+          setDisplay={setDisplayModal}
+          addMemberModalDisplay={addMemberModal}
+          setMemberModalDisplay={setAddMemberModal}
         />
       </div>
     </div>

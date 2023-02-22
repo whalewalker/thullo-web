@@ -1,7 +1,6 @@
 import { extractMessage, toastError, toastSuccess } from "../utils/helperFn";
-import { createBoard, getAllBoards } from "../services/boardService";
+import { createBoard, getBoard, getAllBoards } from "../services/boardService";
 import { boardAction } from "../slice/boardSlice";
-import { dragDropColumn } from "../utils/types";
 
 export const addBoard = (file: any, boardName: string) => {
   return async (dispatch: Function) => {
@@ -25,11 +24,25 @@ export const addBoard = (file: any, boardName: string) => {
   };
 };
 
+export const getBoardItem = (boardTag: string) => {
+  return async (dispatch: Function) => {
+    try {
+      const response = await getBoard(boardTag);
+      dispatch(boardAction.setBoard(response.data.data));
+      console.log(response);
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
+
 export const getBoards = () => {
   return async (dispatch: Function) => {
     try {
       const response: any = await getAllBoards();
-      dispatch(boardAction.setIsLoading(false));
 
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));

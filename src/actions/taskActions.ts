@@ -10,11 +10,13 @@ import { dragDropColumn } from "../utils/types";
 export const addTask = ({
   columnId,
   boardId,
+  boardTag,
   taskName,
   file,
 }: {
-  columnId: number;
+  columnId: string;
   boardId: number;
+  boardTag: string;
   taskName: string;
   file: any;
 }) => {
@@ -23,12 +25,19 @@ export const addTask = ({
 
     try {
       // request for create task
-      const response: any = await createTask({ columnId, taskName, file });
+      const response: any = await createTask({
+        columnId,
+        boardTag,
+        taskName,
+        file,
+      });
+      console.log(response);
       dispatch(boardAction.setIsLoading(false));
       dispatch(
         boardAction.setSuccessMsg(extractMessage(response.data.message))
       );
       const task = response.data.data;
+      console.log(task, boardId);
       dispatch(boardAction.addTask({ boardId, columnId, task }));
       toastSuccess(extractMessage(response.data.message));
     } catch (err) {
@@ -43,24 +52,23 @@ export const addTask = ({
 
 export const moveTaskWithinColumn = ({
   newColumn,
-  boardId,
+  boardTag,
+  boardRef,
   position,
-  taskId,
 }: {
   newColumn: dragDropColumn;
-  boardId: number;
+  boardTag: string;
+  boardRef: string;
   position: number;
-  taskId: number;
 }) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(
-        boardAction.moveTaskWithinBoardTaskColumn({ newColumn, boardId })
-      );
-      const response: any = await moveTask({
+      dispatch(boardAction.moveTaskWithinBoardTaskColumn({ newColumn }));
+      await moveTask({
         position,
-        taskId,
-        newColumnId: newColumn.id,
+        boardRef,
+        boardTag,
+        status: newColumn.name,
       });
     } catch (err) {
       dispatch(boardAction.setError(true));
@@ -74,31 +82,30 @@ export const moveTaskWithinColumn = ({
 export const moveTaskBetweenColumn = ({
   startColumn,
   endColumn,
-  boardId,
+  boardTag,
+  boardRef,
   position,
-  taskId,
 }: {
   startColumn: dragDropColumn;
   endColumn: dragDropColumn;
-  boardId: number;
+  boardTag: string;
   position: number;
-  taskId: number;
+  boardRef: string;
 }) => {
-  console.log(typeof boardId);
   return async (dispatch: Function) => {
     try {
       dispatch(
         boardAction.moveTaskBetweenBoardTaskColumns({
           startColumn,
           endColumn,
-          boardId,
         })
       );
 
-      const response: any = await moveTask({
+      await moveTask({
+        boardTag,
+        boardRef,
         position,
-        taskId,
-        newColumnId: endColumn.id,
+        status: endColumn.name,
       });
     } catch (err) {
       dispatch(boardAction.setError(true));

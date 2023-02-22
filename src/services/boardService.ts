@@ -25,6 +25,19 @@ export const createBoard = async (
   return await api.post(`/api/v1/thullo/boards`, fd, config);
 };
 
+export const getBoard = async (boardTag: string): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  return await api.get(`/api/v1/thullo/boards/${boardTag}`, config);
+};
+
 export const getAllBoards = async (): Promise<any> => {
   await checkToken();
 

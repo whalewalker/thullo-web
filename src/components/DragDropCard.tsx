@@ -12,7 +12,7 @@ const DragDropCard = ({
 }: {
   card: Task;
   index: number;
-  columnId: number;
+  columnId: string;
 }) => {
   const dispatchFn = useAppDispatch();
 
@@ -89,8 +89,12 @@ const DragDropCard = ({
                 );
               })}
             <div
-              className={`w-8 h-8 mt-5 flex items-center rounded-lg justify-center ${
-                card.contributors.length > 0 ? "ml-2" : "ml-0"
+              className={`w-8 h-8 ${
+                card.imageUrl ? "mt-0" : "mt-5"
+              } flex items-center rounded-lg justify-center ${
+                card.contributors && card.contributors.length > 0
+                  ? "ml-2"
+                  : "ml-0"
               } bg-color-btn  cursor-pointer`}
             >
               <BsPlusLg className="text-color-white " />

@@ -10,7 +10,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
   const dispatchFn = useDispatch();
 
   const onAddCardModalHandler = () => {
-    const columnId: number | null | any = column.id;
+    const columnId: string | null | any = column.name;
 
     console.log(typeof columnId);
 
@@ -25,7 +25,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
         {column.name}
         <BsThreeDots className="w-3 h-3 text-current ml-auto" />
       </p>
-      <StrictModeDroppable droppableId={String(column.id)}>
+      <StrictModeDroppable droppableId={column.name}>
         {(provided) => (
           <ul
             {...provided.droppableProps}
@@ -37,7 +37,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
               <DragDropCard
                 key={String(card.id)}
                 card={card}
-                columnId={column.id}
+                columnId={column.name}
                 index={i}
               />
             ))}

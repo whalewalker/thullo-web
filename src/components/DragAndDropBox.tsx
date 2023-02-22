@@ -2,20 +2,18 @@ import React from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
 import { useAppSelector, useAppDispatch } from "../hooks/customHook";
-import { Board, dragDropColumn } from "../utils/types";
+import { dragDropColumn } from "../utils/types";
 import {
   moveTaskWithinColumn,
   moveTaskBetweenColumn,
 } from "../actions/taskActions";
 
 const DragAndDropBox = () => {
-  const boardList = useAppSelector((state) => state.board.boardList);
+  const boardItem = useAppSelector((state) => state.board.boardItem);
 
-  const boardRef = useAppSelector((state) => state.board.boardTag);
+  // const boardRef = useAppSelector((state) => state.board.boardTag);
 
-  const [boardItem]: Board[] = boardList.filter(
-    (board: Board) => board.boardTag === boardRef
-  );
+  console.log(boardItem);
 
   const dispatchFn = useAppDispatch();
 
@@ -38,11 +36,11 @@ const DragAndDropBox = () => {
     // console.log(source);
 
     // Set start and end variables
-    const [start]: any = boardItem.taskColumns.filter(
-      (column: any) => String(column.id) === source.droppableId
+    const [start]: any = boardItem.taskColumn.filter(
+      (column: any) => String(column.name) === source.droppableId
     );
-    const [end]: any = boardItem.taskColumns.filter(
-      (column: any) => String(column.id) === destination.droppableId
+    const [end]: any = boardItem.taskColumn.filter(
+      (column: any) => String(column.name) === destination.droppableId
     );
 
     // console.log(start, end);
@@ -53,8 +51,6 @@ const DragAndDropBox = () => {
       //   // Start by making a new list without the dragged item
       const newTasks = start.tasks.slice();
       const [removedCard] = newTasks.splice(source.index, 1);
-
-      // console.log(removedCard);
 
       //   // Then insert the item at the right location
       newTasks.splice(destination.index, 0, removedCard);
@@ -71,9 +67,9 @@ const DragAndDropBox = () => {
       dispatchFn(
         moveTaskWithinColumn({
           newColumn: newCol,
-          boardId: boardItem.id,
+          boardTag: boardItem.boardTag,
+          boardRef: removedCard.boardRef,
           position: destination.index,
-          taskId: removedCard.id,
         })
       );
       return;
@@ -110,9 +106,9 @@ const DragAndDropBox = () => {
         moveTaskBetweenColumn({
           startColumn: newStartCol,
           endColumn: newEndCol,
-          boardId: boardItem.id,
+          boardTag: boardItem.boardTag,
           position: destination.index,
-          taskId: start.tasks[source.index].id,
+          boardRef: start.tasks[source.index].boardRef,
         })
       );
 
@@ -126,8 +122,8 @@ const DragAndDropBox = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {boardItem.taskColumns.map((column: dragDropColumn, _) => (
-        <DragDropColumn key={String(column.id)} column={column} />
+      {boardItem.taskColumn.map((column: dragDropColumn, _: any) => (
+        <DragDropColumn key={String(column.name)} column={column} />
       ))}
     </DragDropContext>
   );

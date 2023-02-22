@@ -14,8 +14,6 @@ import TaskModal from "../../components/TaskModal";
 const BoardDetail = () => {
   const dispatchFn = useAppDispatch();
 
-  const boardTag = useAppSelector((state) => state.board.boardTag);
-
   const displayAddTaskForm = useAppSelector(
     (state) => state.board.displayAddTaskForm
   );
@@ -28,14 +26,12 @@ const BoardDetail = () => {
     dispatchFn(boardAction.toggleDispayAddColumnForm());
   };
 
-  const boardList = useAppSelector((state) => state.board.boardList);
+  const boardItem: Board = useAppSelector((state) => state.board.boardItem);
+  console.log(boardItem);
+
   const displayAddColumnForm = useAppSelector(
     (state) => state.board.displayAddColumnForm
   );
-
-  const [boardItem] = boardList.filter((board: Board) => {
-    return board.boardTag === boardTag;
-  });
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -52,7 +48,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators.length > 0
+          {boardItem.collaborators && boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {
                 return isImage(userAvatar) ? (
                   <img
@@ -97,7 +93,12 @@ const BoardDetail = () => {
           </button>
         }
       </div>
-      {displayAddTaskForm && <AddAnotherCardForm boardId={boardItem.id} />}
+      {displayAddTaskForm && (
+        <AddAnotherCardForm
+          boardId={boardItem.id}
+          boardTag={boardItem.boardTag}
+        />
+      )}
       {displayAddColumnForm && <AddAnotherColumnForm />}
       {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>

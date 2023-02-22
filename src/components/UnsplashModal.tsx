@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { getUnsplashPictures } from "../utils/helperFn";
+import ReactLoading from "react-loading";
 
 const UnsplashModal = ({
   display,
@@ -13,6 +14,7 @@ const UnsplashModal = ({
 }) => {
   const [searchImageName, setSearchImageName] = useState("");
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchImageHandler = (e: { target: { value: string } }) => {
     setSearchImageName(e.target.value);
@@ -22,27 +24,33 @@ const UnsplashModal = ({
     preventDefault: Function;
   }) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     const result = await getUnsplashPictures(searchImageName);
+
+    console.log(result);
+
+    setIsLoading(false);
 
     const images = result.map(
       (item: {
         id: string;
         alt_description: string;
-        urls: { small: string };
+        urls: { raw: string };
       }) => {
-        return { id: item.id, alt: item.alt_description, url: item.urls.small };
+        return { id: item.id, alt: item.alt_description, url: item.urls.raw };
       }
     );
     setImages(images);
-    setSearchImageName("");
   };
 
   return (
     <div
-      className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[5rem] rounded-lg p-2  shadow-4xl cursor-default ${
+      className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[4.8rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
         display === "Cover"
           ? "opacity-100 visible"
-          : "delay-1000 opacity-0 invisible"
+          : "delay-300 opacity-0 invisible"
       }`}
       onMouseEnter={() => {
         setDisplay("Cover");
@@ -70,7 +78,11 @@ const UnsplashModal = ({
           type="submit"
           className="bg-color-btn text-color-white p-2 flex justify-center items-center  rounded-lg text-sm flex-1  hover: transition-all duration-300 ease-in"
         >
-          <FiSearch className="w-4 h-4 text-color-white" />
+          {isLoading ? (
+            <ReactLoading type="spin" color="#fff" width={16} height={16} />
+          ) : (
+            <FiSearch className="w-4 h-4 text-color-white" />
+          )}
         </button>
       </form>
       {images && (

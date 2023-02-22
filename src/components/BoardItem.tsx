@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
+import { getBoardItem } from "../actions/boardAction";
 
 const BoardItem = ({
   img,
@@ -22,6 +23,8 @@ const BoardItem = ({
     console.log("ref", e.target);
     const reference = e.target.dataset.board;
     console.log(reference);
+
+    await dispatchFn(getBoardItem(reference));
 
     await dispatchFn(boardAction.setBoardTag(reference));
     navigate(`/user/board/${boardName}`);
@@ -46,8 +49,9 @@ const BoardItem = ({
       </div>
 
       <p
-        className="mb-4 mt-2 font-semibold capitalize"
+        className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
         onClick={viewBoardHandler}
+        data-board={boardRef}
       >
         {boardName}
       </p>
