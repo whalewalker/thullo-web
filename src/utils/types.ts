@@ -5,7 +5,6 @@ export interface Board {
   imageUrl: string;
   collaborators: undefined | string[];
   taskColumn: {
-    id: number;
     name: string;
     tasks: [];
     createdAt: string;

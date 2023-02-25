@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import colorArray from "../utils/colorArray";
 import { MdLabel } from "react-icons/md";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
 
 interface Color {
   id: string;
   textColor: string;
   backgroundColor: string;
   blockBg: string;
+  border: string;
+}
+
+interface Label {
+  name: string;
+  backgroundCode: string;
+  colorCode: string;
 }
 
 const LabelModal = ({
@@ -16,9 +25,13 @@ const LabelModal = ({
   display: string;
   setDisplay: Function;
 }) => {
+  const dispatchFn = useAppDispatch();
+
   const [labelInput, setLabelInput] = useState("");
   const [labelColor, setLabelColor] = useState("#219653");
   const [labels, setLabels] = useState([]);
+
+  console.log(labels);
 
   const color: any = colorArray.find((item: Color) => item.id === labelColor);
 
@@ -26,17 +39,23 @@ const LabelModal = ({
     setLabelInput(e.target.value);
   };
 
+  // useEffect(() => {
+  //   const storedLabels: any = localStorage.getItem("labels");
+  //   setLabels(JSON.parse(storedLabels));
+  // }, []);
+
   const submitLabelHandler = (e: { preventDefault: Function }) => {
     e.preventDefault();
 
     const label = {
-      text: labelInput,
-      backgroundColor: color.backgroundColor,
-      textColor: color.textColor,
+      name: labelInput,
+      backgroundCode: color.backgroundColor,
+      colorCode: color.textColor,
     };
 
-    if (!label.text) return;
-    setLabels((prevState): any => [label, ...prevState]);
+    if (!label.name) return;
+    setLabels((prevState: Label[]): any => [label, ...prevState]);
+    dispatchFn(boardAction.addLabelToCard(label));
     setLabelInput("");
   };
 
@@ -72,7 +91,7 @@ const LabelModal = ({
           {colorArray.map((color: Color) => (
             <div
               key={color.id}
-              className={`cursor-pointer w-[3.125rem] h-[1.7rem] rounded  hover:border transition-all duration-100 ease-linear ${color.blockBg}`}
+              className={`cursor-pointer w-[3.125rem] h-[1.7rem] rounded  hover:border ${color.border} transition-all duration-100 ease-linear ${color.blockBg}`}
               onClick={() => {
                 setLabelColor(color.id);
               }}
@@ -96,9 +115,9 @@ const LabelModal = ({
             labels.slice(0, 3).map((label: any, i) => (
               <p
                 key={i}
-                className={`${label.backgroundColor} ${label.textColor} mr-2 mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max`}
+                className={`${label.backgroundCode} ${label.colorCode} mr-2 mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max`}
               >
-                {label.text}
+                {label.name}
               </p>
             ))}
         </div>

@@ -29,6 +29,7 @@ const DragDropCard = ({
     );
   };
 
+  console.log(card.labels);
   return (
     <Draggable draggableId={String(card.id)} index={index}>
       {(provided) => (
@@ -49,17 +50,13 @@ const DragDropCard = ({
           <small className="text-[10px] text-color-grey-3">
             {card.boardRef}
           </small>
-          <p className="text-[#000] font-normal mb-3">{card.name}</p>
+          <p className="text-[#000] font-normal mb-1">{card.name}</p>
           {card.labels && (
-            <div className="flex items-center mb-4 w-full flex-wrap">
+            <div className="flex items-center  w-full flex-wrap">
               {card.labels.map((label, i) => (
                 <p
                   key={i}
-                  className={`${
-                    "bg-" + [label.backgroundCode]
-                  } bg-[#D5E6FB] text-[#2F80ED] text-[${
-                    label.colorCode
-                  }] text-[10px] w-max px-2 py-1 mr-2 rounded-lg `}
+                  className={`${label.backgroundCode} bg-[#D5E6FB] text-[#2F80ED] mt-1 ${label.colorCode} text-[10px] w-max px-2 py-1 mr-2 rounded-lg `}
                 >
                   {label.name}
                 </p>

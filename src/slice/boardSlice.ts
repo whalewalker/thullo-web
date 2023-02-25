@@ -55,20 +55,12 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardList", JSON.stringify(list));
     },
-
     addTask(
       state: any,
       action: { payload: { boardId: number; columnId: string; task: Task } }
     ) {
       const { columnId, task } = action.payload;
 
-      console.log(current(state.boardList));
-
-      // const boardItemIndex = state.boardList.findIndex(
-      //   (board: Board) => board.id === boardId
-      // );
-
-      // const boardItem = state.boardList[boardItemIndex];
       const boardItem = state.boardItem;
       console.log(current(boardItem));
 
@@ -165,6 +157,38 @@ const boardSlice = createSlice({
       state.boardTag = action.payload;
 
       localStorage.setItem("boardTag", action.payload);
+    },
+    addLabelToCard(
+      state: any,
+      action: {
+        payload: {
+          name: string;
+          backgroundCode: string;
+          colorCode: string;
+        };
+      }
+    ) {
+      const board: Board = state.boardItem;
+
+      const columnIndex: number = board.taskColumn.findIndex(
+        (column: dragDropColumn) => column.name === state.columnId
+      );
+
+      const taskIndex: number = board.taskColumn[columnIndex].tasks.findIndex(
+        (task: Task) => task.id === state.taskId
+      );
+
+      const label =
+        state.boardItem.taskColumn[columnIndex].tasks[taskIndex].labels;
+
+      state.boardItem.taskColumn[columnIndex].tasks[taskIndex].labels = [
+        ...label,
+        action.payload,
+      ];
+
+      const item = state.boardItem;
+
+      localStorage.setItem("boardItem", JSON.stringify(item));
     },
     addCommentToTaskComments(
       state: any,
