@@ -14,6 +14,7 @@ import BoardDetail from "./pages/user/BoardDetail";
 import Profile from "./pages/user/Profile";
 import ProfileMain from "./pages/user/ProfileMain";
 import ProfileEdit from "./pages/user/ProfileEdit";
+import Oauth2RedirectHandler from "./pages/auth/Oauth2RedirectHandler";
 
 const App = () => {
   return (
@@ -39,7 +40,8 @@ const App = () => {
             <Route path="edit" element={<ProfileEdit />} />
           </Route>
         </Route>
-        <Route path="*" element={<PageNotFound />} />
+          <Route path="oauth2/redirect" element={<Oauth2RedirectHandler />} />
+          <Route path="*" element={<PageNotFound />} />
       </Routes>
       <ToastContainer limit={1} autoClose={2000} />
     </>
