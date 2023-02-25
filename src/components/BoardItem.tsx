@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
 import { getBoardItem } from "../actions/boardAction";
+import noImage from "../asset/img/no-image.jpg";
 
 const BoardItem = ({
   img,
@@ -26,7 +27,7 @@ const BoardItem = ({
 
     await dispatchFn(getBoardItem(reference));
 
-    await dispatchFn(boardAction.setBoardTag(reference));
+    dispatchFn(boardAction.setBoardTag(reference));
     navigate(`/user/board/${boardName}`);
   };
 
@@ -41,7 +42,7 @@ const BoardItem = ({
         onClick={viewBoardHandler}
       >
         <img
-          src={img}
+          src={img || noImage}
           data-board={boardRef}
           alt="board-img"
           className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
