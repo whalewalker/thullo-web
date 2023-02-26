@@ -30,7 +30,7 @@ export const createTask = async ({
   fd.append("status", columnId);
 
   return await api.post(
-    `https://thullo-backend-production.up.railway.app/api/v1/thullo/tasks/${boardTag}`,
+    `/api/v1/thullo/tasks/${boardTag}`,
     fd,
     config
   );
@@ -58,7 +58,7 @@ export const moveTask = async ({
 
   let data = { boardRef, status, position };
   return await api.put(
-    `api/v1/thullo/tasks/${boardTag}/move`,
+    `/api/v1/thullo/tasks/${boardTag}/move`,
     JSON.stringify(data),
     config
   );
@@ -92,5 +92,5 @@ export const createCommentReq = async ({
 
   const raw = JSON.stringify(data);
 
-  return await api.put(`api/v1/thullo/comments/boardRef`, raw, config);
+  return await api.put(`/api/v1/thullo/comments/boardRef`, raw, config);
 };

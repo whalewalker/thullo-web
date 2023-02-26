@@ -10,9 +10,9 @@ function MediaIcons() {
     const location: { pathname: string } = useLocation();
 
     const icons: any[] = [
-        {logo: googleLogo, name: "Google", href: GOOGLE_AUTH_URL},
-        {logo: fbLogo, name: "Facebook", href: FACEBOOK_AUTH_URL},
-        {logo: twitterLogo, name: "Twitter", href: TWITTER_AUTH_URL},
+        // {logo: googleLogo, name: "Google", href: GOOGLE_AUTH_URL},
+        // {logo: fbLogo, name: "Facebook", href: FACEBOOK_AUTH_URL},
+        // {logo: twitterLogo, name: "Twitter", href: TWITTER_AUTH_URL},
         {logo: githubLogo, name: "Github", href: GITHUB_AUTH_URL},
     ].map((logo, i) => (
         <a
