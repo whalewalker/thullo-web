@@ -135,9 +135,6 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardList", JSON.stringify(item));
     },
-    toggleDispayAddTaskForm(state: any, action: { payload: boolean }) {
-      state.displayAddTaskForm = action.payload;
-    },
     toggleDispayAddColumnForm(state: any) {
       state.displayAddColumnForm = !state.displayAddColumnForm;
     },

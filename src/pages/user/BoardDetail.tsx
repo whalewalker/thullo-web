@@ -1,10 +1,8 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 // import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import DragAndDropBox from "../../components/DragAndDropBox";
-import AddAnotherCardForm from "../../components/AddAnotherCardForm";
 import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
 import { Board } from "../../utils/types";
@@ -13,10 +11,6 @@ import TaskModal from "../../components/TaskModal";
 
 const BoardDetail = () => {
   const dispatchFn = useAppDispatch();
-
-  const displayAddTaskForm = useAppSelector(
-    (state) => state.board.displayAddTaskForm
-  );
 
   const displayTaskModal = useAppSelector(
     (state) => state.board.displayTaskModal
@@ -93,12 +87,7 @@ const BoardDetail = () => {
           </button>
         }
       </div>
-      {/* {displayAddTaskForm && (
-        <AddAnotherCardForm
-          boardId={boardItem.id}
-          boardTag={boardItem.boardTag}
-        />
-      )} */}
+
       {displayAddColumnForm && <AddAnotherColumnForm />}
       {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>
