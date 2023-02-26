@@ -6,7 +6,7 @@ import {useAppSelector} from "../hooks/customHook";
 import {extractMessage} from "../utils/helperFn";
 import noImage from "../asset/img/no-image.jpg";
 
-function ImageCache({boardRef, className} : {boardRef: string, className: string}) {
+const ImageCache = ({ boardRef, className }: { boardRef: string; className: string }) => {
     const [image, setImage] = useState("");
     const columnId = useAppSelector((state) => state.board.boardTag);
 
@@ -16,25 +16,19 @@ function ImageCache({boardRef, className} : {boardRef: string, className: string
             imageData = image;
         } else {
             const cacheKey: string | null = `cached-image-${boardRef}`;
-            const cachedImage: string | null  = localStorage.getItem(cacheKey);
+            const cachedImage: string | null = localStorage.getItem(cacheKey);
 
             if (cachedImage) {
-                imageData = cachedImage;
-                setImage(cachedImage);
-            } else {
-                try {
-                    const fileUrl = await getTaskCoverImage(columnId, boardRef);
-                    fetch(fileUrl )
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const imageUrl : string | null = URL.createObjectURL(blob);
-                            localStorage.setItem(cacheKey, imageUrl);
-                            setImage(imageUrl);
-                        })
-                } catch (err) {
-                    const errorMsg = extractMessage(err)
-                    console.log("Error occurred ==> ", errorMsg);
+                const isCachedImageValid = await checkImageValidity(cachedImage);
+
+                if (isCachedImageValid) {
+                    imageData = cachedImage;
+                    setImage(cachedImage);
+                } else {
+                    imageData = await createNewImageBlobURL(cacheKey);
                 }
+            } else {
+                imageData = await createNewImageBlobURL(cacheKey);
             }
         }
 
@@ -43,14 +37,43 @@ function ImageCache({boardRef, className} : {boardRef: string, className: string
                 URL.revokeObjectURL(imageData);
             }
         };
-    }
+    };
 
+    const checkImageValidity = async (imageUrl: string): Promise<boolean> => {
+        try {
+            const img = new Image();
+            img.src = imageUrl;
+            await new Promise<void>((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject();
+            });
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    const createNewImageBlobURL = async (cacheKey: string): Promise<string | null> => {
+        try {
+            const fileUrl = await getTaskCoverImage(columnId, boardRef);
+            const response = await fetch(fileUrl);
+            const blob = await response.blob();
+            const imageUrl: string | null = URL.createObjectURL(blob);
+            localStorage.setItem(cacheKey, imageUrl);
+            setImage(imageUrl);
+            return imageUrl;
+        } catch (err) {
+            const errorMsg = extractMessage(err);
+            console.log("Error occurred ==> ", errorMsg);
+            return null;
+        }
+    };
 
     useEffect(() => {
-        awaitTaskImage()
+        awaitTaskImage();
     }, [boardRef, columnId, image]);
 
-    return <img src={image || noImage} alt="Cached Image" className={className}/>;
-}
+    return <img src={image || noImage} alt="Cached Image" className={className} />;
+};
 
 export default ImageCache;
