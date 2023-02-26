@@ -44,7 +44,7 @@ export const registrationOption = {
     },
   },
   cardName: {
-    required: "Board name is required",
+    required: "Card name is required",
     minLength: {
       value: 5,
       message: "Name must have at least 5 characters",

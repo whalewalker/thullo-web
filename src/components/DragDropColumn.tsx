@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 import { StrictModeDroppable } from "../utils/StrictModeDroppable";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
+import AddAnotherCardForm from "./AddAnotherCardForm";
 import { Task, dragDropColumn } from "../utils/types";
 
 const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
-  const dispatchFn = useDispatch();
+  const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
 
-  const onAddCardModalHandler = () => {
+  const dispatchFn = useAppDispatch();
+
+  const boardItem = useAppSelector((state: any) => state.board.boardItem);
+
+  const onAddCardModalHandler = async () => {
     const columnId: string | null | any = column.name;
-
-    console.log(typeof columnId);
 
     dispatchFn(boardAction.setColumnId(columnId));
 
-    dispatchFn(boardAction.toggleDispayAddTaskForm(true));
+    setDisplayAddCardModal(true);
   };
 
   return (
@@ -45,13 +48,22 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
           </ul>
         )}
       </StrictModeDroppable>
-      <button
-        onClick={onAddCardModalHandler}
-        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
-      >
-        Add another card
-        <BsPlusLg className="text-current " />
-      </button>
+      {displayAddCardModal && (
+        <AddAnotherCardForm
+          boardId={boardItem.id}
+          boardTag={boardItem.boardTag}
+          removeAddCardModal={setDisplayAddCardModal}
+        />
+      )}
+      {!displayAddCardModal && (
+        <button
+          onClick={onAddCardModalHandler}
+          className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
+        >
+          Add another card
+          <BsPlusLg className="text-current " />
+        </button>
+      )}
     </div>
   );
 };

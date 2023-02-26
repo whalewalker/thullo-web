@@ -10,7 +10,6 @@ const storedBoardItem = JSON.parse(storedBoard);
 const boardSlice = createSlice({
   name: "board",
   initialState: {
-    displayAddTaskForm: false,
     displayAddColumnForm: false,
     displayTaskModal: false,
     boardTag: storedBoardTag || "",

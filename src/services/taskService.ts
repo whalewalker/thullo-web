@@ -11,12 +11,10 @@ export const createTask = async ({
   columnId,
   boardTag,
   taskName,
-  file,
 }: {
   columnId: string;
   boardTag: string;
   taskName: string;
-  file: any;
 }): Promise<any> => {
   await checkToken();
 
@@ -30,7 +28,6 @@ export const createTask = async ({
   let fd = new FormData();
   fd.append("name", taskName);
   fd.append("status", columnId);
-  file && fd.append("file", file);
 
   return await api.post(
     `https://thullo-backend-production.up.railway.app/api/v1/thullo/tasks/${boardTag}`,

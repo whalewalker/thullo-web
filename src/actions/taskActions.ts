@@ -12,13 +12,11 @@ export const addTask = ({
   boardId,
   boardTag,
   taskName,
-  file,
 }: {
   columnId: string;
   boardId: number;
   boardTag: string;
   taskName: string;
-  file: any;
 }) => {
   return async (dispatch: Function) => {
     dispatch(boardAction.setIsLoading(true));
@@ -29,7 +27,6 @@ export const addTask = ({
         columnId,
         boardTag,
         taskName,
-        file,
       });
       console.log(response);
       dispatch(boardAction.setIsLoading(false));

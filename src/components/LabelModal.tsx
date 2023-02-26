@@ -105,7 +105,7 @@ const LabelModal = ({
         <div className="my-2 flex flex-wrap">
           {labelInput.length > 0 && (
             <p
-              className={`${color.backgroundColor} ${color.textColor} mr-2  mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max max-w-full break-all`}
+              className={`${color.backgroundColor} ${color.textColor} capitalize mr-2  mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max max-w-full break-all`}
             >
               {labelInput}
             </p>
@@ -115,7 +115,7 @@ const LabelModal = ({
             labels.slice(0, 3).map((label: any, i) => (
               <p
                 key={i}
-                className={`${label.backgroundCode} ${label.colorCode} mr-2 mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max`}
+                className={`${label.backgroundCode} ${label.colorCode} capitalize mr-2 mt-1 px-2 text-xs font-medium py-1 rounded-lg w-max`}
               >
                 {label.name}
               </p>

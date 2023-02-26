@@ -93,12 +93,12 @@ const BoardDetail = () => {
           </button>
         }
       </div>
-      {displayAddTaskForm && (
+      {/* {displayAddTaskForm && (
         <AddAnotherCardForm
           boardId={boardItem.id}
           boardTag={boardItem.boardTag}
         />
-      )}
+      )} */}
       {displayAddColumnForm && <AddAnotherColumnForm />}
       {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>
