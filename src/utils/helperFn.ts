@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 
 export const extractMessage = (error: any) => {
   return (
@@ -26,3 +26,4 @@ export const toastSuccess = (msg: string) => {
     autoClose: 2000,
   });
 };
+

@@ -2,10 +2,31 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { BsPlusLg } from "react-icons/bs";
 import { Task } from "../utils/types";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
 
-const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
+const DragDropCard = ({
+  card,
+  index,
+  columnId,
+}: {
+  card: Task;
+  index: number;
+  columnId: string;
+}) => {
+  const dispatchFn = useAppDispatch();
+
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  };
+
+  const displayTaskModal = () => {
+    dispatchFn(
+      boardAction.toggleDisplayTaskModal({
+        cardId: card.id,
+        columnId: columnId,
+      })
+    );
   };
 
   return (
@@ -16,27 +37,31 @@ const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           className="bg-color-white rounded-lg  p-3 mb-4 shadow-3xl"
+          onClick={displayTaskModal}
         >
           {card.imageUrl && (
             <img
               src={card.imageUrl}
               alt={card.name}
-              className="rounded-lg mb-3 h-40 w-full object-cover"
+              className="rounded-lg mb-1 h-40 w-full object-cover"
             />
           )}
-          <p className="text-[#000] font-normal mb-3">{card.name}</p>
-          {/* {card.labels && (
-            <div className="flex items-center mb-4">
+          <small className="text-[10px] text-color-grey-3">
+            {card.boardRef}
+          </small>
+          <p className="text-[#000] font-normal mb-1">{card.name}</p>
+          {card.labels && (
+            <div className="flex items-center  w-full flex-wrap">
               {card.labels.map((label, i) => (
                 <p
                   key={i}
-                  className={`${label.bgColor} ${label.textColor} text-[10px] w-max px-2 py-1 mr-2 rounded-lg `}
+                  className={`${label.backgroundCode} bg-[#D5E6FB] text-[#2F80ED] mt-1 ${label.colorCode} text-[10px] w-max px-2 py-1 mr-2 rounded-lg `}
                 >
-                  {label.text}
+                  {label.name}
                 </p>
               ))}
             </div>
-          )} */}
+          )}
 
           <div className="flex items-center ">
             {card.contributors &&
@@ -60,8 +85,12 @@ const DragDropCard = ({ card, index }: { card: Task; index: number }) => {
                 );
               })}
             <div
-              className={`w-8 h-8 mt-5 flex items-center rounded-lg justify-center ${
-                card.contributors.length > 0 ? "ml-2" : "ml-0"
+              className={`w-8 h-8 ${
+                card.imageUrl ? "mt-0" : "mt-5"
+              } flex items-center rounded-lg justify-center ${
+                card.contributors && card.contributors.length > 0
+                  ? "ml-2"
+                  : "ml-0"
               } bg-color-btn  cursor-pointer`}
             >
               <BsPlusLg className="text-color-white " />

@@ -41,6 +41,7 @@ const DashboardMain = () => {
                 img={board.imageUrl}
                 boardName={board.name}
                 collaborators={board.collaborators}
+                boardRef={board.boardTag}
               />
             ))}
           </div>

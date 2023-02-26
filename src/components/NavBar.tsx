@@ -5,7 +5,7 @@ import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
-import profileImg from "../asset/img/profile-pic.png";
+import profileImg from "../asset/img/profile-pic.jpg";
 import { ACCESS_TOKEN } from "../utils/constants";
 import { useAppSelector } from "../hooks/customHook";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
@@ -79,7 +79,7 @@ const NavBar = () => {
         <img
           src={profileImg}
           alt={"profile-img"}
-          className="w-11 h-11 mr-1 sm:w-9 sm:h-9"
+          className="w-9 h-9 ml-4 mr-1 sm:w-9 sm:h-9 rounded-lg"
         />
         <p className="font-medium">{name}</p>
         {displayNav ? (

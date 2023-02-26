@@ -1,18 +1,18 @@
-import fbLogo from "../../asset/img/fb-logo.png";
-import githubLogo from "../../asset/img/github-logo.png";
-import googleLogo from "../../asset/img/google-logo.png";
-import twitterLogo from "../../asset/img/twitter-logo.png";
+import fbLogo from "../asset/img/fb-logo.png";
+import githubLogo from "../asset/img/github-logo.png";
+import googleLogo from "../asset/img/google-logo.png";
+import twitterLogo from "../asset/img/twitter-logo.png";
 import {useLocation} from "react-router-dom";
 import React from "react";
-import {FACEBOOK_AUTH_URL, GITHUB_AUTH_URL, GOOGLE_AUTH_URL, TWITTER_AUTH_URL} from "../constants";
+import {FACEBOOK_AUTH_URL, GITHUB_AUTH_URL, GOOGLE_AUTH_URL, TWITTER_AUTH_URL} from "../utils/constants";
 
 function MediaIcons() {
     const location: { pathname: string } = useLocation();
 
     const icons: any[] = [
-        {logo: googleLogo, name: "Google", href: GOOGLE_AUTH_URL},
-        {logo: fbLogo, name: "Facebook", href: FACEBOOK_AUTH_URL},
-        {logo: twitterLogo, name: "Twitter", href: TWITTER_AUTH_URL},
+        // {logo: googleLogo, name: "Google", href: GOOGLE_AUTH_URL},
+        // {logo: fbLogo, name: "Facebook", href: FACEBOOK_AUTH_URL},
+        // {logo: twitterLogo, name: "Twitter", href: TWITTER_AUTH_URL},
         {logo: githubLogo, name: "Github", href: GITHUB_AUTH_URL},
     ].map((logo, i) => (
         <a

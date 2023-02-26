@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profileImg from "../../asset/img/profile-pic.png";
+import profileImg from "../../asset/img/profile-pic.jpg";
 import { useAppDispatch, useAppSelector } from "../../hooks/customHook";
 import { getUserDetails } from "../../actions/userAction";
 import Spinner from "../../components/Spinner";
@@ -98,7 +98,7 @@ const ProfileMain = () => {
                     <img
                       src={profileImg}
                       alt={"profile-img"}
-                      className="w-[7rem] h-[7rem]"
+                      className="w-[7rem] h-[7rem] rounded-lg"
                     />
                   </div>
                 ) : (

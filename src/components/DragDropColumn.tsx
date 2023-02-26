@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
-import { StrictModeDroppable } from "../utils/StrictModeDroppable";
-import { useDispatch } from "react-redux";
+import { StrictModeDroppable } from "./StrictModeDroppable";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
+import AddAnotherCardForm from "./AddAnotherCardForm";
 import { Task, dragDropColumn } from "../utils/types";
 
 const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
-  const dispatchFn = useDispatch();
+  const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
 
-  const onAddCardModalHandler = () => {
-    const columnId: number | null | any = column.id;
+  const dispatchFn = useAppDispatch();
 
-    console.log(typeof columnId);
+  const boardItem = useAppSelector((state: any) => state.board.boardItem);
+
+  const onAddCardModalHandler = async () => {
+    const columnId: string | null | any = column.name;
 
     dispatchFn(boardAction.setColumnId(columnId));
 
-    dispatchFn(boardAction.toggleDispayAddTaskForm(true));
+    setDisplayAddCardModal(true);
   };
 
   return (
@@ -25,7 +28,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
         {column.name}
         <BsThreeDots className="w-3 h-3 text-current ml-auto" />
       </p>
-      <StrictModeDroppable droppableId={String(column.id)}>
+      <StrictModeDroppable droppableId={column.name}>
         {(provided) => (
           <ul
             {...provided.droppableProps}
@@ -34,19 +37,33 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
           >
             {/* list of draggables */}
             {column.tasks.map((card: Task, i: number) => (
-              <DragDropCard key={String(card.id)} card={card} index={i} />
+              <DragDropCard
+                key={String(card.id)}
+                card={card}
+                columnId={column.name}
+                index={i}
+              />
             ))}
             {provided.placeholder}
           </ul>
         )}
       </StrictModeDroppable>
-      <button
-        onClick={onAddCardModalHandler}
-        className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
-      >
-        Add another card
-        <BsPlusLg className="text-current " />
-      </button>
+      {displayAddCardModal && (
+        <AddAnotherCardForm
+          boardId={boardItem.id}
+          boardTag={boardItem.boardTag}
+          removeAddCardModal={setDisplayAddCardModal}
+        />
+      )}
+      {!displayAddCardModal && (
+        <button
+          onClick={onAddCardModalHandler}
+          className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
+        >
+          Add another card
+          <BsPlusLg className="text-current " />
+        </button>
+      )}
     </div>
   );
 };
