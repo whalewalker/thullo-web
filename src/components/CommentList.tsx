@@ -16,8 +16,6 @@ const commentLists = [
 ];
 
 const CommentList = ({ comments }: { comments: Comment[] }) => {
-  console.log(comments);
-
   return (
     <div className="mt-5">
       {commentLists.map((comment: any, i) => (

@@ -1,5 +1,5 @@
-import { api } from "../api/api";
-import { ACCESS_TOKEN } from "../utils/constants";
+import {api} from "../api/api";
+import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
 
 const checkToken = () => {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -30,7 +30,7 @@ export const createTask = async ({
   fd.append("status", columnId);
 
   return await api.post(
-    `/api/v1/thullo/tasks/${boardTag}`,
+    `/tasks/${boardTag}`,
     fd,
     config
   );
@@ -58,7 +58,7 @@ export const moveTask = async ({
 
   let data = { boardRef, status, position };
   return await api.put(
-    `/api/v1/thullo/tasks/${boardTag}/move`,
+    `/tasks/${boardTag}/move`,
     JSON.stringify(data),
     config
   );
@@ -92,5 +92,27 @@ export const createCommentReq = async ({
 
   const raw = JSON.stringify(data);
 
-  return await api.put(`/api/v1/thullo/comments/boardRef`, raw, config);
+  return await api.put(`/comments/boardRef`, raw, config);
 };
+
+export const getUnsplashPictures = async (imageName: string): Promise<any> => {
+  const {json} = await api.get(
+      `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
+  );
+  // @ts-ignore
+  const data = await json();
+  return data.results;
+};
+
+export const getTaskCoverImage = async (boardTag: string, boardRef: string): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  const data = await api.get(`/tasks/${boardTag}/${boardRef}/cover-image`, config);
+  return data.data.data.imageUrl;
+}

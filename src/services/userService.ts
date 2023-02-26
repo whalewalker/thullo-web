@@ -9,14 +9,14 @@ const checkToken = () => {
 
 export const getCurrentUser = async (): Promise<any> => {
   await checkToken();
-  return await api.get("/api/v1/thullo/users/profile", {
+  return await api.get("/users/profile", {
     headers: { Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}` },
   });
 };
 
 export const updateUserDetails = async (data: {}): Promise<any> => {
   await checkToken();
-  return await api.post("/api/v1/thullo/users/edit", data, {
+  return await api.post("/users/edit", data, {
     headers: { Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}` },
   });
 };

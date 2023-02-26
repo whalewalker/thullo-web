@@ -11,10 +11,6 @@ import {
 const DragAndDropBox = () => {
   const boardItem = useAppSelector((state) => state.board.boardItem);
 
-  // const boardRef = useAppSelector((state) => state.board.boardTag);
-
-  console.log(boardItem);
-
   const dispatchFn = useAppDispatch();
 
   function onDragEnd({ destination, source }: DropResult) {
@@ -32,9 +28,6 @@ const DragAndDropBox = () => {
       return;
     }
 
-    // console.log(boardItem.taskColumns);
-    // console.log(source);
-
     // Set start and end variables
     const [start]: any = boardItem.taskColumn.filter(
       (column: any) => String(column.name) === source.droppableId
@@ -43,7 +36,7 @@ const DragAndDropBox = () => {
       (column: any) => String(column.name) === destination.droppableId
     );
 
-    // console.log(start, end);
+    // (start, end);
 
     // If start is the same as end, we're in the same column
     if (start === end) {
@@ -117,7 +110,7 @@ const DragAndDropBox = () => {
   }
 
   function onDragStart(start: DragStart) {
-    // console.log(start);
+
   }
 
   return (

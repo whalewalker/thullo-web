@@ -22,7 +22,7 @@ export const createBoard = async (
   fd.append("boardName", boardName);
   fd.append("file", file);
 
-  return await api.post(`/api/v1/thullo/boards`, fd, config);
+  return await api.post(`/boards`, fd, config);
 };
 
 export const getBoard = async (boardTag: string): Promise<any> => {
@@ -35,7 +35,7 @@ export const getBoard = async (boardTag: string): Promise<any> => {
     },
   };
 
-  return await api.get(`/api/v1/thullo/boards/${boardTag}`, config);
+  return await api.get(`/boards/${boardTag}`, config);
 };
 
 export const getAllBoards = async (): Promise<any> => {
@@ -48,5 +48,5 @@ export const getAllBoards = async (): Promise<any> => {
     },
   };
 
-  return await api.get(`/api/v1/thullo/boards`, config);
+  return await api.get(`/boards`, config);
 };

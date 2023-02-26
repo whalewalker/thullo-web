@@ -29,7 +29,6 @@ const DragDropCard = ({
     );
   };
 
-  console.log(card.labels);
   return (
     <Draggable draggableId={String(card.id)} index={index}>
       {(provided) => (

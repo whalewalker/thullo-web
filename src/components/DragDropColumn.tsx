@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
-import { StrictModeDroppable } from "../utils/StrictModeDroppable";
+import { StrictModeDroppable } from "./StrictModeDroppable";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
 import AddAnotherCardForm from "./AddAnotherCardForm";

@@ -4,7 +4,7 @@ import {ACCESS_TOKEN} from "../../utils/constants";
 import {extractMessage, toastError} from "../../utils/helperFn";
 
 
-const Oauth2RedirectHandler = () => {
+const OauthRedirectHandler = () => {
     const location = useLocation();
 
     // @ts-ignore
@@ -23,4 +23,4 @@ const Oauth2RedirectHandler = () => {
     }, [location.search]);
     return <Navigate to="/user/profile"/>;
 };
-export default Oauth2RedirectHandler;
+export default OauthRedirectHandler;

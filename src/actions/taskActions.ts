@@ -3,16 +3,16 @@ import { extractMessage, toastError, toastSuccess } from "../utils/helperFn";
 import {
   createTask,
   moveTask,
-  createCommentReq,
+
 } from "../services/taskService";
 import { dragDropColumn } from "../utils/types";
 
 export const addTask = ({
-  columnId,
-  boardId,
-  boardTag,
-  taskName,
-}: {
+                          columnId,
+                          boardId,
+                          boardTag,
+                          taskName,
+                        }: {
   columnId: string;
   boardId: number;
   boardTag: string;
@@ -31,7 +31,7 @@ export const addTask = ({
       console.log(response);
       dispatch(boardAction.setIsLoading(false));
       dispatch(
-        boardAction.setSuccessMsg(extractMessage(response.data.message))
+          boardAction.setSuccessMsg(extractMessage(response.data.message))
       );
       const task = response.data.data;
       console.log(task, boardId);
@@ -48,11 +48,11 @@ export const addTask = ({
 };
 
 export const moveTaskWithinColumn = ({
-  newColumn,
-  boardTag,
-  boardRef,
-  position,
-}: {
+                                       newColumn,
+                                       boardTag,
+                                       boardRef,
+                                       position,
+                                     }: {
   newColumn: dragDropColumn;
   boardTag: string;
   boardRef: string;
@@ -77,12 +77,12 @@ export const moveTaskWithinColumn = ({
 };
 
 export const moveTaskBetweenColumn = ({
-  startColumn,
-  endColumn,
-  boardTag,
-  boardRef,
-  position,
-}: {
+                                        startColumn,
+                                        endColumn,
+                                        boardTag,
+                                        boardRef,
+                                        position,
+                                      }: {
   startColumn: dragDropColumn;
   endColumn: dragDropColumn;
   boardTag: string;
@@ -92,10 +92,10 @@ export const moveTaskBetweenColumn = ({
   return async (dispatch: Function) => {
     try {
       dispatch(
-        boardAction.moveTaskBetweenBoardTaskColumns({
-          startColumn,
-          endColumn,
-        })
+          boardAction.moveTaskBetweenBoardTaskColumns({
+            startColumn,
+            endColumn,
+          })
       );
 
       await moveTask({
@@ -114,13 +114,13 @@ export const moveTaskBetweenColumn = ({
 };
 
 export const createComment = ({
-  boardRef,
-  message,
-  mentionedUsers,
-  taskId,
-  user,
-  columnId,
-}: {
+                                boardRef,
+                                message,
+                                mentionedUsers,
+                                taskId,
+                                user,
+                                columnId,
+                              }: {
   boardRef: string;
   user: string;
   taskId: number;
@@ -145,13 +145,13 @@ export const createComment = ({
       // });
 
       dispatch(
-        boardAction.addCommentToTaskComments({
-          user,
-          boardRef,
-          columnId,
-          taskId,
-          comment: message,
-        })
+          boardAction.addCommentToTaskComments({
+            user,
+            boardRef,
+            columnId,
+            taskId,
+            comment: message,
+          })
       );
 
       // console.log(response);

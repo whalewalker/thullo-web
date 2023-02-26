@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { getUnsplashPictures } from "../utils/helperFn";
+import { getUnsplashPictures } from "../services/taskService";
 import ReactLoading from "react-loading";
 
 const UnsplashModal = ({
@@ -24,13 +24,8 @@ const UnsplashModal = ({
     preventDefault: Function;
   }) => {
     e.preventDefault();
-
     setIsLoading(true);
-
     const result = await getUnsplashPictures(searchImageName);
-
-    console.log(result);
-
     setIsLoading(false);
 
     const images = result.map(

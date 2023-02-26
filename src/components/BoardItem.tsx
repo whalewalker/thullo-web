@@ -21,10 +21,7 @@ const BoardItem = ({
   const viewBoardHandler: any = async (e: {
     target: { dataset: { board: string } };
   }) => {
-    console.log("ref", e.target);
     const reference = e.target.dataset.board;
-    console.log(reference);
-
     await dispatchFn(getBoardItem(reference));
 
     dispatchFn(boardAction.setBoardTag(reference));

@@ -21,7 +21,6 @@ const BoardDetail = () => {
   };
 
   const boardItem: Board = useAppSelector((state) => state.board.boardItem);
-  console.log(boardItem);
 
   const displayAddColumnForm = useAppSelector(
     (state) => state.board.displayAddColumnForm

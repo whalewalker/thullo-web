@@ -16,6 +16,7 @@ import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
 import MembersList from "./MembersList";
 import AddMemberModal from "./AddMemberModal";
+import ImageCache from "./ImageCache";
 
 interface Btns {
   title: string;
@@ -56,7 +57,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     (task: Task) => task.id === cardId
   );
 
-  const [imageUrl, setImgUrl] = useState(cardItem.imageUrl || emptyImg);
+  const [imageUrl, setImgUrl] = useState((cardItem && cardItem.imageUrl) || emptyImg);
 
   const closeTaskModalHandler: any = (e: {
     target: { dataset: { close: string } };
@@ -89,11 +90,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               htmlFor="task-image"
               className="w-full h-[10rem] cursor-pointer"
             >
-              <img
-                src={imageUrl}
-                alt={cardItem.name}
-                className="  object-cover w-full h-[10rem] relative rounded-lg"
-              />
+              <ImageCache boardRef={cardItem.boardRef} className="object-cover w-full h-[10rem] relative rounded-lg"/>
             </label>
 
             <input
