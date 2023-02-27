@@ -56,7 +56,7 @@ const ImageCache = ({ boardRef, className }: { boardRef: string; className: stri
     const createNewImageBlobURL = async (cacheKey: string): Promise<string | null> => {
         try {
             const fileUrl = await getTaskCoverImage(columnId, boardRef);
-            const response = await fetch(fileUrl);
+            const response = await fetch(fileUrl + "?asAttachment=true");
             const blob = await response.blob();
             const imageUrl: string | null = URL.createObjectURL(blob);
             localStorage.setItem(cacheKey, imageUrl);
