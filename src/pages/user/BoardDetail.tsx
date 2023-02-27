@@ -1,38 +1,30 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 // import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import DragAndDropBox from "../../components/DragAndDropBox";
-import AddAnotherCardForm from "../../components/AddAnotherCardForm";
 import AddAnotherColumnForm from "../../components/AddAnotherColumnForm";
 import { useAppSelector, useAppDispatch } from "../../hooks/customHook";
 import { Board } from "../../utils/types";
 import { boardAction } from "../../slice/boardSlice";
+import TaskModal from "../../components/TaskModal";
 
 const BoardDetail = () => {
-  const { boardId } = useParams();
-
   const dispatchFn = useAppDispatch();
 
-  const displayAddTaskForm = useAppSelector(
-    (state) => state.board.displayAddTaskForm
+  const displayTaskModal = useAppSelector(
+    (state) => state.board.displayTaskModal
   );
 
   const toggleNewColumnModal = () => {
     dispatchFn(boardAction.toggleDispayAddColumnForm());
   };
 
-  const boardList = useAppSelector((state) => state.board.boardList);
+  const boardItem: Board = useAppSelector((state) => state.board.boardItem);
+
   const displayAddColumnForm = useAppSelector(
     (state) => state.board.displayAddColumnForm
   );
-
-  const [boardItem] = boardList.filter(
-    (board: Board) => board.name === boardId
-  );
-
-  console.log(boardItem);
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -49,7 +41,7 @@ const BoardDetail = () => {
         </p> */}
 
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
-          {boardItem.collaborators.length > 0
+          {boardItem.collaborators && boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {
                 return isImage(userAvatar) ? (
                   <img
@@ -71,9 +63,7 @@ const BoardDetail = () => {
               })
             : ""}
           <div
-            className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn ${
-              boardItem.collaborators.length > 0 ? "ml-2" : ""
-            } cursor-pointer`}
+            className={`w-8 h-8 flex items-center rounded-lg justify-center bg-color-btn cursor-pointer`}
           >
             <BsPlusLg className="text-color-white " />
           </div>
@@ -96,8 +86,9 @@ const BoardDetail = () => {
           </button>
         }
       </div>
-      {displayAddTaskForm && <AddAnotherCardForm boardId={boardItem.id} />}
+
       {displayAddColumnForm && <AddAnotherColumnForm />}
+      {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>
   );
 };

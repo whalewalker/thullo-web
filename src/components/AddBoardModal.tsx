@@ -53,30 +53,10 @@ const AddBoardModal = (props: { closeModal: any }) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!file) {
       setCheckFile(true);
-      console.log("empty image");
       return;
     }
     await dispatchFn(addBoard(file, data.boardName));
     props.closeModal();
-
-    // let formData = {
-    //   img: "",
-    //   boardName: "",
-    //   collaborators: [collabs],
-    //   privateState: privateBoard,
-    // };
-    // if (boardData && boardData.data) {
-    //   formData = {
-    //     img: boardData.data.imageUrl,
-    //     boardName: boardData.data.name,
-    //     collaborators: [collabs],
-    //     privateState: privateBoard,
-    //   };
-    // }
-    // if (isLoading) {
-    //   await props.addBoard(formData);
-    //   props.closeModal();
-    // }
   };
 
   return (

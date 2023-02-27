@@ -1,17 +1,32 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
+import { getBoardItem } from "../actions/boardAction";
+import noImage from "../asset/img/no-image.jpg";
 
 const BoardItem = ({
   img,
   boardName,
   collaborators,
+  boardRef,
 }: {
   img: string;
   boardName: string;
   collaborators: string[] | undefined;
+  boardRef: string;
 }) => {
+  const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
-  const viewBoardHandler = () => navigate(`/user/board/${boardName}`);
+  const viewBoardHandler: any = async (e: {
+    target: { dataset: { board: string } };
+  }) => {
+    const reference = e.target.dataset.board;
+    await dispatchFn(getBoardItem(reference));
+
+    dispatchFn(boardAction.setBoardTag(reference));
+    navigate(`/user/board/${boardName}`);
+  };
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -24,15 +39,17 @@ const BoardItem = ({
         onClick={viewBoardHandler}
       >
         <img
-          src={img}
+          src={img || noImage}
+          data-board={boardRef}
           alt="board-img"
           className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
         />
       </div>
 
       <p
-        className="mb-4 mt-2 font-semibold capitalize"
+        className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
         onClick={viewBoardHandler}
+        data-board={boardRef}
       >
         {boardName}
       </p>
