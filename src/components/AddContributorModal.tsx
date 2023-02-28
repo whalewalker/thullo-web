@@ -1,21 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactLoading from "react-loading";
-import { FiSearch } from "react-icons/fi";
+import { searchUser } from "../actions/taskActions";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
+import SearchedUser from "./SearchedUser";
 
-const AddMemberModal = ({
-  display,
-  setDisplay,
+const AddContributorModal = ({
   addMemberModalDisplay,
   setMemberModalDisplay,
 }: {
-  display: string;
-  setDisplay: Function;
   addMemberModalDisplay: boolean;
   setMemberModalDisplay: Function;
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [searchMemberName, setSearchMemberName] = useState("");
-  const [displayedMembers, setDisplayedMembers] = useState([]);
+
+  const dispatchFn = useAppDispatch();
+
+  const userEmail: string = useAppSelector(
+    (state) => state.user.currentUserData
+  ).data.email;
+
+  const searchedList = useAppSelector(
+    (state) => state.board.searchedContributorsList
+  ).filter((user: any) => user.email !== userEmail);
+
+  useEffect(() => {
+    let timeOut: any;
+    timeOut = setTimeout(() => {
+      dispatchFn(searchUser(searchMemberName));
+    }, 500);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [searchMemberName, dispatchFn]);
 
   const searchMemberHandler = (e: { target: { value: string } }) => {
     setSearchMemberName(e.target.value);
@@ -28,16 +46,14 @@ const AddMemberModal = ({
   return (
     <div
       className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[20rem] -right-[4rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
-        display === "Members" && addMemberModalDisplay
+        addMemberModalDisplay
           ? "opacity-100 visible"
           : "delay-300 opacity-0 invisible"
       }`}
       onMouseEnter={() => {
-        setDisplay("Members");
         setMemberModalDisplay(true);
       }}
       onMouseLeave={() => {
-        setDisplay("");
         setMemberModalDisplay(false);
       }}
     >
@@ -57,28 +73,26 @@ const AddMemberModal = ({
             value={searchMemberName}
             onChange={searchMemberHandler}
           />
-          <button
-            type="submit"
-            className="bg-color-btn text-color-white p-2 flex justify-center items-center  rounded-lg text-sm flex-1  hover: transition-all duration-300 ease-in"
-          >
-            {isLoading ? (
-              <ReactLoading type="spin" color="#fff" width={16} height={16} />
-            ) : (
-              <FiSearch className="w-4 h-4 text-color-white" />
-            )}
-          </button>
         </div>
-        {displayedMembers && displayedMembers.length > 0 && (
-          <button
-            type="button"
-            className=" self-center py-1.5 px-4 text-xs mt-2 bg-color-btn text-center font-medium text-color-white rounded-lg"
-          >
-            invite
-          </button>
+
+        {searchedList && searchedList.length > 0 && (
+          <>
+            <div className="mt-4 max-h-[7rem] overflow-y-auto scroll">
+              {searchedList.map((user: any, i: number) => {
+                return <SearchedUser user={user} key={i} />;
+              })}
+            </div>
+            <button
+              type="button"
+              className=" self-center py-1.5 px-4 text-xs mt-2 bg-color-btn text-center font-medium text-color-white rounded-lg"
+            >
+              invite
+            </button>
+          </>
         )}
       </form>
     </div>
   );
 };
 
-export default AddMemberModal;
+export default AddContributorModal;

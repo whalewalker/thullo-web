@@ -15,6 +15,7 @@ const boardSlice = createSlice({
     boardTag: storedBoardTag || "",
     taskId: undefined,
     columnId: null,
+    searchedContributorsList: [],
     boardItem: storedBoardItem || undefined,
     isLoading: false,
     successMsg: "",
@@ -75,7 +76,10 @@ const boardSlice = createSlice({
       // localStorage.setItem("boardList", JSON.stringify(list));
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    moveTaskWithinBoardTaskColumn(state: any, action: { payload: { newColumn: dragDropColumn } }) {
+    moveTaskWithinBoardTaskColumn(
+      state: any,
+      action: { payload: { newColumn: dragDropColumn } }
+    ) {
       const { newColumn } = action.payload;
       // process
 
@@ -92,7 +96,12 @@ const boardSlice = createSlice({
       const item = state.boardItem;
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    moveTaskBetweenBoardTaskColumns(state: any, action: { payload: {startColumn: dragDropColumn; endColumn: dragDropColumn; }; }) {
+    moveTaskBetweenBoardTaskColumns(
+      state: any,
+      action: {
+        payload: { startColumn: dragDropColumn; endColumn: dragDropColumn };
+      }
+    ) {
       const { startColumn, endColumn } = action.payload;
       // process
 
@@ -166,6 +175,9 @@ const boardSlice = createSlice({
       const item = state.boardItem;
 
       localStorage.setItem("boardItem", JSON.stringify(item));
+    },
+    displaySearchedContributors(state: any, action: { payload: [] }) {
+      state.searchedContributorsList = action.payload;
     },
     addCommentToTaskComments(
       state: any,

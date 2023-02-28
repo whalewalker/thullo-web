@@ -1,5 +1,5 @@
 // noinspection JSIgnoredPromiseFromCall
-
+import React from "react";
 import {useEffect, useState} from "react";
 import {getTaskCoverImage} from "../services/taskService";
 import {useAppSelector} from "../hooks/customHook";

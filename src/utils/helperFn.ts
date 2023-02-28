@@ -1,4 +1,4 @@
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 export const extractMessage = (error: any) => {
   return (
@@ -27,3 +27,6 @@ export const toastSuccess = (msg: string) => {
   });
 };
 
+export const isImage = (url: string) => {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+};

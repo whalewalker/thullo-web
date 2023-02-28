@@ -4,6 +4,7 @@ import { BsPlusLg } from "react-icons/bs";
 import { Task } from "../utils/types";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
+import { isImage } from "../utils/helperFn";
 
 const DragDropCard = ({
   card,
@@ -15,10 +16,6 @@ const DragDropCard = ({
   columnId: string;
 }) => {
   const dispatchFn = useAppDispatch();
-
-  const isImage = (url: string) => {
-    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-  };
 
   const displayTaskModal = () => {
     dispatchFn(
@@ -55,7 +52,7 @@ const DragDropCard = ({
               {card.labels.map((label, i) => (
                 <p
                   key={i}
-                  className={`${label.backgroundCode} bg-[#D5E6FB] text-[#2F80ED] mt-1 ${label.colorCode} text-[10px] w-max px-2 py-1 mr-2 rounded-lg `}
+                  className={`${label.backgroundCode} capitalize bg-[#D5E6FB] text-[#2F80ED] mt-1.5 ${label.colorCode} text-[10px] w-max px-2 py-1 mr-2 rounded `}
                 >
                   {label.name}
                 </p>
@@ -86,7 +83,7 @@ const DragDropCard = ({
               })}
             <div
               className={`w-8 h-8 ${
-                card.imageUrl ? "mt-0" : "mt-5"
+                card.imageUrl ? "mt-1.5" : "mt-5"
               } flex items-center rounded-lg justify-center ${
                 card.contributors && card.contributors.length > 0
                   ? "ml-2"

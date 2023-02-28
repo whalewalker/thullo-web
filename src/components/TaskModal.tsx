@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { dragDropColumn, Task } from "../utils/types";
 import emptyImg from "../asset/img/no-image.jpg";
 import { RxCross2 } from "react-icons/rx";
-import { FaUserCircle, FaUserFriends } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { MdLabel } from "react-icons/md";
 import { AiFillPicture } from "react-icons/ai";
 import DescriptionEditor from "./DescriptionEditor";
@@ -14,8 +14,8 @@ import CommentList from "./CommentList";
 import { fileHandler } from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
-import MembersList from "./MembersList";
-import AddMemberModal from "./AddMemberModal";
+import ContributorsList from "./ContributorsList";
+import AddContributorModal from "./AddContributorModal";
 import ImageCache from "./ImageCache";
 
 interface Btns {
@@ -33,10 +33,6 @@ const actionBtns: Btns[] = [
     title: "Labels",
 
     icon: <MdLabel className="text-current w-2.5 h-2.5 mr-3" />,
-  },
-  {
-    title: "Members",
-    icon: <FaUserFriends className="text-current w-2.5 h-2.5 mr-3" />,
   },
 ];
 
@@ -57,7 +53,9 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     (task: Task) => task.id === cardId
   );
 
-  const [imageUrl, setImgUrl] = useState((cardItem && cardItem.imageUrl) || emptyImg);
+  const [imageUrl, setImgUrl] = useState(
+    (cardItem && cardItem.imageUrl) || emptyImg
+  );
 
   const closeTaskModalHandler: any = (e: {
     target: { dataset: { close: string } };
@@ -90,7 +88,10 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               htmlFor="task-image"
               className="w-full h-[10rem] cursor-pointer"
             >
-              <ImageCache boardRef={cardItem.boardRef} className="object-cover w-full h-[10rem] relative rounded-lg"/>
+              <ImageCache
+                boardRef={cardItem.boardRef}
+                className="object-cover w-full h-[10rem] relative rounded-lg"
+              />
             </label>
 
             <input
@@ -159,10 +160,11 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                   {btn.title}
                 </button>
               ))}
-              <MembersList
-                display={displayModal}
-                setDisplay={setDisplayModal}
+              <ContributorsList
                 setMemberModalDisplay={setAddMemberModal}
+                boardTag={boardItem.boardTag}
+                boardRef={cardItem.boardRef}
+                contributors={cardItem.contributors}
               />
             </div>
           </div>
@@ -173,9 +175,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
           setDisplay={setDisplayModal}
         />
         <LabelModal display={displayModal} setDisplay={setDisplayModal} />
-        <AddMemberModal
-          display={displayModal}
-          setDisplay={setDisplayModal}
+        <AddContributorModal
           addMemberModalDisplay={addMemberModal}
           setMemberModalDisplay={setAddMemberModal}
         />

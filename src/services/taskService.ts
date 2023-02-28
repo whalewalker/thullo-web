@@ -1,5 +1,5 @@
-import {api} from "../api/api";
-import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
+import { api } from "../api/api";
+import { ACCESS_TOKEN, UNSPLASH_ACCESS_KEY } from "../utils/constants";
 
 const checkToken = () => {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -29,11 +29,7 @@ export const createTask = async ({
   fd.append("name", taskName);
   fd.append("status", columnId);
 
-  return await api.post(
-    `/tasks/${boardTag}`,
-    fd,
-    config
-  );
+  return await api.post(`/tasks/${boardTag}`, fd, config);
 };
 
 export const moveTask = async ({
@@ -57,11 +53,7 @@ export const moveTask = async ({
   };
 
   let data = { boardRef, status, position };
-  return await api.put(
-    `/tasks/${boardTag}/move`,
-    JSON.stringify(data),
-    config
-  );
+  return await api.put(`/tasks/${boardTag}/move`, JSON.stringify(data), config);
 };
 
 export const createCommentReq = async ({
@@ -96,15 +88,18 @@ export const createCommentReq = async ({
 };
 
 export const getUnsplashPictures = async (imageName: string): Promise<any> => {
-  const {json} = await api.get(
-      `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
+  const { json }: any = await api.get(
+    `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
   // @ts-ignore
   const data = await json();
   return data.results;
 };
 
-export const getTaskCoverImage = async (boardTag: string, boardRef: string): Promise<any> => {
+export const getTaskCoverImage = async (
+  boardTag: string,
+  boardRef: string
+): Promise<any> => {
   await checkToken();
 
   const config = {
@@ -113,6 +108,46 @@ export const getTaskCoverImage = async (boardTag: string, boardRef: string): Pro
     },
   };
 
-  const data = await api.get(`/tasks/${boardTag}/${boardRef}/cover-image`, config);
+  const data = await api.get(
+    `/tasks/${boardTag}/${boardRef}/cover-image`,
+    config
+  );
   return data.data.data.imageUrl;
-}
+};
+
+export const getContributors = async ({
+  boardTag,
+  boardRef,
+}: {
+  boardTag: string;
+  boardRef: string;
+}): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  const data = await api.get(
+    `/tasks/${boardTag}/${boardRef}/contributors`,
+    config
+  );
+
+  return data.data.data;
+};
+
+export const searchForUser = async (name: string): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  const data = await api.get(`users/search?params=${name}`, config);
+
+  return data.data.data;
+};
