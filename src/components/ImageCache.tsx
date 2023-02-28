@@ -73,7 +73,7 @@ const ImageCache = ({ boardRef, className }: { boardRef: string; className: stri
         awaitTaskImage();
     }, [boardRef, columnId, image]);
 
-    return <img src={image || noImage} alt="Cached Image" className={className} />;
+    return <img src={image ? image : noImage} alt="Cached Image" className={className}/>;
 };
 
 export default ImageCache;
