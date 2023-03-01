@@ -1,17 +1,17 @@
-import React, { ReactElement, useState } from "react";
-import { boardAction } from "../slice/boardSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/customHook";
-import { dragDropColumn, Task } from "../utils/types";
+import React, {ReactElement, useState} from "react";
+import {boardAction} from "../slice/boardSlice";
+import {useAppDispatch, useAppSelector} from "../hooks/customHook";
+import {dragDropColumn, Task} from "../utils/types";
 import emptyImg from "../asset/img/no-image.jpg";
-import { RxCross2 } from "react-icons/rx";
-import { FaUserCircle, FaUserFriends } from "react-icons/fa";
-import { MdLabel } from "react-icons/md";
-import { AiFillPicture } from "react-icons/ai";
+import {RxCross2} from "react-icons/rx";
+import {FaUserCircle, FaUserFriends} from "react-icons/fa";
+import {MdLabel} from "react-icons/md";
+import {AiFillPicture} from "react-icons/ai";
 import DescriptionEditor from "./DescriptionEditor";
 import Attachments from "./Attachments";
 import CommentBox from "./CommentBox";
 import CommentList from "./CommentList";
-import { fileHandler } from "../utils/helperFn";
+import {fileHandler} from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
 import MembersList from "./MembersList";
@@ -123,13 +123,13 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 <span className="text-[#BDBDBD] ">In list: </span>
                 {columnItem.name}
               </p>
-              <DescriptionEditor />
-              <Attachments />
-              <CommentBox
-                taskId={cardItem.id}
-                boardRef={cardItem.boardRef}
-                columnId={columnItem.id}
-              />
+              <DescriptionEditor/>
+                <Attachments boardTag={boardItem.boardTag} boardRef={cardItem.boardRef}/>
+                <CommentBox
+                    taskId={cardItem.id}
+                    boardRef={cardItem.boardRef}
+                    columnId={columnItem.id}
+                />
               <CommentList comments={cardItem.comments} />
             </div>
             <div className="w-[25%] relative">

@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Board, dragDropColumn, Task } from "../utils/types";
+import {createSlice} from "@reduxjs/toolkit";
+import {Board, dragDropColumn, Task} from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
@@ -10,17 +10,17 @@ const storedBoardItem = JSON.parse(storedBoard);
 const boardSlice = createSlice({
   name: "board",
   initialState: {
-    displayAddColumnForm: false,
-    displayTaskModal: false,
-    boardTag: storedBoardTag || "",
-    taskId: undefined,
-    columnId: null,
-    boardItem: storedBoardItem || undefined,
-    isLoading: false,
-    successMsg: "",
-    errorMsg: "",
-    error: false,
-    boardList: storedList || [],
+      displayAddColumnForm: false,
+      displayTaskModal: false,
+      boardTag: storedBoardTag || "",
+      taskId: undefined,
+      columnId: null,
+      boardItem: storedBoardItem || undefined,
+      isLoading: false,
+      successMsg: "",
+      errorMsg: "",
+      error: false,
+      boardList: storedList || [],
   },
   reducers: {
     setIsLoading(state: any, action: { payload: boolean }) {
