@@ -2,7 +2,6 @@ import {boardAction} from "../slice/boardSlice";
 import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
 import {createAttachment, createTask, deleteAttachment, moveTask,} from "../services/taskService";
 import {dragDropColumn} from "../utils/types";
-import {downloadFile} from "../services/fileService";
 
 export const addTask = ({
                             columnId,
@@ -162,7 +161,7 @@ export const createComment = ({
     };
 };
 
-export const addAttachment = (boardRef: string, boardTag: string, columnId: string, file: string) =>
+export const addAttachment = (boardRef: string, boardTag: string, columnId: string | null, file: string) =>
     async (dispatch: Function) => {
         try {
             const response = await createAttachment(boardTag, boardRef, file);
@@ -188,7 +187,7 @@ export const addAttachment = (boardRef: string, boardTag: string, columnId: stri
 export const removeAttachment = (
     boardRef: string,
     boardTag: string,
-    columnId: string,
+    columnId: string | null,
     attachmentId: number,
     callback: Function
 ) => async (dispatch: Function) => {
@@ -218,16 +217,3 @@ export const removeAttachment = (
         dispatch(boardAction.setErrorMsg(errorMsg));
     }
 };
-
-
-export const downloadAttachment = (fileUrl: string | null) =>
-    async (dispatch: Function) => {
-        try {
-            await downloadFile(fileUrl);
-        } catch (err) {
-            dispatch(boardAction.setError(true));
-            const errorMsg = extractMessage(err);
-            toastError(extractMessage(errorMsg));
-            dispatch(boardAction.setErrorMsg(errorMsg));
-        }
-    };

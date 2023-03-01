@@ -14,7 +14,7 @@ interface DownloadButtonProps {
 interface AttachmentItemProps {
     boardRef: string,
     boardTag: string,
-    columnId: string
+    columnId: string | null
     attachment: { fileName: string; fileUrl: string; createdAt: string, id: number };
     setAttachments: Function
 }
