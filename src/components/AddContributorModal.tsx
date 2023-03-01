@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
-import ReactLoading from "react-loading";
 import { searchUser } from "../actions/taskActions";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import SearchedUser from "./SearchedUser";
+import { User } from "../utils/types";
+import { RxCross2 } from "react-icons/rx";
+import { boardAction } from "../slice/boardSlice";
+import { addContributorToTask } from "../actions/taskActions";
 
 const AddContributorModal = ({
+  boardTag,
+  boardRef,
   addMemberModalDisplay,
   setMemberModalDisplay,
 }: {
+  boardTag: string;
+  boardRef: string;
   addMemberModalDisplay: boolean;
   setMemberModalDisplay: Function;
 }) => {
-  // const [isLoading, setIsLoading] = useState(false);
   const [searchMemberName, setSearchMemberName] = useState("");
+
+  const choosenContributors = useAppSelector(
+    (state) => state.board.choosenContributorList
+  );
 
   const dispatchFn = useAppDispatch();
 
@@ -41,6 +51,10 @@ const AddContributorModal = ({
 
   const onSubmitMemberNameHandler = (e: { preventDefault: Function }) => {
     e.preventDefault();
+
+    dispatchFn(
+      addContributorToTask({ boardTag, boardRef, choosenContributors })
+    );
   };
 
   return (
@@ -76,19 +90,39 @@ const AddContributorModal = ({
         </div>
 
         {searchedList && searchedList.length > 0 && (
-          <>
-            <div className="mt-4 max-h-[7rem] overflow-y-auto scroll">
-              {searchedList.map((user: any, i: number) => {
-                return <SearchedUser user={user} key={i} />;
-              })}
-            </div>
-            <button
-              type="button"
-              className=" self-center py-1.5 px-4 text-xs mt-2 bg-color-btn text-center font-medium text-color-white rounded-lg"
-            >
-              invite
-            </button>
-          </>
+          <div className="mt-4 max-h-[7rem] overflow-y-auto scroll">
+            {searchedList.map((user: any, i: number) => {
+              return <SearchedUser user={user} key={i} />;
+            })}
+          </div>
+        )}
+        {choosenContributors && choosenContributors.length > 0 && (
+          <div className="w-full overflow-x-scroll flex overflow-y-hidden py-1.5 mt-3 flex-nowrap">
+            {choosenContributors.map((contributor: User, i: number) => (
+              <p
+                key={i}
+                className=" text-sm whitespace-nowrap flex justify-between items-center p-1 bg-color-grey-1 text-color-black rounded mr-2 "
+              >
+                {contributor.name}
+                <RxCross2
+                  className="w-4 h-4 text-color-black ml-2 cursor-pointer "
+                  onClick={() => {
+                    dispatchFn(
+                      boardAction.removeSearchedContributor(contributor)
+                    );
+                  }}
+                />
+              </p>
+            ))}
+          </div>
+        )}
+        {choosenContributors && choosenContributors.length > 0 && (
+          <button
+            type="submit"
+            className=" self-center py-1.5 px-4 text-xs mt-2 bg-color-btn text-center font-medium text-color-white rounded-lg"
+          >
+            invite
+          </button>
         )}
       </form>
     </div>

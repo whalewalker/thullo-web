@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Board, dragDropColumn, Task } from "../utils/types";
+import { Board, dragDropColumn, Task, User } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
@@ -16,6 +16,7 @@ const boardSlice = createSlice({
     taskId: undefined,
     columnId: null,
     searchedContributorsList: [],
+    choosenContributorList: [],
     boardItem: storedBoardItem || undefined,
     isLoading: false,
     successMsg: "",
@@ -179,6 +180,34 @@ const boardSlice = createSlice({
     displaySearchedContributors(state: any, action: { payload: [] }) {
       state.searchedContributorsList = action.payload;
     },
+    addSearchedContributor(state: any, action: { payload: User }) {
+      const user = action.payload;
+      const contributor = state.choosenContributorList.find(
+        (contributor: User) => contributor.id === user.id
+      );
+
+      if (contributor) {
+        return;
+      }
+      state.choosenContributorList.push(user);
+    },
+    removeSearchedContributor(state: any, action: { payload: User }) {
+      const user = action.payload;
+
+      state.choosenContributorList = state.choosenContributorList.filter(
+        (contributor: User) => contributor.id !== user.id
+      );
+    },
+    addContributor(state: any, action: { payload: {} }) {
+      const columnIndex = state.boardItem.taskColumn.findIndex(
+        (column: dragDropColumn) => column.name === state.columnId
+      );
+
+      const taskIndex = state.boardItem.taskColumn[columnIndex].tasks.findIndex(
+        (task: any) => task.id === state.taskId
+      );
+    },
+
     addCommentToTaskComments(
       state: any,
       action: {

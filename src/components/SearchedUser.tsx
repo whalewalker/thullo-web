@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { isImage } from "../utils/helperFn";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
 
 const SearchedUser = ({ user }: any) => {
-  const [selectedUser, setSelectedUser] = useState(false);
+  const dispatchFn = useAppDispatch();
 
-  const toggleSelectedUserHandler = () => {
-    setSelectedUser((prevState) => !prevState);
+  const selectUserHandler = () => {
+    dispatchFn(boardAction.addSearchedContributor(user));
   };
 
   return (
     <div
-      className={`flex items-center mb-2 p-1 ${
-        selectedUser ? "rounded-lg bg-color-grey-1" : ""
-      } cursor-pointer`}
-      onClick={toggleSelectedUserHandler}
+      className={`flex items-center mb-2 p-1 cursor-pointer bg-color-grey-1 hover:bg-color-grey-2 transition-all duration-100 ease-linear`}
+      onClick={selectUserHandler}
     >
       {isImage(user.imageUrl) ? (
         <img

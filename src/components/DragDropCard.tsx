@@ -61,7 +61,7 @@ const DragDropCard = ({
           )}
 
           <div className="flex items-center ">
-            {card.contributors &&
+            {/* {card.contributors &&
               card.contributors.map((userAvatar: any, i) => {
                 return isImage(userAvatar) ? (
                   <img
@@ -80,7 +80,7 @@ const DragDropCard = ({
                     {userAvatar.slice(0, 2).toUpperCase()}
                   </p>
                 );
-              })}
+              })} */}
             <div
               className={`w-8 h-8 ${
                 card.imageUrl ? "mt-1.5" : "mt-5"

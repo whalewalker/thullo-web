@@ -176,6 +176,8 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
         />
         <LabelModal display={displayModal} setDisplay={setDisplayModal} />
         <AddContributorModal
+          boardTag={boardItem.boardTag}
+          boardRef={cardItem.boardRef}
           addMemberModalDisplay={addMemberModal}
           setMemberModalDisplay={setAddMemberModal}
         />

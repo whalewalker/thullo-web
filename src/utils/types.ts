@@ -55,6 +55,17 @@ export interface Task {
   }[];
 }
 
+export interface User {
+  bio: null | string;
+  createdAt: string;
+  email: string;
+  id: number;
+  imageUrl: null | string;
+  name: string;
+  phoneNumber: null | number | string;
+  updatedAt: string;
+}
+
 export interface Comment {
   id: number;
   message: string;

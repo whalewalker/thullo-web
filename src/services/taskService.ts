@@ -151,3 +151,31 @@ export const searchForUser = async (name: string): Promise<any> => {
 
   return data.data.data;
 };
+
+export const addContributor = async ({
+  boardTag,
+  boardRef,
+  collaborators,
+}: {
+  boardTag: string;
+  boardRef: string;
+  collaborators: string[];
+}): Promise<any> => {
+  await checkToken();
+
+  const raw = JSON.stringify(collaborators);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  const data = await api.put(
+    `/tasks/${boardTag}/${boardRef}/contributors`,
+    raw,
+    config
+  );
+
+  return data;
+};

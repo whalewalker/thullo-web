@@ -5,8 +5,9 @@ import {
   moveTask,
   getContributors,
   searchForUser,
+  addContributor,
 } from "../services/taskService";
-import { dragDropColumn } from "../utils/types";
+import { dragDropColumn, User } from "../utils/types";
 
 export const addTask = ({
   columnId,
@@ -146,6 +147,35 @@ export const searchUser = (name: string) => {
       }
     } catch (err) {
       dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
+
+export const addContributorToTask = ({
+  boardTag,
+  boardRef,
+  choosenContributors,
+}: {
+  boardTag: string;
+  boardRef: string;
+  choosenContributors: User[];
+}) => {
+  return async (dispatch: Function) => {
+    const collaborators = choosenContributors.map((collab) => collab.email);
+
+    try {
+      const response = await addContributor({
+        boardTag,
+        boardRef,
+        collaborators,
+      });
+      console.log(response);
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      console.log(err);
       const errorMsg = extractMessage(err);
       toastError(extractMessage(errorMsg));
       dispatch(boardAction.setErrorMsg(errorMsg));
