@@ -20,7 +20,9 @@ const BoardDetail = () => {
     dispatchFn(boardAction.toggleDispayAddColumnForm());
   };
 
-  const boardItem: Board = useAppSelector((state) => state.board.boardItem);
+  const boardItem = useAppSelector((state) => state.board.boardItem);
+
+  console.log(boardItem);
 
   const displayAddColumnForm = useAppSelector(
     (state) => state.board.displayAddColumnForm
@@ -75,7 +77,7 @@ const BoardDetail = () => {
         </p>
       </div>
       <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll ">
-        <DragAndDropBox />
+        <DragAndDropBox boardItem={boardItem} />
         {
           <button
             className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"
@@ -88,7 +90,7 @@ const BoardDetail = () => {
       </div>
 
       {displayAddColumnForm && <AddAnotherColumnForm />}
-      {displayTaskModal && <TaskModal boardId={boardItem.id} />}
+      {displayTaskModal && <TaskModal boardItem={boardItem} />}
     </section>
   );
 };

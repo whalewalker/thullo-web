@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { Board, dragDropColumn, Task, User } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
@@ -44,9 +44,12 @@ const boardSlice = createSlice({
     setColumnId(state: any, action: { payload: string | undefined }) {
       state.columnId = action.payload;
     },
-    setBoard(state: any, action: { payload: Board }) {
+    setBoard(state: any, action: { payload: Board | undefined }) {
       state.boardItem = action.payload;
-      localStorage.setItem("boardItem", JSON.stringify(action.payload));
+      const storedItem: any = action.payload
+        ? JSON.stringify(action.payload)
+        : undefined;
+      localStorage.setItem("boardItem", storedItem);
     },
     addBoardToBoardList(state: any, action: any) {
       // adding board to board list
@@ -54,6 +57,7 @@ const boardSlice = createSlice({
       state.boardList = list;
 
       localStorage.setItem("boardList", JSON.stringify(list));
+      localStorage.setItem("boardItem", JSON.stringify(action.payload));
     },
     addTask(
       state: any,
@@ -61,20 +65,23 @@ const boardSlice = createSlice({
     ) {
       const { columnId, task } = action.payload;
       const boardItem = state.boardItem;
+      console.log("here", current(boardItem));
       const boardColumnIndex = boardItem.taskColumn.findIndex(
         (column: dragDropColumn) => column.name === columnId
       );
 
       const boardColumn = state.boardItem.taskColumn[boardColumnIndex];
 
+      console.log(current(boardColumn));
+
       state.boardItem.taskColumn[boardColumnIndex].tasks = [
         ...boardColumn.tasks,
         task,
       ];
+      console.log(current(state.boardItem));
 
       const item = state.boardItem;
 
-      // localStorage.setItem("boardList", JSON.stringify(list));
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
     moveTaskWithinBoardTaskColumn(
@@ -191,6 +198,9 @@ const boardSlice = createSlice({
       }
       state.choosenContributorList.push(user);
     },
+    emptyChoosenContributorList(state: any) {
+      state.choosenContributorList = [];
+    },
     removeSearchedContributor(state: any, action: { payload: User }) {
       const user = action.payload;
 
@@ -198,7 +208,18 @@ const boardSlice = createSlice({
         (contributor: User) => contributor.id !== user.id
       );
     },
-    addContributor(state: any, action: { payload: {} }) {
+    addContributor(
+      state: any,
+      action: {
+        payload: User[];
+      }
+    ) {
+      const contributors = action.payload;
+
+      const boardIndex = state.boardList.findIndex(
+        (board: Board) => board.boardTag === state.boardItem.boardTag
+      );
+
       const columnIndex = state.boardItem.taskColumn.findIndex(
         (column: dragDropColumn) => column.name === state.columnId
       );
@@ -206,6 +227,73 @@ const boardSlice = createSlice({
       const taskIndex = state.boardItem.taskColumn[columnIndex].tasks.findIndex(
         (task: any) => task.id === state.taskId
       );
+
+      contributors.forEach((contributor) => {
+        const contributorsArr =
+          state.boardItem.taskColumn[columnIndex].tasks[taskIndex].contributors;
+
+        console.log(current(contributorsArr));
+
+        const contributorItem =
+          contributorsArr.length > 0
+            ? contributorsArr.find(
+                (contributorItem: User) => contributorItem.id === contributor.id
+              )
+            : undefined;
+
+        if (!contributorItem) {
+          const contributorsArr =
+            state.boardItem.taskColumn[columnIndex].tasks[taskIndex]
+              .contributors;
+          console.log(contributorsArr);
+          state.boardItem.taskColumn[columnIndex].tasks[
+            taskIndex
+          ].contributors = [contributor, ...contributorsArr];
+        }
+      });
+
+      const item = state.boardItem;
+
+      state.boardList[boardIndex] = item;
+
+      const list = state.boardList;
+
+      localStorage.setItem("boardList", JSON.stringify(list));
+
+      localStorage.setItem("boardItem", JSON.stringify(item));
+    },
+    removeContributor(state: any, action: { payload: User }) {
+      const contributor = action.payload;
+
+      const boardIndex = state.boardList.findIndex(
+        (board: Board) => board.boardTag === state.boardItem.boardTag
+      );
+
+      const columnIndex = state.boardItem.taskColumn.findIndex(
+        (column: dragDropColumn) => column.name === state.columnId
+      );
+
+      const taskIndex = state.boardItem.taskColumn[columnIndex].tasks.findIndex(
+        (task: any) => task.id === state.taskId
+      );
+
+      const contributorsArr =
+        state.boardItem.taskColumn[columnIndex].tasks[taskIndex].contributors;
+
+      state.boardItem.taskColumn[columnIndex].tasks[taskIndex].contributors =
+        contributorsArr.filter(
+          (contributorItem: User) => contributorItem.id !== contributor.id
+        );
+
+      const item = state.boardItem;
+
+      state.boardList[boardIndex] = item;
+
+      const list = state.boardList;
+
+      localStorage.setItem("boardList", JSON.stringify(list));
+
+      localStorage.setItem("boardItem", JSON.stringify(item));
     },
 
     addCommentToTaskComments(

@@ -7,14 +7,17 @@ import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import profileImg from "../asset/img/profile-pic.jpg";
 import { ACCESS_TOKEN } from "../utils/constants";
-import { useAppSelector } from "../hooks/customHook";
+import { useAppSelector, useAppDispatch } from "../hooks/customHook";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { boardAction } from "../slice/boardSlice";
 
 const NavBar = () => {
   const [displayNav, setDisplayNav] = useState(false);
   const location: string = useLocation().pathname;
   const navigate = useNavigate();
   const { boardId } = useParams();
+
+  const dispatchFn = useAppDispatch();
 
   const currentUserData: { data: { name: string } } | undefined =
     useAppSelector((state) => state.user.currentUserData);
@@ -46,6 +49,7 @@ const NavBar = () => {
           <p
             className="flex items-center ml-5 bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 hover:text-color-grey-4 transition-all duration-300 ease-linear hover:bg-color-grey-2"
             onClick={() => {
+              dispatchFn(boardAction.setBoard(undefined));
               navigate("/user/dashboard");
             }}
           >

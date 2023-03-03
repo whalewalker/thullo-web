@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { searchUser } from "../actions/taskActions";
+import { getTaskContributors, searchUser } from "../actions/taskActions";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import SearchedUser from "./SearchedUser";
 import { User } from "../utils/types";
@@ -49,12 +49,14 @@ const AddContributorModal = ({
     setSearchMemberName(e.target.value);
   };
 
-  const onSubmitMemberNameHandler = (e: { preventDefault: Function }) => {
+  const onSubmitMemberNameHandler = async (e: { preventDefault: Function }) => {
     e.preventDefault();
 
-    dispatchFn(
+    await dispatchFn(
       addContributorToTask({ boardTag, boardRef, choosenContributors })
     );
+    // dispatchFn(getTaskContributors({ boardTag, boardRef }));
+    dispatchFn(boardAction.emptyChoosenContributorList());
   };
 
   return (
@@ -97,7 +99,7 @@ const AddContributorModal = ({
           </div>
         )}
         {choosenContributors && choosenContributors.length > 0 && (
-          <div className="w-full overflow-x-scroll flex overflow-y-hidden py-1.5 mt-3 flex-nowrap">
+          <div className="w-full   flex  py-1.5 mt-3 overflow-x-scroll no-scroll">
             {choosenContributors.map((contributor: User, i: number) => (
               <p
                 key={i}

@@ -8,9 +8,9 @@ export const addBoard = (file: any, boardName: string) => {
     try {
       // sending a request for board to be added
       const response: any = await createBoard(file, boardName);
+      console.log(response.data.data);
       dispatch(boardAction.setIsLoading(false));
       toastSuccess(extractMessage(response.data.message));
-      console.log(response);
 
       // dispatching an action that adds board to boardList
       dispatch(boardAction.addBoardToBoardList(response.data.data));
@@ -28,6 +28,7 @@ export const getBoardItem = (boardTag: string) => {
   return async (dispatch: Function) => {
     try {
       const response = await getBoard(boardTag);
+      console.log(response.data.data);
       dispatch(boardAction.setBoard(response.data.data));
     } catch (err) {
       dispatch(boardAction.setError(true));
@@ -42,7 +43,7 @@ export const getBoards = () => {
   return async (dispatch: Function) => {
     try {
       const response: any = await getAllBoards();
-      console.log(response)
+      console.log(response);
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));
     } catch (err) {

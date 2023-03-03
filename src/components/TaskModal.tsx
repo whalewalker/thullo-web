@@ -36,13 +36,14 @@ const actionBtns: Btns[] = [
   },
 ];
 
-const TaskModal = ({ boardId }: { boardId: number }) => {
+const TaskModal = ({ boardItem }: { boardItem: any }) => {
   const dispatchFn = useAppDispatch();
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [displayModal, setDisplayModal] = useState("");
 
-  const boardItem = useAppSelector((state) => state.board.boardItem);
+  console.log(boardItem);
   const columnId = useAppSelector((state) => state.board.columnId);
+  console.log(columnId);
   const cardId = useAppSelector((state) => state.board.taskId);
 
   const columnItem = boardItem.taskColumn.filter(
@@ -69,6 +70,8 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
       );
     }
   };
+
+  console.log(cardItem);
 
   const onSetTaskImageHandler = (e: {}) => {
     const url = fileHandler(e);

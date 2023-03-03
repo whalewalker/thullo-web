@@ -13,6 +13,13 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
   const dispatchFn = useAppDispatch();
 
   const boardItem = useAppSelector((state: any) => state.board.boardItem);
+  console.log(boardItem);
+
+  const columnIndex = boardItem.taskColumn.findIndex(
+    (columnItem: any) => column.name === columnItem.name
+  );
+
+  console.log(boardItem);
 
   const onAddCardModalHandler = async () => {
     const columnId: string | null | any = column.name;
@@ -36,14 +43,16 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
             className="min-h-[0.5rem]"
           >
             {/* list of draggables */}
-            {column.tasks.map((card: Task, i: number) => (
-              <DragDropCard
-                key={String(card.id)}
-                card={card}
-                columnId={column.name}
-                index={i}
-              />
-            ))}
+            {boardItem.taskColumn[columnIndex].tasks.map(
+              (card: Task, i: number) => (
+                <DragDropCard
+                  key={String(card.id)}
+                  card={card}
+                  columnId={column.name}
+                  index={i}
+                />
+              )
+            )}
             {provided.placeholder}
           </ul>
         )}

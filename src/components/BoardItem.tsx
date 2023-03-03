@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { boardAction } from "../slice/boardSlice";
-import { useAppDispatch } from "../hooks/customHook";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { getBoardItem } from "../actions/boardAction";
 import noImage from "../asset/img/no-image.jpg";
+import { Board } from "../utils/types";
 
 const BoardItem = ({
   img,
@@ -18,13 +19,25 @@ const BoardItem = ({
 }) => {
   const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
+
+  const boardList = useAppSelector((state) => state.board.boardList);
+
   const viewBoardHandler: any = async (e: {
     target: { dataset: { board: string } };
   }) => {
     const reference = e.target.dataset.board;
-    await dispatchFn(getBoardItem(reference));
 
-    dispatchFn(boardAction.setBoardTag(reference));
+    const board = boardList.find(
+      (boardItem: Board) => boardItem.boardTag === reference
+    );
+
+    await new Promise((resolve, _) => {
+      resolve(dispatchFn(boardAction.setBoardTag(reference)));
+    });
+
+    dispatchFn(boardAction.setBoard(board));
+
+    dispatchFn(getBoardItem(reference));
     navigate(`/user/board/${boardName}`);
   };
 

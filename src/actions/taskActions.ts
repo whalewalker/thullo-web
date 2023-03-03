@@ -6,6 +6,7 @@ import {
   getContributors,
   searchForUser,
   addContributor,
+  removeContributor,
 } from "../services/taskService";
 import { dragDropColumn, User } from "../utils/types";
 
@@ -126,6 +127,8 @@ export const getTaskContributors = ({
     try {
       const response = await getContributors({ boardTag, boardRef });
       console.log(response);
+      console.log("leys serr");
+      dispatch(boardAction.addContributor(response));
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
@@ -140,7 +143,6 @@ export const searchUser = (name: string) => {
     try {
       if (name) {
         const response = await searchForUser(name);
-        console.log(response);
         dispatch(boardAction.displaySearchedContributors(response));
       } else {
         dispatch(boardAction.displaySearchedContributors([]));
@@ -164,18 +166,48 @@ export const addContributorToTask = ({
   choosenContributors: User[];
 }) => {
   return async (dispatch: Function) => {
-    const collaborators = choosenContributors.map((collab) => collab.email);
+    const contributors = choosenContributors.map((collab) => collab.email);
 
     try {
-      const response = await addContributor({
+      dispatch(boardAction.addContributor(choosenContributors));
+
+      await addContributor({
         boardTag,
         boardRef,
-        collaborators,
+        contributors,
       });
-      console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
       console.log(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
+
+export const removeContributorFromTask = ({
+  boardTag,
+  boardRef,
+  contributor,
+}: {
+  boardTag: string;
+  boardRef: string;
+  contributor: User;
+}) => {
+  return async (dispatch: Function) => {
+    dispatch(boardAction.removeContributor(contributor));
+    const contributorArr = [contributor.email];
+    console.log("here");
+    try {
+      await removeContributor({
+        boardTag,
+        boardRef,
+        contributorArr,
+      });
+      console.log("here");
+    } catch (err) {
+      dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
       toastError(extractMessage(errorMsg));
       dispatch(boardAction.setErrorMsg(errorMsg));

@@ -1,6 +1,7 @@
 import React from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { FaUserFriends } from "react-icons/fa";
+import Contributor from "./Contributor";
 
 const ContributorsList = ({
   boardTag,
@@ -24,10 +25,12 @@ const ContributorsList = ({
       {contributors && contributors.length > 0 && (
         <div>
           {contributors.map((contributor: any, i) => (
-            <div key={i}>
-              <img src={contributor.imageUrl} alt={contributor.name} />
-              <p>{contributor.name}</p>
-            </div>
+            <Contributor
+              key={i}
+              contributor={contributor}
+              boardTag={boardTag}
+              boardRef={boardRef}
+            />
           ))}
         </div>
       )}

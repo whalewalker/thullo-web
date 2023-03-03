@@ -155,15 +155,13 @@ export const searchForUser = async (name: string): Promise<any> => {
 export const addContributor = async ({
   boardTag,
   boardRef,
-  collaborators,
+  contributors,
 }: {
   boardTag: string;
   boardRef: string;
-  collaborators: string[];
+  contributors: string[];
 }): Promise<any> => {
   await checkToken();
-
-  const raw = JSON.stringify(collaborators);
 
   const config = {
     headers: {
@@ -173,7 +171,35 @@ export const addContributor = async ({
 
   const data = await api.put(
     `/tasks/${boardTag}/${boardRef}/contributors`,
-    raw,
+    contributors,
+    config
+  );
+
+  return data;
+};
+
+export const removeContributor = async ({
+  boardTag,
+  boardRef,
+  contributorArr,
+}: {
+  boardTag: string;
+  boardRef: string;
+  contributorArr: string[];
+}): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  console.log("present");
+
+  const data = await api.put(
+    `/tasks/${boardTag}/${boardRef}/remove/contributors`,
+    contributorArr,
     config
   );
 

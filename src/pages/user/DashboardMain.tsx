@@ -13,6 +13,8 @@ const DashboardMain = () => {
   // getting the board list data
   const boardList: Board[] = useAppSelector((state) => state.board.boardList);
 
+  console.log(boardList);
+
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
     setDisplayAddBoardModal((prevState) => !prevState);
   };
