@@ -181,7 +181,6 @@ const boardSlice = createSlice({
       ];
 
       const item = state.boardItem;
-
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
     displaySearchedContributors(state: any, action: { payload: [] }) {
@@ -232,8 +231,6 @@ const boardSlice = createSlice({
         const contributorsArr =
           state.boardItem.taskColumn[columnIndex].tasks[taskIndex].contributors;
 
-        console.log(current(contributorsArr));
-
         const contributorItem =
           contributorsArr.length > 0
             ? contributorsArr.find(
@@ -253,13 +250,9 @@ const boardSlice = createSlice({
       });
 
       const item = state.boardItem;
-
       state.boardList[boardIndex] = item;
-
       const list = state.boardList;
-
       localStorage.setItem("boardList", JSON.stringify(list));
-
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
     removeContributor(state: any, action: { payload: User }) {
@@ -286,13 +279,10 @@ const boardSlice = createSlice({
         );
 
       const item = state.boardItem;
-
       state.boardList[boardIndex] = item;
-
       const list = state.boardList;
 
       localStorage.setItem("boardList", JSON.stringify(list));
-
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
 

@@ -167,6 +167,7 @@ export const addContributorToTask = ({
 }) => {
   return async (dispatch: Function) => {
     const contributors = choosenContributors.map((collab) => collab.email);
+    console.log(contributors);
 
     try {
       dispatch(boardAction.addContributor(choosenContributors));

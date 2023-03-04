@@ -100,7 +100,7 @@ const AddContributorModal = ({
         )}
         {choosenContributors && choosenContributors.length > 0 && (
           <div className="w-full   flex  py-1.5 mt-3 overflow-x-scroll no-scroll">
-            {choosenContributors.map((contributor: User, i: number) => (
+            {[...choosenContributors].reverse().map((contributor: User, i: number) => (
               <p
                 key={i}
                 className=" text-sm whitespace-nowrap flex justify-between items-center p-1 bg-color-grey-1 text-color-black rounded mr-2 "

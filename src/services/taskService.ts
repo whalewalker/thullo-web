@@ -169,6 +169,8 @@ export const addContributor = async ({
     },
   };
 
+  console.log(contributors);
+
   const data = await api.put(
     `/tasks/${boardTag}/${boardRef}/contributors`,
     contributors,

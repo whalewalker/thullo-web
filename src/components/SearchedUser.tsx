@@ -12,7 +12,7 @@ const SearchedUser = ({ user }: any) => {
 
   return (
     <div
-      className={`flex items-center mb-2 p-1 cursor-pointer bg-color-grey-1 hover:bg-color-grey-2 transition-all duration-100 ease-linear`}
+      className={`flex items-center mb-2 p-1 text-sm cursor-pointer hover:bg-color-grey-1 rounded transition-all duration-100 ease-linear`}
       onClick={selectUserHandler}
     >
       {isImage(user.imageUrl) ? (
