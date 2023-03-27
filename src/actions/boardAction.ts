@@ -29,7 +29,6 @@ export const getBoardItem = (boardTag: string) => {
     try {
       const response = await getBoard(boardTag);
       dispatch(boardAction.setBoard(response.data.data));
-      console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
@@ -43,7 +42,7 @@ export const getBoards = () => {
   return async (dispatch: Function) => {
     try {
       const response: any = await getAllBoards();
-
+      console.log(response)
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));
     } catch (err) {

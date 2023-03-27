@@ -1,11 +1,6 @@
-import { api } from "../api/api";
-import { ACCESS_TOKEN } from "../utils/constants";
-
-const checkToken = () => {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject(new Error("Token is not set"));
-  }
-};
+import {api} from "../api/api";
+import {ACCESS_TOKEN} from "../utils/constants";
+import {checkToken} from "../utils/helperFn";
 
 export const createBoard = async (
   file: any,
