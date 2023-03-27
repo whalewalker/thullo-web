@@ -91,12 +91,10 @@ export const createCommentReq = async ({
 };
 
 export const getUnsplashPictures = async (imageName: string): Promise<any> => {
-  const {json} = await api.get(
+  const response = await api.get(
       `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
-  // @ts-ignore
-  const data = await json();
-  return data.results;
+  return response.data.results;
 };
 
 export const getTaskCoverImage = async (boardTag: string, boardRef: string): Promise<any> => {

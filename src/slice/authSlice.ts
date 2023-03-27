@@ -10,19 +10,19 @@ const authSlice = createSlice({
         data: "",
     },
      reducers: {
-        setIsLoading: (state: any, action:{payload: any}) => {
+        setIsLoading: (state: any, action: {payload: any}) => {
             state.isLoading = action.payload;
         },
-         setSuccessMsg: (state: any, action:{payload: any}) => {
+         setSuccessMsg: (state: any, action: {payload: any}) => {
              state.successMsg = action.payload;
          },
-         setErrorMsg: (state: any, action:{payload: any}) => {
+         setErrorMsg: (state: any, action: {payload: any}) => {
              state.errorMsg = action.payload;
          },
-         setError: (state: any, action: { payload: any }) => {
+         setError: (state: any, action: {payload: any}) => {
              state.error = action.payload;
          },
-         setData: (state: any, action:{payload: any}) => {
+         setData: (state: any, action: {payload: any}) => {
              state.data = action.payload;
          },
      }

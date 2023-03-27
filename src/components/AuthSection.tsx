@@ -1,4 +1,4 @@
-import MediaIcons from "./MediaIcons";
+import MediaIcons from "../components/MediaIcons";
 import ThulloLogo from "../asset/img/thullo-logo.png";
 import React from "react";
 

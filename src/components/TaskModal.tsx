@@ -90,7 +90,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               htmlFor="task-image"
               className="w-full h-[10rem] cursor-pointer"
             >
-              <ImageCache boardRef={cardItem.boardRef} className="object-cover w-full h-[10rem] relative rounded-lg"/>
+              <ImageCache img={imageUrl} boardRef={cardItem.boardRef} className="object-cover w-full h-[10rem] relative rounded-lg"/>
             </label>
 
             <input
