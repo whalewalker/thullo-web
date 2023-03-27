@@ -20,15 +20,3 @@ export const updateUserDetails = async (data: {}): Promise<any> => {
     headers: { Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}` },
   });
 };
-
-export const getUserDetail = async (): Promise<any> => {
-  await checkToken();
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-    },
-  };
-
-  //   return await api.get();
-};
