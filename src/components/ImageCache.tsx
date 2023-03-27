@@ -1,11 +1,17 @@
-
 import {useEffect, useState} from "react";
 import {getTaskCoverImage} from "../services/taskService";
 import {useAppSelector} from "../hooks/customHook";
 import {extractMessage} from "../utils/helperFn";
 import noImage from "../asset/img/no-image.jpg";
 
-const ImageCache = ({boardRef, className, img}: { boardRef: string; className: string, img: string }) => {
+interface ImageCacheProps {
+    boardRef: string;
+    className: string,
+    img?: string
+}
+
+const ImageCache =  ({boardRef, className, img} : ImageCacheProps) => {
+
     const [image, setImage] = useState("");
     const columnId = useAppSelector((state) => state.board.boardTag);
 
@@ -36,6 +42,10 @@ const ImageCache = ({boardRef, className, img}: { boardRef: string; className: s
         awaitTaskImage();
     }, [boardRef, columnId, image]);
     return <img src={image || img || noImage} alt="task cover" className={className}/>;
+};
+
+ImageCache.defaultProps = {
+    img: null
 };
 
 export default ImageCache;
