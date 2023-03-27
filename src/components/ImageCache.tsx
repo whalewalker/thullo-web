@@ -19,7 +19,7 @@ const ImageCache = ({boardRef, className, img}: { boardRef: string; className: s
     const createNewImageBlobURL = async (cacheKey: string): Promise<string | null> => {
         try {
             const fileUrl = await getTaskCoverImage(columnId, boardRef);
-            const response = await fetch(fileUrl);
+            const response = await fetch(fileUrl + "?asAttachment=true");
             const blob = await response.blob();
             const imageUrl: string | null = URL.createObjectURL(blob);
             localStorage.setItem(cacheKey, imageUrl);
@@ -35,7 +35,6 @@ const ImageCache = ({boardRef, className, img}: { boardRef: string; className: s
     useEffect(() => {
         awaitTaskImage();
     }, [boardRef, columnId, image]);
-
     return <img src={image || img || noImage} alt="task cover" className={className}/>;
 };
 

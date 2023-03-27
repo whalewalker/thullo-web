@@ -46,12 +46,12 @@ export const registrationOption = {
   cardName: {
     required: "Card name is required",
     minLength: {
-      value: 5,
-      message: "Name must have at least 5 characters",
+      value: 1,
+      message: "Name must have at least one characters",
     },
     maxLength: {
-      value: 20,
-      message: "Name cannot be greater than 20 characters",
+      value: 50,
+      message: "Name cannot be greater than 50 characters",
     },
   },
 };
