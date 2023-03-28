@@ -32,9 +32,10 @@ const AddAnotherColumnForm = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className=" p-2 bg-color-white rounded-lg border border-[#E0E0E0] shadow-sm"
+      // className=" p-2 bg-color-white rounded-lg border border-[#E0E0E0] shadow-sm"
+      className=" "
     >
-      <div className="w-full my-2.5">
+      <div className="w-full ">
         <InputComponent
           placeholder={"Add column title"}
           type={"text"}
@@ -43,12 +44,12 @@ const AddAnotherColumnForm = () => {
           name={"columnName"}
           validation={registrationOption.cardName}
           pl={"pl-1 pr-1"}
-          my={"my-2"}
+          my={"my-0"}
           border={"border-0"}
         />
       </div>
 
-      <div className="flex items-center mt-1">
+      {/* <div className="flex items-center mt-1">
         <button
           type="submit"
           className={`font-medium cursor-pointer text-sm  rounded-lg border-0 px-2 py-1 mr-2 flex items-center bg-color-btn text-color-white`}
@@ -63,7 +64,7 @@ const AddAnotherColumnForm = () => {
         >
           cancel
         </button>
-      </div>
+      </div> */}
     </form>
   );
 };
