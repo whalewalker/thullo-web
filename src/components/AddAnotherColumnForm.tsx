@@ -27,16 +27,13 @@ const AddAnotherColumnForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-    >
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="w-full border-[#DAE4FD] border rounded">
         <InputComponent
           placeholder={"Add column title"}
           type={"text"}
           register={register}
-          error={errors}
+          error={""}
           name={"columnName"}
           validation={registrationOption.cardName}
           pl={"pl-1 pr-1"}
