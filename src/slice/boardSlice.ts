@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {Board, dragDropColumn, Task} from "../utils/types";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
@@ -10,17 +10,17 @@ const storedBoardItem = JSON.parse(storedBoard);
 const boardSlice = createSlice({
   name: "board",
   initialState: {
-      displayAddColumnForm: false,
-      displayTaskModal: false,
-      boardTag: storedBoardTag || "",
-      taskId: undefined,
-      columnId: null,
-      boardItem: storedBoardItem || undefined,
-      isLoading: false,
-      successMsg: "",
-      errorMsg: "",
-      error: false,
-      boardList: storedList || [],
+    displayAddColumnForm: false,
+    displayTaskModal: false,
+    boardTag: storedBoardTag || "",
+    taskId: undefined,
+    columnId: null,
+    boardItem: storedBoardItem || undefined,
+    isLoading: false,
+    successMsg: "",
+    errorMsg: "",
+    error: false,
+    boardList: storedList || [],
   },
   reducers: {
     setIsLoading(state: any, action: { payload: boolean }) {
@@ -75,7 +75,10 @@ const boardSlice = createSlice({
       // localStorage.setItem("boardList", JSON.stringify(list));
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    moveTaskWithinBoardTaskColumn(state: any, action: { payload: { newColumn: dragDropColumn } }) {
+    moveTaskWithinBoardTaskColumn(
+      state: any,
+      action: { payload: { newColumn: dragDropColumn } }
+    ) {
       const { newColumn } = action.payload;
       // process
 
@@ -92,7 +95,12 @@ const boardSlice = createSlice({
       const item = state.boardItem;
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    moveTaskBetweenBoardTaskColumns(state: any, action: { payload: {startColumn: dragDropColumn; endColumn: dragDropColumn; }; }) {
+    moveTaskBetweenBoardTaskColumns(
+      state: any,
+      action: {
+        payload: { startColumn: dragDropColumn; endColumn: dragDropColumn };
+      }
+    ) {
       const { startColumn, endColumn } = action.payload;
       // process
 
@@ -116,8 +124,8 @@ const boardSlice = createSlice({
       const item = state.boardItem;
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    toggleDispayAddColumnForm(state: any) {
-      state.displayAddColumnForm = !state.displayAddColumnForm;
+    toggleDispayAddColumnForm(state: any, action: { payload: boolean }) {
+      state.displayAddColumnForm = action.payload;
     },
     toggleDisplayTaskModal(
       state: any,
