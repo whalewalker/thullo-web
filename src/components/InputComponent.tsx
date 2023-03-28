@@ -22,6 +22,7 @@ const InputComponent: React.FC<any> = (props) => {
       )}
       <div className="flex relative w-full">
         <input
+            autoFocus={props.autoFocus}
           disabled={props.disabled}
           type={
             props.type === "password"
@@ -56,12 +57,16 @@ const InputComponent: React.FC<any> = (props) => {
         ) : null}
       </div>
       {props.error && (
-        <small className="text-color-red pt-1">
+        <small className={`text-color-red ${props.name === "columnName" ? "" : "pt-1"}`}>
           {props.error[props.name] && props.error[props.name].message}
         </small>
       )}
     </div>
   );
 };
+
+InputComponent.defaultProps ={
+  autoFocus: false
+}
 
 export default InputComponent;
