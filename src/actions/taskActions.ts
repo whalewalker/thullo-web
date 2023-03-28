@@ -1,10 +1,6 @@
 import {boardAction} from "../slice/boardSlice";
 import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
-import {
-    createTask,
-    moveTask,
-
-} from "../services/taskService";
+import {createAttachment, createTask, deleteAttachment, moveTask,} from "../services/taskService";
 import {dragDropColumn} from "../utils/types";
 
 export const addTask = ({
@@ -163,4 +159,61 @@ export const createComment = ({
             dispatch(boardAction.setErrorMsg(errorMsg));
         }
     };
+};
+
+export const addAttachment = (boardRef: string, boardTag: string, columnId: string | null, file: string) =>
+    async (dispatch: Function) => {
+        try {
+            const response = await createAttachment(boardTag, boardRef, file);
+            const attachmentData = response.data.data;
+
+            const storedBoard = JSON.parse(localStorage.getItem("boardItem") || "{}");
+            storedBoard.taskColumn
+                .find((column: { name: string }) => column.name === columnId)
+                .tasks.find((task: { boardRef: string; attachments: any[] }) => task.boardRef === boardRef)
+                .attachments.push(attachmentData);
+            localStorage.setItem("boardItem", JSON.stringify(storedBoard));
+
+            return attachmentData; // Return the new attachment data
+        } catch (err) {
+            dispatch(boardAction.setError(true));
+            const errorMsg = extractMessage(err);
+            toastError(extractMessage(errorMsg));
+            dispatch(boardAction.setErrorMsg(errorMsg));
+            return null; // Return null if there was an error
+        }
+    };
+
+export const removeAttachment = (
+    boardRef: string,
+    boardTag: string,
+    columnId: string | null,
+    attachmentId: number,
+    callback: Function
+) => async (dispatch: Function) => {
+    try {
+        await deleteAttachment(Number(attachmentId), boardTag, boardRef);
+        let storedBoard = JSON.parse(localStorage.getItem("boardItem") || "{}");
+        const column = storedBoard.taskColumn.find(
+            (column: { name: string }) => column.name === columnId
+        );
+        const task = column.tasks.find(
+            (task: { boardRef: string; attachments: any[] }) =>
+                task.boardRef === boardRef
+        );
+        task.attachments = task.attachments.filter(
+            (attachment: { id: number }) => attachment.id !== Number(attachmentId)
+        );
+        localStorage.setItem("boardItem", JSON.stringify(storedBoard));
+
+        const attachments = storedBoard.taskColumn
+            .find((column: { name: string }) => column.name === columnId)
+            .tasks.find((task: { boardRef: string; attachments: any[] }) => task.boardRef === boardRef).attachments;
+        callback(attachments);
+    } catch (err) {
+        dispatch(boardAction.setError(true));
+        const errorMsg = extractMessage(err);
+        toastError(errorMsg);
+        dispatch(boardAction.setErrorMsg(errorMsg));
+    }
 };

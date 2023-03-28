@@ -1,10 +1,7 @@
-import fbLogo from "../asset/img/fb-logo.png";
 import githubLogo from "../asset/img/github-logo.png";
-import googleLogo from "../asset/img/google-logo.png";
-import twitterLogo from "../asset/img/twitter-logo.png";
 import {useLocation} from "react-router-dom";
 import React from "react";
-import {FACEBOOK_AUTH_URL, GITHUB_AUTH_URL, GOOGLE_AUTH_URL, TWITTER_AUTH_URL} from "../utils/constants";
+import {GITHUB_AUTH_URL} from "../utils/constants";
 
 function MediaIcons() {
     const location: { pathname: string } = useLocation();

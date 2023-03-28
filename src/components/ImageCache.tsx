@@ -1,57 +1,26 @@
-// noinspection JSIgnoredPromiseFromCall
-
 import {useEffect, useState} from "react";
 import {getTaskCoverImage} from "../services/taskService";
 import {useAppSelector} from "../hooks/customHook";
 import {extractMessage} from "../utils/helperFn";
 import noImage from "../asset/img/no-image.jpg";
 
-const ImageCache = ({ boardRef, className }: { boardRef: string; className: string }) => {
+interface ImageCacheProps {
+    boardRef: string;
+    className: string,
+    img?: string
+}
+
+const ImageCache =  ({boardRef, className, img} : ImageCacheProps) => {
+
     const [image, setImage] = useState("");
     const columnId = useAppSelector((state) => state.board.boardTag);
 
     const awaitTaskImage = async () => {
-        let imageData: any;
-        if (image) {
-            imageData = image;
-        } else {
-            const cacheKey: string | null = `cached-image-${boardRef}`;
-            const cachedImage: string | null = localStorage.getItem(cacheKey);
-
-            if (cachedImage) {
-                const isCachedImageValid = await checkImageValidity(cachedImage);
-
-                if (isCachedImageValid) {
-                    imageData = cachedImage;
-                    setImage(cachedImage);
-                } else {
-                    imageData = await createNewImageBlobURL(cacheKey);
-                }
-            } else {
-                imageData = await createNewImageBlobURL(cacheKey);
-            }
-        }
-
-        return () => {
-            if (imageData) {
-                URL.revokeObjectURL(imageData);
-            }
-        };
-    };
-
-    const checkImageValidity = async (imageUrl: string): Promise<boolean> => {
-        try {
-            const img = new Image();
-            img.src = imageUrl;
-            await new Promise<void>((resolve, reject) => {
-                img.onload = () => resolve();
-                img.onerror = () => reject();
-            });
-            return true;
-        } catch (e) {
-            return false;
-        }
-    };
+        const cacheKey: string | null = `cached-image-${boardRef}`; // cached-image-GOP-1
+        const cachedImage: string | null = localStorage.getItem(cacheKey);
+        if (cachedImage) setImage(cachedImage);
+        else await createNewImageBlobURL(cacheKey);
+    }
 
     const createNewImageBlobURL = async (cacheKey: string): Promise<string | null> => {
         try {
@@ -72,8 +41,11 @@ const ImageCache = ({ boardRef, className }: { boardRef: string; className: stri
     useEffect(() => {
         awaitTaskImage();
     }, [boardRef, columnId, image]);
+    return <img src={image || img || noImage} alt="task cover" className={className}/>;
+};
 
-    return <img src={image || noImage} alt="Cached Image" className={className} />;
+ImageCache.defaultProps = {
+    img: null
 };
 
 export default ImageCache;

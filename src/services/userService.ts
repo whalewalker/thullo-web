@@ -1,11 +1,6 @@
-import { api } from "../api/api";
-import { ACCESS_TOKEN } from "../utils/constants";
-
-const checkToken = () => {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject(new Error("Token is not set"));
-  }
-};
+import {api} from "../api/api";
+import {ACCESS_TOKEN} from "../utils/constants";
+import {checkToken} from "../utils/helperFn";
 
 export const getCurrentUser = async (): Promise<any> => {
   await checkToken();
@@ -19,16 +14,4 @@ export const updateUserDetails = async (data: {}): Promise<any> => {
   return await api.post("/users/edit", data, {
     headers: { Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}` },
   });
-};
-
-export const getUserDetail = async (): Promise<any> => {
-  await checkToken();
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-    },
-  };
-
-  //   return await api.get();
 };

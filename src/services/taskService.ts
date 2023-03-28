@@ -1,11 +1,6 @@
 import {api} from "../api/api";
 import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
-
-const checkToken = () => {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject(new Error("Token is not set"));
-  }
-};
+import {checkToken} from "../utils/helperFn";
 
 export const createTask = async ({
   columnId,
@@ -96,12 +91,10 @@ export const createCommentReq = async ({
 };
 
 export const getUnsplashPictures = async (imageName: string): Promise<any> => {
-  const {json} = await api.get(
+  const response = await api.get(
       `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
-  // @ts-ignore
-  const data = await json();
-  return data.results;
+  return response.data.results;
 };
 
 export const getTaskCoverImage = async (boardTag: string, boardRef: string): Promise<any> => {
@@ -115,4 +108,31 @@ export const getTaskCoverImage = async (boardTag: string, boardRef: string): Pro
 
   const data = await api.get(`/tasks/${boardTag}/${boardRef}/cover-image`, config);
   return data.data.data.imageUrl;
+}
+
+
+export const createAttachment = async (boardTag: string, boardRef: string, file: any): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  let formData = new FormData();
+  formData.append("file", file);
+
+  return api.post(`/tasks/${boardTag}/${boardRef}/add-attachment`, formData, config);
+}
+
+export const deleteAttachment = async (attachmentId: number, boardTag: string, boardRef: string): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+  return api.delete(`/tasks/${boardTag}/${boardRef}/${attachmentId}`, config);
 }
