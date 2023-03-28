@@ -35,14 +35,6 @@ const AddAnotherCardForm = ({
     },
   });
 
-  const closeAddAnotherCardModal: any = (e: {
-    target: { dataset: { close: string } };
-  }) => {
-    if (e.target.dataset.close) {
-      dispatchFn(boardAction.setColumnId());
-    }
-  };
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     // const imageUrl = cardImg === emptyImg ? undefined : cardImg;
 
@@ -62,7 +54,6 @@ const AddAnotherCardForm = ({
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       className=" p-2 bg-color-white rounded-lg w-full flex flex-col border border-[#E0E0E0] shadow-sm"
-      onClick={closeAddAnotherCardModal}
     >
       <InputComponent
         placeholder={"Enter a title for this card..."}
@@ -79,7 +70,7 @@ const AddAnotherCardForm = ({
         <button
           type="submit"
           className={`font-medium cursor-pointer text-sm mr-2  rounded-lg border-0 ${
-            isLoading ? "py-0" : "py-1"
+            isLoading ? "py-0.5" : "py-1"
           }  px-2 flex items-center bg-color-btn text-color-white`}
         >
           {isLoading && (

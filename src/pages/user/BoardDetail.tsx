@@ -16,8 +16,8 @@ const BoardDetail = () => {
     (state) => state.board.displayTaskModal
   );
 
-  const toggleNewColumnModal = () => {
-    dispatchFn(boardAction.toggleDispayAddColumnForm());
+  const displayAddColumnFormHandler = () => {
+    dispatchFn(boardAction.toggleDispayAddColumnForm(true));
   };
 
   const boardItem: Board = useAppSelector((state) => state.board.boardItem);
@@ -30,8 +30,18 @@ const BoardDetail = () => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
 
+  const closeForms: any = (e: { target: { dataset: { close: string } } }) => {
+    if (e.target.dataset.close) {
+      dispatchFn(boardAction.toggleDispayAddColumnForm(false));
+    }
+  };
+
   return (
-    <section className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4">
+    <section
+      className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4"
+      data-close="yes"
+      onClick={closeForms}
+    >
       <div className="flex items-center my-8 w-full sm:mt-[4rem]  sm:flex-wrap sm:justify-between">
         {/* <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-1">
           {boardItem.privateState && (
@@ -74,20 +84,23 @@ const BoardDetail = () => {
           Show Menu
         </p>
       </div>
-      <div className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll ">
+      <div
+        className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll "
+        data-close="yes"
+      >
         <DragAndDropBox />
-        {
+        {!displayAddColumnForm && (
           <button
             className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"
-            onClick={toggleNewColumnModal}
+            onClick={displayAddColumnFormHandler}
           >
             Add another list
             <BsPlusLg className="text-current " />
           </button>
-        }
+        )}
+        {displayAddColumnForm && <AddAnotherColumnForm />}
       </div>
 
-      {displayAddColumnForm && <AddAnotherColumnForm />}
       {displayTaskModal && <TaskModal boardId={boardItem.id} />}
     </section>
   );

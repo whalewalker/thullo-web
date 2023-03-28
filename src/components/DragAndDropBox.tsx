@@ -10,6 +10,7 @@ import {
 
 const DragAndDropBox = () => {
   const boardItem = useAppSelector((state) => state.board.boardItem);
+  console.log(boardItem);
 
   const dispatchFn = useAppDispatch();
 
@@ -109,9 +110,7 @@ const DragAndDropBox = () => {
     }
   }
 
-  function onDragStart(start: DragStart) {
-
-  }
+  function onDragStart(start: DragStart) {}
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
