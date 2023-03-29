@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSlice, current } from "@reduxjs/toolkit";
 import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
