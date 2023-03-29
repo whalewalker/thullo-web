@@ -2,22 +2,38 @@ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { getUnsplashPictures } from "../services/taskService";
 import ReactLoading from "react-loading";
+import { useAppDispatch } from "../hooks/customHook";
+import { updateTaskCoverImage } from "../actions/taskActions";
 
 const UnsplashModal = ({
   display,
   setUrl,
   setDisplay,
+  boardTag,
+  boardRef,
 }: {
   display: string;
   setUrl: Function;
   setDisplay: Function;
+  boardTag: string;
+  boardRef: string;
 }) => {
   const [searchImageName, setSearchImageName] = useState("");
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatchFn = useAppDispatch();
+
   const searchImageHandler = (e: { target: { value: string } }) => {
     setSearchImageName(e.target.value);
+  };
+
+  const setSearchedImage = async (imageUrl: string) => {
+    let imageObj = await fetch(imageUrl).then((r) => r.blob());
+    setUrl(imageUrl);
+    dispatchFn(
+      updateTaskCoverImage({ boardTag, boardRef, imageObj, imageUrl })
+    );
   };
 
   const onSubmitSearchInputHandler = async (e: {
@@ -89,7 +105,7 @@ const UnsplashModal = ({
               key={image.id}
               className="w-[3.2rem] h-[3.2rem] rounded-lg object-cover cursor-pointer"
               onClick={() => {
-                setUrl(image.url);
+                setSearchedImage(image.url);
               }}
             />
           ))}
