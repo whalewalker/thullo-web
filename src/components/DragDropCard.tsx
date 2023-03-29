@@ -1,20 +1,20 @@
 import React from "react";
-import {Draggable} from "react-beautiful-dnd";
-import {BsPlusLg} from "react-icons/bs";
-import {Task} from "../utils/types";
-import {boardAction} from "../slice/boardSlice";
-import {useAppDispatch} from "../hooks/customHook";
+import { Draggable } from "react-beautiful-dnd";
+import { BsPlusLg } from "react-icons/bs";
+import { Task } from "../utils/types";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch } from "../hooks/customHook";
 import ImageCache from "./ImageCache";
-import {isImage} from "../utils/helperFn";
+import { isImage } from "../utils/helperFn";
 
 const DragDropCard = ({
-                          card,
-                          index,
-                          columnId,
-                      }: {
-    card: Task;
-    index: number;
-    columnId: string;
+  card,
+  index,
+  columnId,
+}: {
+  card: Task;
+  index: number;
+  columnId: string;
 }) => {
   const dispatchFn = useAppDispatch();
 
@@ -38,7 +38,11 @@ const DragDropCard = ({
           onClick={displayTaskModal}
         >
           {card.imageUrl && (
-              <ImageCache boardRef={card.boardRef} className="rounded-lg mb-1 h-40 w-full object-cover"/>
+            <ImageCache
+              img={card.imageUrl}
+              boardRef={card.boardRef}
+              className="rounded-lg mb-1 h-40 w-full object-cover"
+            />
           )}
           <small className="text-[10px] text-color-grey-3">
             {card.boardRef}
