@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { getUnsplashPictures } from "../services/taskService";
 import ReactLoading from "react-loading";
 import { useAppDispatch } from "../hooks/customHook";
-import { addImageToTaskCover } from "../actions/taskActions";
+import { updateTaskCoverImage } from "../actions/taskActions";
 
 const UnsplashModal = ({
   display,
@@ -31,7 +31,9 @@ const UnsplashModal = ({
   const setSearchedImage = async (imageUrl: string) => {
     let imageObj = await fetch(imageUrl).then((r) => r.blob());
     setUrl(imageUrl);
-    dispatchFn(addImageToTaskCover({ boardTag, boardRef, imageObj, imageUrl }));
+    dispatchFn(
+      updateTaskCoverImage({ boardTag, boardRef, imageObj, imageUrl })
+    );
   };
 
   const onSubmitSearchInputHandler = async (e: {

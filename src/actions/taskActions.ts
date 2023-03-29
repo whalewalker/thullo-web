@@ -113,7 +113,7 @@ export const moveTaskBetweenColumn = ({
   };
 };
 
-export const addImageToTaskCover = ({
+export const updateTaskCoverImage = ({
   boardTag,
   boardRef,
   imageObj,

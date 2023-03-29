@@ -17,7 +17,7 @@ import LabelModal from "./LabelModal";
 import MembersList from "./MembersList";
 import AddMemberModal from "./AddMemberModal";
 import ImageCache from "./ImageCache";
-import { addImageToTaskCover } from "../actions/taskActions";
+import { updateTaskCoverImage } from "../actions/taskActions";
 
 interface Btns {
   title: string;
@@ -82,7 +82,9 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     const boardRef = cardItem.boardRef;
     const imageObj = e.target.files[0];
 
-    dispatchFn(addImageToTaskCover({ boardTag, boardRef, imageObj, imageUrl }));
+    dispatchFn(
+      updateTaskCoverImage({ boardTag, boardRef, imageObj, imageUrl })
+    );
   };
 
   return (
