@@ -86,40 +86,37 @@ export const getUnsplashPictures = async (imageName: string): Promise<any> => {
   const response = await api.get(
     `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
+  console.log(response);
   return response.data.results;
 };
 
-// export const addTaskCoverImage = async ({
-//   boardTag,
-//   boardRef,
-//   imageName,
-//   imageObj,
-//   imageUrl,
-// }: {
-//   boardTag: string;
-//   boardRef: string;
-//   imageName: string;
-//   imageObj: any;
-//   imageUrl: string | undefined;
-// }): Promise<any> => {
-//   await checkToken();
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-//     },
-//   };
+export const addTaskCoverImage = async ({
+  boardTag,
+  boardRef,
+  imageObj,
+}: {
+  boardTag: string;
+  boardRef: string;
+  imageObj: any;
+}): Promise<any> => {
+  await checkToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
 
-//   let formdata = new FormData();
-//   formdata.append("file", imageObj);
+  let formdata = new FormData();
+  formdata.append("file", imageObj);
 
-//   const data = await api.put(
-//     `/tasks/${boardTag}/${boardRef}/cover-image`,
-//     formdata,
-//     config
-//   );
+  const data = await api.put(
+    `/tasks/${boardTag}/${boardRef}/cover-image`,
+    formdata,
+    config
+  );
 
-//   return data;
-// };
+  return data;
+};
 
 export const getTaskCoverImage = async (
   boardTag: string,

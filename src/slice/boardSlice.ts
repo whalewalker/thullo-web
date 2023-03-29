@@ -138,9 +138,24 @@ const boardSlice = createSlice({
       state.taskId = cardId;
       state.columnId = columnId;
     },
-    addImageToTaskCard(state: any, action: { payload: string }) {
+    addImageToTaskCard(state: any, action: { payload: string | undefined }) {
       // find the task
+      const board: Board = state.boardItem;
+
+      const columnIndex: number = board.taskColumn.findIndex(
+        (column: dragDropColumn) => column.name === state.columnId
+      );
+
+      const taskIndex: number = board.taskColumn[columnIndex].tasks.findIndex(
+        (task: Task) => task.id === state.taskId
+      );
       // change the imageUrl
+      state.boardItem.taskColumn[columnIndex].tasks[taskIndex].imageUrl =
+        action.payload;
+
+      const item = state.boardItem;
+
+      localStorage.setItem("boardItem", JSON.stringify(item));
     },
     setBoardTag(state: any, action: { payload: string }) {
       state.boardTag = action.payload;
