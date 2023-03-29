@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
@@ -124,7 +125,6 @@ const boardSlice = createSlice({
       const item = state.boardItem;
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-
     toggleDispayAddColumnForm(state: any, action: { payload: boolean }) {
       state.displayAddColumnForm = action.payload;
     },
