@@ -1,6 +1,6 @@
-import {api} from "../api/api";
-import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
-import {checkToken} from "../utils/helperFn";
+import { api } from "../api/api";
+import { ACCESS_TOKEN, UNSPLASH_ACCESS_KEY } from "../utils/constants";
+import { checkToken } from "../utils/helperFn";
 
 export const createTask = async ({
   columnId,
@@ -24,11 +24,7 @@ export const createTask = async ({
   fd.append("name", taskName);
   fd.append("status", columnId);
 
-  return await api.post(
-    `/tasks/${boardTag}`,
-    fd,
-    config
-  );
+  return await api.post(`/tasks/${boardTag}`, fd, config);
 };
 
 export const moveTask = async ({
@@ -52,11 +48,7 @@ export const moveTask = async ({
   };
 
   let data = { boardRef, status, position };
-  return await api.put(
-    `/tasks/${boardTag}/move`,
-    JSON.stringify(data),
-    config
-  );
+  return await api.put(`/tasks/${boardTag}/move`, JSON.stringify(data), config);
 };
 
 export const createCommentReq = async ({
@@ -92,12 +84,47 @@ export const createCommentReq = async ({
 
 export const getUnsplashPictures = async (imageName: string): Promise<any> => {
   const response = await api.get(
-      `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
+    `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
   return response.data.results;
 };
 
-export const getTaskCoverImage = async (boardTag: string, boardRef: string): Promise<any> => {
+// export const addTaskCoverImage = async ({
+//   boardTag,
+//   boardRef,
+//   imageName,
+//   imageObj,
+//   imageUrl,
+// }: {
+//   boardTag: string;
+//   boardRef: string;
+//   imageName: string;
+//   imageObj: any;
+//   imageUrl: string | undefined;
+// }): Promise<any> => {
+//   await checkToken();
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+//     },
+//   };
+
+//   let formdata = new FormData();
+//   formdata.append("file", imageObj);
+
+//   const data = await api.put(
+//     `/tasks/${boardTag}/${boardRef}/cover-image`,
+//     formdata,
+//     config
+//   );
+
+//   return data;
+// };
+
+export const getTaskCoverImage = async (
+  boardTag: string,
+  boardRef: string
+): Promise<any> => {
   await checkToken();
 
   const config = {
@@ -106,12 +133,18 @@ export const getTaskCoverImage = async (boardTag: string, boardRef: string): Pro
     },
   };
 
-  const data = await api.get(`/tasks/${boardTag}/${boardRef}/cover-image`, config);
+  const data = await api.get(
+    `/tasks/${boardTag}/${boardRef}/cover-image`,
+    config
+  );
   return data.data.data.imageUrl;
-}
+};
 
-
-export const createAttachment = async (boardTag: string, boardRef: string, file: any): Promise<any> => {
+export const createAttachment = async (
+  boardTag: string,
+  boardRef: string,
+  file: any
+): Promise<any> => {
   await checkToken();
 
   const config = {
@@ -123,10 +156,18 @@ export const createAttachment = async (boardTag: string, boardRef: string, file:
   let formData = new FormData();
   formData.append("file", file);
 
-  return api.post(`/tasks/${boardTag}/${boardRef}/add-attachment`, formData, config);
-}
+  return api.post(
+    `/tasks/${boardTag}/${boardRef}/add-attachment`,
+    formData,
+    config
+  );
+};
 
-export const deleteAttachment = async (attachmentId: number, boardTag: string, boardRef: string): Promise<any> => {
+export const deleteAttachment = async (
+  attachmentId: number,
+  boardTag: string,
+  boardRef: string
+): Promise<any> => {
   await checkToken();
 
   const config = {
@@ -135,4 +176,4 @@ export const deleteAttachment = async (attachmentId: number, boardTag: string, b
     },
   };
   return api.delete(`/tasks/${boardTag}/${boardRef}/${attachmentId}`, config);
-}
+};

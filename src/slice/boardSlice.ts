@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Board, dragDropColumn, Task } from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
@@ -137,6 +137,10 @@ const boardSlice = createSlice({
       state.displayTaskModal = !state.displayTaskModal;
       state.taskId = cardId;
       state.columnId = columnId;
+    },
+    addImageToTaskCard(state: any, action: { payload: string }) {
+      // find the task
+      // change the imageUrl
     },
     setBoardTag(state: any, action: { payload: string }) {
       state.boardTag = action.payload;

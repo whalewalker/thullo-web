@@ -1,22 +1,23 @@
-import React, {ReactElement, useState} from "react";
-import {boardAction} from "../slice/boardSlice";
-import {useAppDispatch, useAppSelector} from "../hooks/customHook";
-import {dragDropColumn, Task} from "../utils/types";
+import React, { ReactElement, useState } from "react";
+import { boardAction } from "../slice/boardSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/customHook";
+import { dragDropColumn, Task } from "../utils/types";
 import emptyImg from "../asset/img/no-image.jpg";
-import {RxCross2} from "react-icons/rx";
-import {FaUserCircle, FaUserFriends} from "react-icons/fa";
-import {MdLabel} from "react-icons/md";
-import {AiFillPicture} from "react-icons/ai";
+import { RxCross2 } from "react-icons/rx";
+import { FaUserCircle, FaUserFriends } from "react-icons/fa";
+import { MdLabel } from "react-icons/md";
+import { AiFillPicture } from "react-icons/ai";
 import DescriptionEditor from "./DescriptionEditor";
 import Attachments from "./Attachments";
 import CommentBox from "./CommentBox";
 import CommentList from "./CommentList";
-import {fileHandler} from "../utils/helperFn";
+import { fileHandler } from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
 import MembersList from "./MembersList";
 import AddMemberModal from "./AddMemberModal";
 import ImageCache from "./ImageCache";
+// import { addImageToTaskCover } from "../actions/taskActions";
 
 interface Btns {
   title: string;
@@ -57,7 +58,9 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     (task: Task) => task.id === cardId
   );
 
-  const [imageUrl, setImgUrl] = useState((cardItem && cardItem.imageUrl) || emptyImg);
+  const [imageUrl, setImgUrl] = useState(
+    (cardItem && cardItem.imageUrl) || emptyImg
+  );
 
   const closeTaskModalHandler: any = (e: {
     target: { dataset: { close: string } };
@@ -72,9 +75,17 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
     }
   };
 
-  const onSetTaskImageHandler = (e: {}) => {
-    const url = fileHandler(e);
-    setImgUrl(url);
+  const onSetTaskImageHandler = (e: any) => {
+    const imageUrl = fileHandler(e);
+    setImgUrl(imageUrl);
+    // const boardTag = boardItem.boardTag;
+    // const boardRef = cardItem.boardRef;
+    // const imageObj = e.target.files[0];
+    // const imageName = imageObj.name.slice(0, -4);
+
+    // dispatchFn(
+    //   addImageToTaskCover({ boardTag, boardRef, imageName, imageObj, imageUrl })
+    // );
   };
 
   return (
@@ -90,7 +101,11 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               htmlFor="task-image"
               className="w-full h-[10rem] cursor-pointer"
             >
-              <ImageCache img={imageUrl} boardRef={cardItem.boardRef} className="object-cover w-full h-[10rem] relative rounded-lg"/>
+              <ImageCache
+                img={imageUrl}
+                boardRef={cardItem.boardRef}
+                className="object-cover w-full h-[10rem] relative rounded-lg"
+              />
             </label>
 
             <input
@@ -123,13 +138,16 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 <span className="text-[#BDBDBD] ">In list: </span>
                 {columnItem.name}
               </p>
-              <DescriptionEditor/>
-                <Attachments boardTag={boardItem.boardTag} boardRef={cardItem.boardRef}/>
-                <CommentBox
-                    taskId={cardItem.id}
-                    boardRef={cardItem.boardRef}
-                    columnId={columnItem.id}
-                />
+              <DescriptionEditor />
+              <Attachments
+                boardTag={boardItem.boardTag}
+                boardRef={cardItem.boardRef}
+              />
+              <CommentBox
+                taskId={cardItem.id}
+                boardRef={cardItem.boardRef}
+                columnId={columnItem.id}
+              />
               <CommentList comments={cardItem.comments} />
             </div>
             <div className="w-[25%] relative">
