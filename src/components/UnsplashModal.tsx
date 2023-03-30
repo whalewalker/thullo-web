@@ -4,6 +4,15 @@ import { getUnsplashPictures } from "../services/taskService";
 import ReactLoading from "react-loading";
 import { useAppDispatch } from "../hooks/customHook";
 import { updateTaskCoverImage } from "../actions/taskActions";
+import axios, {AxiosResponse} from "axios";
+import {toastError} from "../utils/helperFn";
+
+
+interface Image {
+  id: string;
+  alt: string;
+  url: string;
+}
 
 const UnsplashModal = ({
   display,
@@ -19,7 +28,7 @@ const UnsplashModal = ({
   boardRef: string;
 }) => {
   const [searchImageName, setSearchImageName] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Array<Image>>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatchFn = useAppDispatch();
@@ -36,24 +45,31 @@ const UnsplashModal = ({
     );
   };
 
-  const onSubmitSearchInputHandler = async (e: {
-    preventDefault: Function;
-  }) => {
+  const onSubmitSearchInputHandler = async (e: { preventDefault: Function }) => {
     e.preventDefault();
     setIsLoading(true);
-    const result = await getUnsplashPictures(searchImageName);
-    setIsLoading(false);
-
-    const images = result.map(
-      (item: {
-        id: string;
-        alt_description: string;
-        urls: { raw: string };
-      }) => {
-        return { id: item.id, alt: item.alt_description, url: item.urls.raw };
-      }
+    const result: Array<{ id: string; alt_description: string; urls: { small: string } }> = await getUnsplashPictures(
+        searchImageName
     );
-    setImages(images);
+    setIsLoading(false);
+    const images = await Promise.all(
+        result.map(async (item) => {
+          try {
+            const response: AxiosResponse = await axios.head(item.urls.small);
+            const sizeInBytes = response.headers['content-length'];
+            const sizeInMB = sizeInBytes ? Number(sizeInBytes) / (1024 * 1024) : 0;
+            if (sizeInMB > 1) {
+              return null;
+            }
+            return { id: item.id, alt: item.alt_description, url: item.urls.small };
+          } catch (error) {
+            toastError(`Error fetching image size for ${item.urls.small}`);
+            console.log(`Error fetching image size for ${item.urls.small}`, error)
+            return null;
+          }
+        })
+    );
+    setImages(images.filter((image): image is Image => !!image));
   };
 
   return (
