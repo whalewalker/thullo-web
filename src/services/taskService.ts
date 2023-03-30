@@ -1,6 +1,6 @@
-import { api } from "../api/api";
-import { ACCESS_TOKEN, UNSPLASH_ACCESS_KEY } from "../utils/constants";
-import { checkToken } from "../utils/helperFn";
+import {api} from "../api/api";
+import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
+import {checkToken} from "../utils/helperFn";
 
 export const createTask = async ({
   columnId,
@@ -52,8 +52,7 @@ export const moveTask = async ({
 };
 
 export const createCommentReq = async ({
-  boardRef,
-  message,
+                                         message,
   mentionedUsers,
   taskId,
 }: {
@@ -86,7 +85,6 @@ export const getUnsplashPictures = async (imageName: string): Promise<any> => {
   const response = await api.get(
     `https://api.unsplash.com/search/photos?page=1&query=${imageName}&client_id=${UNSPLASH_ACCESS_KEY}`
   );
-  console.log(response);
   return response.data.results;
 };
 
@@ -109,13 +107,11 @@ export const addTaskCoverImage = async ({
   let formdata = new FormData();
   formdata.append("file", imageObj);
 
-  const data = await api.put(
-    `/tasks/${boardTag}/${boardRef}/cover-image`,
-    formdata,
-    config
+  return await api.put(
+      `/tasks/${boardTag}/${boardRef}/cover-image`,
+      formdata,
+      config
   );
-
-  return data;
 };
 
 export const getTaskCoverImage = async (
