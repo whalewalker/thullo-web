@@ -9,3 +9,7 @@ Q
 !src/components/DragAndDropBox.tsx,7/7/7730701214bf7d1dec6bbd54384c6af46726771e
 N
 src/components/CommentList.tsx,e/5/e562cd53d9666b8244ec50f7af7061d9ccafa5d9
+J
+src/actions/taskActions.ts,9/8/980198367ecd500a76d9325d78aaedd126b5a631
+G
+src/slice/boardSlice.ts,6/6/665ce1ec738cfc243e2bdb48522731c70ee8896a
