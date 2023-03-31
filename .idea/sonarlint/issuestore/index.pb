@@ -9,3 +9,7 @@ Q
 !src/components/DragAndDropBox.tsx,7/7/7730701214bf7d1dec6bbd54384c6af46726771e
 N
 src/components/CommentList.tsx,e/5/e562cd53d9666b8244ec50f7af7061d9ccafa5d9
+P
+ .github/pull_request_template.md,9/9/99d2d4406193bf0dc3e7b84a6c9b9109997a4864
+J
+src/actions/taskActions.ts,9/8/980198367ecd500a76d9325d78aaedd126b5a631
