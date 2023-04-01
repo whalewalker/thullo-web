@@ -22,7 +22,7 @@ const DashboardMain = () => {
   }, [dispatchFn]);
 
   return (
-    <section className="min-h-screen bg-[#F8F9FD] pt-14">
+    <section className="min-h-[calc(100vh-5rem)] bg-[#F8F9FD] pt-14">
       <div className="w-[83%] xl:w-[85%]  mx-auto lg:w-[90%]">
         <div className="flex items-center justify-between w-full">
           <p className="text-lg font-medium">All boards</p>
