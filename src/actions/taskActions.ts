@@ -5,7 +5,7 @@ import {
   createTask,
   deleteAttachment,
   moveTask,
-  //   addTaskCoverImage,
+  addTaskCoverImage,
 } from "../services/taskService";
 import { dragDropColumn } from "../utils/types";
 
@@ -30,13 +30,11 @@ export const addTask = ({
         boardTag,
         taskName,
       });
-      console.log(response);
       dispatch(boardAction.setIsLoading(false));
       dispatch(
         boardAction.setSuccessMsg(extractMessage(response.data.message))
       );
       const task = response.data.data;
-      console.log(task, boardId);
       dispatch(boardAction.addTask({ boardId, columnId, task }));
       toastSuccess(extractMessage(response.data.message));
     } catch (err) {
@@ -115,35 +113,34 @@ export const moveTaskBetweenColumn = ({
   };
 };
 
-// export const addImageToTaskCover = ({
-//   boardTag,
-//   boardRef,
-//   imageName,
-//   imageObj,
-//   imageUrl,
-// }: {
-//   boardTag: string;
-//   boardRef: string;
-//   imageName: string;
-//   imageObj: any;
-//   imageUrl: string | undefined;
-// }) => {
-//   return async (dispatch: Function) => {
-//     try {
-//       const response = await addTaskCoverImage({
-//         boardTag,
-//         boardRef,
-//         imageName,
-//         imageObj,
-//         imageUrl,
-//       });
+export const updateTaskCoverImage = ({
+  boardTag,
+  boardRef,
+  imageObj,
+  imageUrl,
+}: {
+  boardTag: string;
+  boardRef: string;
+  imageObj: any;
+  imageUrl: string | undefined;
+}) => {
+  return async (dispatch: Function) => {
+    try {
+      dispatch(boardAction.addImageToTaskCard(imageUrl));
 
-//       console.log(response);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-// };
+      await addTaskCoverImage({
+        boardTag,
+        boardRef,
+        imageObj,
+      });
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
 
 export const createComment = ({
   boardRef,
@@ -162,13 +159,6 @@ export const createComment = ({
 }) => {
   return async (dispatch: Function) => {
     try {
-      console.log({
-        boardRef,
-        message,
-        mentionedUsers,
-        taskId,
-        user,
-      });
       // const response = await createCommentReq({
       //   boardRef,
       //   message,
@@ -185,8 +175,6 @@ export const createComment = ({
           comment: message,
         })
       );
-
-      // console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
