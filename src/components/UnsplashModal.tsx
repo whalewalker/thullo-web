@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { FiSearch } from "react-icons/fi";
 import { getUnsplashPictures } from "../services/taskService";
 import ReactLoading from "react-loading";
@@ -30,7 +30,6 @@ const UnsplashModal = ({
   const [searchImageName, setSearchImageName] = useState("");
   const [images, setImages] = useState<Array<Image>>([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const dispatchFn = useAppDispatch();
 
   const searchImageHandler = (e: { target: { value: string } }) => {
@@ -38,7 +37,7 @@ const UnsplashModal = ({
   };
 
   const setSearchedImage = async (imageUrl: string) => {
-    let imageObj = await fetch(imageUrl).then((r) => r.blob());
+    let imageObj = await fetch(imageUrl).then((response) => response.blob());
     setUrl(imageUrl);
     dispatchFn(
       updateTaskCoverImage({ boardTag, boardRef, imageObj, imageUrl })
@@ -72,19 +71,16 @@ const UnsplashModal = ({
     setImages(images.filter((image): image is Image => !!image));
   };
 
+
+
+  const modalMouseEvents = {
+    onMouseEnter: () => setDisplay("Cover"),
+    onMouseLeave: () => setDisplay("")
+  };
+
   return (
-    <div
-      className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[4.8rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
-        display === "Cover"
-          ? "opacity-100 visible"
-          : "delay-300 opacity-0 invisible"
-      }`}
-      onMouseEnter={() => {
-        setDisplay("Cover");
-      }}
-      onMouseLeave={() => {
-        setDisplay("");
-      }}
+    <div className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[4.8rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+        display === "Cover" ? "opacity-100 visible" : "delay-300 opacity-0 invisible"}`}
     >
       <p className="text-xs font-semibold text-color-grey-4">Photo Search</p>
       <p className="text-color-grey-3 font-normal text-xs leading-6">

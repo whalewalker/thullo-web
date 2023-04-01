@@ -1,5 +1,4 @@
 import React from "react";
-// import { IoMdLock } from "react-icons/io";
 import { BsPlusLg } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import DragAndDropBox from "../../components/DragAndDropBox";
@@ -43,13 +42,6 @@ const BoardDetail = () => {
       onClick={closeForms}
     >
       <div className="flex items-center my-8 w-full sm:mt-[4rem]  sm:flex-wrap sm:justify-between">
-        {/* <p className="flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-1">
-          {boardItem.privateState && (
-            <IoMdLock className="w-3 h-3 text-current mr-2" />
-          )}
-          {boardItem.privateState ? "Private" : "Public"}
-        </p> */}
-
         <div className="flex items-center  sm:ml-0 sm:order-3 sm:w-full sm:mt-1">
           {boardItem.collaborators && boardItem.collaborators.length > 0
             ? boardItem.collaborators.map((userAvatar: string, i: number) => {

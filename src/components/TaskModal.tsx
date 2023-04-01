@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, {ReactElement, useEffect, useRef, useState} from "react";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { dragDropColumn, Task } from "../utils/types";
@@ -45,10 +45,25 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
   const dispatchFn = useAppDispatch();
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [displayModal, setDisplayModal] = useState("");
+  const modalRef = useRef<any>(null);
+
 
   const boardItem = useAppSelector((state) => state.board.boardItem);
   const columnId = useAppSelector((state) => state.board.columnId);
   const cardId = useAppSelector((state) => state.board.taskId);
+
+
+  useEffect(()=> {
+    const handleClickOutside = (event: any) => {
+      console.log(event.target);
+      console.log(modalRef.current)
+      if (modalRef.current && !modalRef.current.contains(event.target))
+        setDisplayModal("");
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [modalRef, setDisplayModal])
 
   const columnItem = boardItem.taskColumn.filter(
     (column: dragDropColumn) => column.name === columnId
@@ -149,33 +164,25 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
               />
               <CommentList comments={cardItem.comments} />
             </div>
-            <div className="w-[25%] relative">
+            <div ref={modalRef} className="w-[25%] relative">
               <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
                 Actions
               </p>
-              {actionBtns.map((btn: Btns, i) => (
-                <button
-                  key={i}
-                  className={`flex w-full items-center  rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
-                    displayModal === btn.title
-                      ? "bg-color-grey"
-                      : "bg-color-grey-1"
-                  }`}
-                  onClick={() => {
-                    setDisplayModal(btn.title);
-                  }}
-                  onMouseOver={() => {
-                    setDisplayModal(btn.title);
-                  }}
-                  onMouseLeave={() => {
-                    setDisplayModal("");
-                  }}
-                >
-                  {btn.icon}
-                  {btn.title}
-                </button>
-              ))}
+              {actionBtns.map((btn: Btns, i: number) => {
+                const isActive = displayModal === btn.title;
+                return (
+                    <button
+                        key={i}
+                        className={`flex w-full items-center rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${isActive ? "bg-color-grey" : "bg-color-grey-1"}`}
+                        onClick={() => setDisplayModal(btn.title)}
+                    >
+                      {btn.icon}
+                      {btn.title}
+                    </button>
+                );
+              })}
+
               <MembersList
                 display={displayModal}
                 setDisplay={setDisplayModal}
