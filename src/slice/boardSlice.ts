@@ -71,8 +71,6 @@ const boardSlice = createSlice({
       ];
 
       const item = state.boardItem;
-
-      // localStorage.setItem("boardList", JSON.stringify(list));
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
     moveTaskWithinBoardTaskColumn(
@@ -127,6 +125,7 @@ const boardSlice = createSlice({
     toggleDispayAddColumnForm(state: any, action: { payload: boolean }) {
       state.displayAddColumnForm = action.payload;
     },
+
     toggleDisplayTaskModal(
       state: any,
       action: {

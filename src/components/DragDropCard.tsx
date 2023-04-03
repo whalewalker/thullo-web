@@ -19,13 +19,14 @@ const DragDropCard = ({
   const dispatchFn = useAppDispatch();
 
   const displayTaskModal = () => {
-    dispatchFn(
-      boardAction.toggleDisplayTaskModal({
-        cardId: card.id,
-        columnId: columnId,
-      })
-    );
+    const newTaskModal = {
+      cardId: card.id,
+      columnId: columnId,
+    };
+    dispatchFn(boardAction.toggleDisplayTaskModal(newTaskModal));
+    localStorage.setItem("activeTaskModal", JSON.stringify(newTaskModal));
   };
+
 
   return (
     <Draggable draggableId={String(card.id)} index={index}>

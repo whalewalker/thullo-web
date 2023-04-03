@@ -19,20 +19,18 @@ import AddMemberModal from "./AddMemberModal";
 import ImageCache from "./ImageCache";
 import { updateTaskCoverImage } from "../actions/taskActions";
 
-interface Btns {
+interface Btn {
   title: string;
   icon: ReactElement;
 }
 
-const actionBtns: Btns[] = [
+const actionBtn: Btn[] = [
   {
     title: "Cover",
-
     icon: <AiFillPicture className="text-current w-2.5 h-2.5 mr-3" />,
   },
   {
     title: "Labels",
-
     icon: <MdLabel className="text-current w-2.5 h-2.5 mr-3" />,
   },
   {
@@ -41,7 +39,7 @@ const actionBtns: Btns[] = [
   },
 ];
 
-const TaskModal = ({ boardId }: { boardId: number }) => {
+const TaskModal = () => {
   const dispatchFn = useAppDispatch();
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [displayModal, setDisplayModal] = useState("");
@@ -72,6 +70,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
           columnId: undefined,
         })
       );
+      localStorage.setItem("activeTaskModal", "");
     }
   };
 
@@ -123,6 +122,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                     columnId: undefined,
                   })
                 );
+                localStorage.setItem("activeTaskModal", "");
               }}
             >
               <RxCross2 className="w-6 h-6" />
@@ -154,7 +154,7 @@ const TaskModal = ({ boardId }: { boardId: number }) => {
                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
                 Actions
               </p>
-              {actionBtns.map((btn: Btns, i) => (
+              {actionBtn.map((btn: Btn, i) => (
                 <button
                   key={i}
                   className={`flex w-full items-center  rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
