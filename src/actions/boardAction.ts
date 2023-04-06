@@ -1,5 +1,10 @@
 import { extractMessage, toastError, toastSuccess } from "../utils/helperFn";
-import { createBoard, getBoard, getAllBoards } from "../services/boardService";
+import {
+  createBoard,
+  getBoard,
+  getAllBoards,
+  updateBoardImage,
+} from "../services/boardService";
 import { boardAction } from "../slice/boardSlice";
 
 export const addBoard = (file: any, boardName: string) => {
@@ -42,9 +47,37 @@ export const getBoards = () => {
   return async (dispatch: Function) => {
     try {
       const response: any = await getAllBoards();
-      console.log(response)
+      console.log(response);
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
+
+export const updateBoardImageAction = ({
+  boardTag,
+  file,
+  imageUrl,
+}: {
+  boardTag: string;
+  imageUrl: string | undefined;
+  file: any;
+}) => {
+  return async (dispatch: Function) => {
+    try {
+      dispatch(boardAction.updateBoardImage({ boardTag, imageUrl }));
+
+      const response = await updateBoardImage({
+        boardTag,
+        file,
+      });
+
+      console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);

@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
 import { getBoardItem } from "../actions/boardAction";
 import noImage from "../asset/img/no-image.jpg";
+import { BsThreeDots } from "react-icons/bs";
+import UpdateBoardDetailsModal from "./UpdateBoardDetailsModal";
 
 const BoardItem = ({
   img,
   boardName,
   collaborators,
   boardRef,
+  display,
+  setDisplay,
+  boardTag,
 }: {
   img: string;
   boardName: string;
   collaborators: string[] | undefined;
   boardRef: string;
+  display: boolean;
+  boardTag: string;
+  setDisplay: Function;
 }) => {
   const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
@@ -32,8 +40,12 @@ const BoardItem = ({
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
 
+  const displayUpdateBoardModalHandler = () => {
+    setDisplay(true);
+  };
+
   return (
-    <div className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer">
+    <div className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer relative">
       <div
         className="rounded-lg  w-full h-[10rem] overflow-hidden"
         onClick={viewBoardHandler}
@@ -45,14 +57,19 @@ const BoardItem = ({
           className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
         />
       </div>
-
-      <p
-        className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
-        onClick={viewBoardHandler}
-        data-board={boardRef}
-      >
-        {boardName}
-      </p>
+      <div className="flex justify-between items-center">
+        <p
+          className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
+          onClick={viewBoardHandler}
+          data-board={boardRef}
+        >
+          {boardName}
+        </p>
+        <BsThreeDots
+          className="w-[1.2rem] h-[1.2rem] text-color-grey-3 hover:text-color-black transition-all duration-150 ease-in cursor-pointer"
+          onClick={displayUpdateBoardModalHandler}
+        />
+      </div>
       <div className="flex items-center">
         {collaborators &&
           collaborators.length > 0 &&
@@ -82,6 +99,11 @@ const BoardItem = ({
           </small>
         )}
       </div>
+      <UpdateBoardDetailsModal
+        display={display}
+        setDisplay={setDisplay}
+        boardTag={boardTag}
+      />
     </div>
   );
 };
