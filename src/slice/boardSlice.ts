@@ -206,6 +206,18 @@ const boardSlice = createSlice({
 
       state.boardList[boardIndex].imageUrl = imageUrl;
     },
+    editBoardName(
+      state: any,
+      action: { payload: { boardTag: string; name: string } }
+    ) {
+      const { boardTag, name } = action.payload;
+
+      const boardIndex = state.boardList.findIndex(
+        (board: Board) => board.boardTag === boardTag
+      );
+
+      state.boardList[boardIndex].name = name;
+    },
     addCommentToTaskComments(
       state: any,
       action: {

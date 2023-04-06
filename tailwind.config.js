@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     colors: {
       "color-border": "#BDBDBD",
+      "color-light-border": "rgba(#BDBDBD, .2)",
       "text-p-color": "#333333",
       "color-red": "rgb(220 38 38)",
       "color-white": "#fff",

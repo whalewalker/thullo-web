@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlinePicture } from "react-icons/ai";
 import { fileHandler } from "../utils/helperFn";
-import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
 import { updateBoardImageAction } from "../actions/boardAction";
 
@@ -20,7 +18,7 @@ function AddImageComponent({ boardTag }: { boardTag: string }) {
     <div>
       <label
         htmlFor="boardImage"
-        className="flex items-center p-2 cursor-pointer"
+        className="flex items-center p-2 cursor-pointer hover:text-color-btn transition-all duration-150 ease-in"
       >
         <AiOutlinePicture className="text-current mr-3" />
         <span className="">Change Board Image</span>
@@ -40,18 +38,18 @@ const UpdateBoardDetailsModal = ({
   display,
   setDisplay,
   boardTag,
+  setDisplayEditBoardNameForm,
 }: {
   display: boolean;
   setDisplay: Function;
   boardTag: string;
+  setDisplayEditBoardNameForm: Function;
 }) => {
   function editBoardName() {
-    console.log("edit");
+    setDisplayEditBoardNameForm(true);
   }
 
-  function deleteBoard() {
-    console.log("delete");
-  }
+  function deleteBoard() {}
 
   const updateItems = [
     {
@@ -81,7 +79,7 @@ const UpdateBoardDetailsModal = ({
       {updateItems.map((item: any, i: number) => (
         <p
           key={i}
-          className="flex items-center p-2"
+          className="flex items-center p-2 hover:text-color-btn transition-all duration-150 ease-in "
           onClick={() => {
             item.function();
           }}

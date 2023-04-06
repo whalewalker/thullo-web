@@ -10,6 +10,8 @@ const DashboardMain = () => {
     useState<boolean>(false);
   const [displayUpdateBoardModal, setDisplayUpdateBoardModal] =
     useState<boolean>(false);
+  const [displayEditBoardNameForm, setDisplayEditBoardNameForm] =
+    useState<boolean>(false);
 
   const dispatchFn = useAppDispatch();
 
@@ -29,6 +31,7 @@ const DashboardMain = () => {
   }) => {
     if (e.target.dataset.close) {
       setDisplayUpdateBoardModal(false);
+      setDisplayEditBoardNameForm(false);
     }
   };
 
@@ -63,6 +66,8 @@ const DashboardMain = () => {
                 boardRef={board.boardTag}
                 display={displayUpdateBoardModal}
                 setDisplay={setDisplayUpdateBoardModal}
+                displayEditBoardNameForm={displayEditBoardNameForm}
+                setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
               />
             ))}
           </div>

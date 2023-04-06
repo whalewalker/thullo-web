@@ -67,3 +67,25 @@ export const updateBoardImage = async ({
 
   return await api.put(`boards/${boardTag}`, fd, config);
 };
+
+export const editBoardName = async ({
+  boardTag,
+  name,
+}: {
+  boardTag: string;
+  name: string;
+}): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  let fd = new FormData();
+  fd.append("name", name);
+
+  return await api.put(`boards/${boardTag}`, fd, config);
+};

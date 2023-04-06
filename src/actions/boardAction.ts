@@ -4,6 +4,7 @@ import {
   getBoard,
   getAllBoards,
   updateBoardImage,
+  editBoardName,
 } from "../services/boardService";
 import { boardAction } from "../slice/boardSlice";
 
@@ -72,11 +73,34 @@ export const updateBoardImageAction = ({
     try {
       dispatch(boardAction.updateBoardImage({ boardTag, imageUrl }));
 
-      const response = await updateBoardImage({
+      await updateBoardImage({
         boardTag,
         file,
       });
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
+      toastError(extractMessage(errorMsg));
+      dispatch(boardAction.setErrorMsg(errorMsg));
+    }
+  };
+};
 
+export const editBoardNameAction = ({
+  boardTag,
+  name,
+}: {
+  boardTag: string;
+  name: string;
+}) => {
+  return async (dispatch: Function) => {
+    try {
+      dispatch(boardAction.editBoardName({ boardTag, name }));
+
+      const response = await editBoardName({
+        boardTag,
+        name,
+      });
       console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
