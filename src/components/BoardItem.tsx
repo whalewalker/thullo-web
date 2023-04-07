@@ -1,23 +1,36 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch } from "../hooks/customHook";
 import { getBoardItem } from "../actions/boardAction";
 import noImage from "../asset/img/no-image.jpg";
+import { BsThreeDots } from "react-icons/bs";
+import UpdateBoardDetailsModal from "./UpdateBoardDetailsModal";
+import EditBoardNameForm from "./EditBoardNameForm";
 
 const BoardItem = ({
   img,
   boardName,
   collaborators,
   boardRef,
+  display,
+  setDisplay,
+  boardTag,
+  displayEditBoardNameForm,
+  setDisplayEditBoardNameForm,
 }: {
   img: string;
   boardName: string;
   collaborators: string[] | undefined;
   boardRef: string;
+  display: boolean;
+  displayEditBoardNameForm: boolean;
+  boardTag: string;
+  setDisplay: Function;
+  setDisplayEditBoardNameForm: Function;
 }) => {
   const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
+
   const viewBoardHandler: any = async (e: {
     target: { dataset: { board: string } };
   }) => {
@@ -32,8 +45,20 @@ const BoardItem = ({
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
 
+  const displayUpdateBoardModalHandler = () => {
+    setDisplay(true);
+  };
+
   return (
-    <div className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer">
+    <div
+      className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer relative"
+      data-closeinput="true"
+      onClick={(e: any) => {
+        if (e.target.dataset.closeinput) {
+          setDisplayEditBoardNameForm(false);
+        }
+      }}
+    >
       <div
         className="rounded-lg  w-full h-[10rem] overflow-hidden"
         onClick={viewBoardHandler}
@@ -45,14 +70,21 @@ const BoardItem = ({
           className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
         />
       </div>
-
-      <p
-        className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
-        onClick={viewBoardHandler}
-        data-board={boardRef}
-      >
-        {boardName}
-      </p>
+      {!displayEditBoardNameForm && (
+        <div className="flex justify-between items-center">
+          <p
+            className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
+            onClick={viewBoardHandler}
+            data-board={boardRef}
+          >
+            {boardName}
+          </p>
+          <BsThreeDots
+            className="w-[1.2rem] h-[1.2rem] text-color-grey-3 hover:text-color-black transition-all duration-150 ease-in cursor-pointer"
+            onClick={displayUpdateBoardModalHandler}
+          />
+        </div>
+      )}
       <div className="flex items-center">
         {collaborators &&
           collaborators.length > 0 &&
@@ -82,6 +114,18 @@ const BoardItem = ({
           </small>
         )}
       </div>
+      {displayEditBoardNameForm && (
+        <EditBoardNameForm
+          setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
+          boardTag={boardTag}
+        />
+      )}
+      <UpdateBoardDetailsModal
+        display={display}
+        setDisplay={setDisplay}
+        boardTag={boardTag}
+        setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
+      />
     </div>
   );
 };

@@ -193,6 +193,30 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
+    updateBoardImage(
+      state: any,
+      action: { payload: { boardTag: string; imageUrl: string | undefined } }
+    ) {
+      const { boardTag, imageUrl } = action.payload;
+
+      const boardIndex = state.boardList.findIndex(
+        (board: Board) => board.boardTag === boardTag
+      );
+
+      state.boardList[boardIndex].imageUrl = imageUrl;
+    },
+    editBoardName(
+      state: any,
+      action: { payload: { boardTag: string; name: string } }
+    ) {
+      const { boardTag, name } = action.payload;
+
+      const boardIndex = state.boardList.findIndex(
+        (board: Board) => board.boardTag === boardTag
+      );
+
+      state.boardList[boardIndex].name = name;
+    },
     addCommentToTaskComments(
       state: any,
       action: {
