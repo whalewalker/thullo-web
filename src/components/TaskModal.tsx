@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, {ReactElement, useEffect, useRef, useState} from "react";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { dragDropColumn, Task } from "../utils/types";
@@ -43,6 +43,23 @@ const TaskModal = () => {
   const dispatchFn = useAppDispatch();
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [displayModal, setDisplayModal] = useState("");
+  const modalRef = useRef<any>(null);
+
+  const closeModal = () => {
+    setDisplayModal("");
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [modalRef]);
 
   const boardItem = useAppSelector((state) => state.board.boardItem);
   const columnId = useAppSelector((state) => state.board.columnId);
@@ -149,7 +166,7 @@ const TaskModal = () => {
               />
               <CommentList comments={cardItem.comments} />
             </div>
-            <div className="w-[25%] relative">
+            <div className="w-[25%] h-fit" ref={modalRef}>
               <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2" />
                 Actions
@@ -157,20 +174,12 @@ const TaskModal = () => {
               {actionBtn.map((btn: Btn, i) => (
                 <button
                   key={i}
-                  className={`flex w-full items-center  rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
+                  className={`flex w-full items-center rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
                     displayModal === btn.title
                       ? "bg-color-grey"
                       : "bg-color-grey-1"
                   }`}
-                  onClick={() => {
-                    setDisplayModal(btn.title);
-                  }}
-                  onMouseOver={() => {
-                    setDisplayModal(btn.title);
-                  }}
-                  onMouseLeave={() => {
-                    setDisplayModal("");
-                  }}
+                  onClick={() => setDisplayModal(btn.title)}
                 >
                   {btn.icon}
                   {btn.title}
@@ -178,26 +187,25 @@ const TaskModal = () => {
               ))}
               <MembersList
                 display={displayModal}
-                setDisplay={setDisplayModal}
                 setMemberModalDisplay={setAddMemberModal}
               />
+
+              <UnsplashModal
+                  display={displayModal}
+                  setUrl={setImgUrl}
+                  setDisplay={setDisplayModal}
+                  boardTag={boardItem.boardTag}
+                  boardRef={cardItem.boardRef}
+              />
+              <LabelModal display={displayModal}  />
+              <AddMemberModal
+                  display={displayModal}
+                  addMemberModalDisplay={addMemberModal}
+              />
+
             </div>
           </div>
         </div>
-        <UnsplashModal
-          display={displayModal}
-          setUrl={setImgUrl}
-          setDisplay={setDisplayModal}
-          boardTag={boardItem.boardTag}
-          boardRef={cardItem.boardRef}
-        />
-        <LabelModal display={displayModal} setDisplay={setDisplayModal} />
-        <AddMemberModal
-          display={displayModal}
-          setDisplay={setDisplayModal}
-          addMemberModalDisplay={addMemberModal}
-          setMemberModalDisplay={setAddMemberModal}
-        />
       </div>
     </div>
   );

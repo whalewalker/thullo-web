@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import user1 from "../asset/img/user1.jpg";
 import user2 from "../asset/img/user2.jpg";
 import user3 from "../asset/img/user3.jpg";
@@ -20,27 +20,17 @@ const users = [
 ];
 
 const MembersList = ({
-  display,
-  setDisplay,
-  setMemberModalDisplay,
-}: {
-  display: string;
-  setDisplay: Function;
-  setMemberModalDisplay: Function;
-}) => {
+  display, setMemberModalDisplay}: { display: string, setMemberModalDisplay: Function }) => {
+
+  useEffect(()=> {if (display === ""){
+    setMemberModalDisplay(false);
+  }}, [display, setMemberModalDisplay])
+
   return (
     <div
       className={`${
-        display === "Members"
-          ? "opacity-100 visible"
-          : "delay-1000 opacity-0 invisible"
+        display === "Members" ? "visible" : "delay-1000 hidden"
       } transition-all duration-800 ease-linear`}
-      onMouseEnter={() => {
-        setDisplay("Members");
-      }}
-      onMouseLeave={() => {
-        setDisplay("");
-      }}
     >
       <div>
         {users.map((user, i) => (
