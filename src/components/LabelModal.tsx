@@ -18,13 +18,7 @@ interface Label {
     colorCode: string;
 }
 
-const LabelModal = ({
-                        display,
-                        setDisplay,
-                    }: {
-    display: string;
-    setDisplay: Function;
-}) => {
+const LabelModal = ({display}: { display: string; }) => {
     const dispatchFn = useAppDispatch();
     const [labelInput, setLabelInput] = useState("");
 
@@ -59,17 +53,11 @@ const LabelModal = ({
 
     return (
         <div
-            className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[16.5rem] -right-[4rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+            className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white relative  rounded-lg p-2 z-20  shadow-4xl cursor-default ${
                 display === "Labels"
-                    ? "opacity-100 visible"
-                    : "delay-300 opacity-0 invisible"
+                    ? " visible"
+                    : "delay-300 hidden"
             }`}
-            onMouseEnter={() => {
-                setDisplay("Labels");
-            }}
-            onMouseLeave={() => {
-                setDisplay("");
-            }}
         >
             <p className="text-xs font-semibold text-color-grey-4">Label</p>
             <p className="text-xs font-normal text-color-grey-3 leading-6">
@@ -80,7 +68,7 @@ const LabelModal = ({
                     type="text"
                     placeholder="Label..."
                     value={labelInput}
-                    maxLength={15}
+                    maxLength={50}
                     minLength={3}
                     onChange={changeLabelInput}
                     className="w-full border-0 outline-0 shadow-4xl py-2 px-2 rounded-lg mb-3 !text-[12px]"

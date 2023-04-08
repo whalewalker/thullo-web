@@ -28,6 +28,8 @@ const DragDropCard = ({
   };
 
 
+
+
   return (
     <Draggable draggableId={String(card.id)} index={index}>
       {(provided) => (
@@ -50,7 +52,7 @@ const DragDropCard = ({
           </small>
           <p className="text-[#000] font-normal mb-1">{card.name}</p>
           {card.labels && (
-            <div className="flex items-center  w-full flex-wrap">
+            <div className="flex items-center  w-full flex-wrap pb-2">
               {card.labels.map((label, i) => (
                 <p
                   key={i}

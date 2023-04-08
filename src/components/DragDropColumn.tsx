@@ -22,10 +22,15 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
     setDisplayAddCardModal(true);
   };
 
+    const formatTaskColumnName = (name: string) => {
+        if (name.trim().length > 0)
+            return name.replace(/_/, " ").toLowerCase();
+    }
+
   return (
     <div>
       <p className="flex items-center mb-4 capitalize">
-        {column.name}
+        {formatTaskColumnName(column.name)}
         <BsThreeDots className="w-3 h-3 text-current ml-auto" />
       </p>
       <StrictModeDroppable droppableId={column.name}>

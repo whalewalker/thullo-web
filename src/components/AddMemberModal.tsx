@@ -3,16 +3,7 @@ import ReactLoading from "react-loading";
 import { FiSearch } from "react-icons/fi";
 
 const AddMemberModal = ({
-  display,
-  setDisplay,
-  addMemberModalDisplay,
-  setMemberModalDisplay,
-}: {
-  display: string;
-  setDisplay: Function;
-  addMemberModalDisplay: boolean;
-  setMemberModalDisplay: Function;
-}) => {
+  display, addMemberModalDisplay}: { display: string, addMemberModalDisplay: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchMemberName, setSearchMemberName] = useState("");
   const [displayedMembers, setDisplayedMembers] = useState([]);
@@ -22,24 +13,18 @@ const AddMemberModal = ({
   };
 
   const onSubmitMemberNameHandler = (e: { preventDefault: Function }) => {
+    setTimeout(() => {setIsLoading(true)}, 1000)
     e.preventDefault();
+    setDisplayedMembers([]);
   };
 
   return (
     <div
-      className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white absolute top-[20rem] -right-[4rem] rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+      className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white relative rounded-lg p-2 z-20  shadow-4xl cursor-default ${
         display === "Members" && addMemberModalDisplay
-          ? "opacity-100 visible"
-          : "delay-300 opacity-0 invisible"
+          ? " visible"
+          : "delay-300 hidden"
       }`}
-      onMouseEnter={() => {
-        setDisplay("Members");
-        setMemberModalDisplay(true);
-      }}
-      onMouseLeave={() => {
-        setDisplay("");
-        setMemberModalDisplay(false);
-      }}
     >
       <p className="text-xs font-semibold text-color-grey-4">Members</p>
       <p className="text-xs font-normal text-color-grey-3 leading-6">
