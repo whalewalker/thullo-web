@@ -16,6 +16,7 @@ const AddMemberModal = ({
     setTimeout(() => {setIsLoading(true)}, 1000)
     e.preventDefault();
     setDisplayedMembers([]);
+    setIsLoading(false)
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import colorArray from "../utils/colorArray";
 import {MdLabel} from "react-icons/md";
 import {boardAction} from "../slice/boardSlice";
@@ -21,6 +21,10 @@ interface Label {
 const LabelModal = ({display}: { display: string; }) => {
     const dispatchFn = useAppDispatch();
     const [labelInput, setLabelInput] = useState("");
+
+    useEffect(() => {
+        if (display === "") setLabelInput("");
+    }, [display])
 
     const generateRandomLabelColor = () => {
         return colorArray[Math.floor(colorArray.length * Math.random())].id;
