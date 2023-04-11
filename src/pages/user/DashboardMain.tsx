@@ -62,6 +62,7 @@ const DashboardMain = () => {
                 img={board.imageUrl}
                 boardTag={board.boardTag}
                 boardName={board.name}
+                boardVisibility={board.boardVisibility}
                 collaborators={board.collaborators}
                 boardRef={board.boardTag}
                 displayUpdateBoardModal={displayUpdateBoardModal}

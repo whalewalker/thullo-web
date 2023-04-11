@@ -1,50 +1,15 @@
 import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete, AiOutlinePicture } from "react-icons/ai";
-import { fileHandler } from "../utils/helperFn";
-import { useAppDispatch } from "../hooks/customHook";
-import { updateBoardImageAction } from "../actions/boardAction";
-
-function AddImageComponent({ boardTag }: { boardTag: string }) {
-  const dispatchFn = useAppDispatch();
-
-  const setImageHandler = (e: any) => {
-    const file = e.target.files[0];
-    const imageUrl = fileHandler(e);
-
-    dispatchFn(updateBoardImageAction({ file, imageUrl, boardTag }));
-  };
-
-  return (
-    <div>
-      <label
-        htmlFor="boardImage"
-        className="flex items-center p-2 cursor-pointer hover:text-color-btn transition-all duration-150 ease-in"
-      >
-        <AiOutlinePicture className="text-current mr-3" />
-        <span className="">Change Board Image</span>
-      </label>
-      <input
-        id="boardImage"
-        type="file"
-        className="hidden"
-        accept="image/*"
-        onChange={setImageHandler}
-      />
-    </div>
-  );
-}
+import { AiOutlineDelete } from "react-icons/ai";
 
 const UpdateBoardDetailsModal = ({
   boardId,
   display,
   setDisplay,
-  boardTag,
   setDisplayEditBoardForm,
 }: {
   boardId: number;
   display: null | number;
   setDisplay: Function;
-  boardTag: string;
   setDisplayEditBoardForm: Function;
 }) => {
   function displayEditBoardFormHandler() {
@@ -74,10 +39,9 @@ const UpdateBoardDetailsModal = ({
           : "opacity-0 hidden scale-0 translate-y-0"
       }`}
       onClick={() => {
-        setDisplay(false);
+        setDisplay(null);
       }}
     >
-      {/* <AddImageComponent boardTag={boardTag} /> */}
       {updateItems.map((item: any, i: number) => (
         <p
           key={i}

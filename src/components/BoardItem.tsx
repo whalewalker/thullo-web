@@ -15,6 +15,7 @@ const BoardItem = ({
   boardRef,
   boardTag,
   boardId,
+  boardVisibility,
   displayUpdateBoardModal,
   setDisplayUpdateBoardModal,
 }: {
@@ -24,12 +25,10 @@ const BoardItem = ({
   boardRef: string;
   boardTag: string;
   boardId: number;
+  boardVisibility: string;
   displayUpdateBoardModal: null | number;
   setDisplayUpdateBoardModal: Function;
 }) => {
-  // const [displayUpdateBoardModal, setDisplayUpdateBoardModal] =
-  //   useState<boolean>(false);
-
   const [displayEditBoardForm, setDisplayEditBoardForm] =
     useState<boolean>(false);
 
@@ -59,21 +58,23 @@ const BoardItem = ({
       className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer relative"
       data-closeinput="true"
     >
-      <div
-        className="rounded-lg  w-full h-[10rem] overflow-hidden"
-        onClick={viewBoardHandler}
-      >
-        <img
-          src={img || noImage}
-          data-board={boardRef}
-          alt="board-img"
-          className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
-        />
-      </div>
       {!displayEditBoardForm && (
-        <div className="flex justify-between items-center">
+        <div
+          className="rounded-lg  w-full h-[10rem] overflow-hidden"
+          onClick={viewBoardHandler}
+        >
+          <img
+            src={img || noImage}
+            data-board={boardRef}
+            alt="board-img"
+            className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
+          />
+        </div>
+      )}
+      {!displayEditBoardForm && (
+        <div className="flex justify-between items-center my-4 ">
           <p
-            className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
+            className=" font-semibold capitalize cursor-pointer"
             onClick={viewBoardHandler}
             data-board={boardRef}
           >
@@ -118,13 +119,15 @@ const BoardItem = ({
         <EditBoardNameForm
           setDisplayEditBoardNameForm={setDisplayEditBoardForm}
           boardTag={boardTag}
+          img={img}
+          boardVisibility={boardVisibility}
+          boardName={boardName}
         />
       )}
       <UpdateBoardDetailsModal
         boardId={boardId}
         display={displayUpdateBoardModal}
         setDisplay={setDisplayUpdateBoardModal}
-        boardTag={boardTag}
         setDisplayEditBoardForm={setDisplayEditBoardForm}
       />
     </div>
