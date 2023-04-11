@@ -112,11 +112,12 @@ const DragAndDropBox = () => {
   function onDragStart(start: DragStart) {}
 
   return (
-    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {boardItem.taskColumn.map((column: dragDropColumn, _: any) => (
-        <DragDropColumn key={String(column.name)} column={column} />
-      ))}
-    </DragDropContext>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          {boardItem.taskColumn.map((column: dragDropColumn, _: any) => (
+              <DragDropColumn key={String(column.name)} column={column} />
+          ))}
+        </DragDropContext>
+
   );
 };
 

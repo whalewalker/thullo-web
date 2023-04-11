@@ -7,10 +7,40 @@ import { boardAction } from "../slice/boardSlice";
 import AddAnotherCardForm from "./AddAnotherCardForm";
 import { Task, dragDropColumn } from "../utils/types";
 
-const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
-  const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
 
-  const dispatchFn = useAppDispatch();
+interface Props {
+    content: {
+        renameButtonLabel: string;
+        deleteButtonLabel: string;
+    };
+}
+
+const MenuModal: React.FC<Props> = ({content}) => {
+    const { renameButtonLabel, deleteButtonLabel } = content;
+
+    return (
+        <>
+            {
+                <div className="border border-color-grey-2 rounded-lg p-2.5 pr-10 absolute top-3 right-4 bg-color-white ">
+                    <button className="text-xs text-color-grey-3 mb-2 block ">{renameButtonLabel}</button>
+                    <hr className="border-color-grey-2 w-fu11" />
+                    <button className="text-xs text-color-grey-3 block mt-2">{deleteButtonLabel}</button>
+                </div>
+            }
+        </>
+    );
+};
+
+const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
+  const [displayAddCardModal, setDisplayAddCardModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+    const content = {
+        renameButtonLabel: 'Rename',
+        deleteButtonLabel: 'Delete the list',
+    };
+
+
+const dispatchFn = useAppDispatch();
 
   const boardItem = useAppSelector((state: any) => state.board.boardItem);
 
@@ -27,11 +57,18 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
             return name.replace(/_/, " ").toLowerCase();
     }
 
+    const onShowModalHandler = () => {
+        setShowModal(!showModal);
+    }
+
+
+
   return (
-    <div>
+    <>
       <p className="flex items-center mb-4 capitalize">
         {formatTaskColumnName(column.name)}
-        <BsThreeDots className="w-3 h-3 text-current ml-auto" />
+        <BsThreeDots onClick={onShowModalHandler} className="w-3 h-3 text-current ml-auto cursor-pointer" />
+          {showModal && <MenuModal content={content}/>}
       </p>
       <StrictModeDroppable droppableId={column.name}>
         {(provided) => (
@@ -69,7 +106,7 @@ const DragDropColumn = ({ column }: { column: dragDropColumn }) => {
           <BsPlusLg className="text-current " />
         </button>
       )}
-    </div>
+    </>
   );
 };
 
