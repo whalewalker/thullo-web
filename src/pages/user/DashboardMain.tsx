@@ -8,10 +8,10 @@ import { Board } from "../../utils/types";
 const DashboardMain = () => {
   const [displayAddBoardModal, setDisplayAddBoardModal] =
     useState<boolean>(false);
-  const [displayUpdateBoardModal, setDisplayUpdateBoardModal] =
-    useState<boolean>(false);
-  const [displayEditBoardNameForm, setDisplayEditBoardNameForm] =
-    useState<boolean>(false);
+
+  const [displayUpdateBoardModal, setDisplayUpdateBoardModal] = useState<
+    null | number
+  >(null);
 
   const dispatchFn = useAppDispatch();
 
@@ -30,8 +30,7 @@ const DashboardMain = () => {
     target: { dataset: { close: string } };
   }) => {
     if (e.target.dataset.close) {
-      setDisplayUpdateBoardModal(false);
-      setDisplayEditBoardNameForm(false);
+      setDisplayUpdateBoardModal(null);
     }
   };
 
@@ -58,16 +57,15 @@ const DashboardMain = () => {
           >
             {boardList.map((board: Board, i) => (
               <BoardItem
-                key={i}
+                key={board.id}
+                boardId={board.id}
                 img={board.imageUrl}
                 boardTag={board.boardTag}
                 boardName={board.name}
                 collaborators={board.collaborators}
                 boardRef={board.boardTag}
-                display={displayUpdateBoardModal}
-                setDisplay={setDisplayUpdateBoardModal}
-                displayEditBoardNameForm={displayEditBoardNameForm}
-                setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
+                displayUpdateBoardModal={displayUpdateBoardModal}
+                setDisplayUpdateBoardModal={setDisplayUpdateBoardModal}
               />
             ))}
           </div>
