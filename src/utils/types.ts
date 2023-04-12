@@ -1,5 +1,6 @@
 export interface Board {
   boardTag: string;
+  boardVisibility: string;
   name: string;
   id: number;
   imageUrl: string;
