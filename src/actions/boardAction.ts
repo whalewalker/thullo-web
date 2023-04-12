@@ -3,8 +3,7 @@ import {
   createBoard,
   getBoard,
   getAllBoards,
-  updateBoardImage,
-  editBoardName,
+  editBoard,
 } from "../services/boardService";
 import { boardAction } from "../slice/boardSlice";
 
@@ -16,7 +15,6 @@ export const addBoard = (file: any, boardName: string) => {
       const response: any = await createBoard(file, boardName);
       dispatch(boardAction.setIsLoading(false));
       toastSuccess(extractMessage(response.data.message));
-      console.log(response);
 
       // dispatching an action that adds board to boardList
       dispatch(boardAction.addBoardToBoardList(response.data.data));
@@ -48,7 +46,6 @@ export const getBoards = () => {
   return async (dispatch: Function) => {
     try {
       const response: any = await getAllBoards();
-      console.log(response);
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));
     } catch (err) {
@@ -60,48 +57,31 @@ export const getBoards = () => {
   };
 };
 
-export const updateBoardImageAction = ({
-  boardTag,
-  file,
-  imageUrl,
-}: {
-  boardTag: string;
-  imageUrl: string | undefined;
-  file: any;
-}) => {
-  return async (dispatch: Function) => {
-    try {
-      dispatch(boardAction.updateBoardImage({ boardTag, imageUrl }));
-
-      await updateBoardImage({
-        boardTag,
-        file,
-      });
-    } catch (err) {
-      dispatch(boardAction.setError(true));
-      const errorMsg = extractMessage(err);
-      toastError(extractMessage(errorMsg));
-      dispatch(boardAction.setErrorMsg(errorMsg));
-    }
-  };
-};
-
-export const editBoardNameAction = ({
+export const editBoardAction = ({
   boardTag,
   name,
+  file,
+  imageUrl,
+  visibility,
 }: {
   boardTag: string;
   name: string;
+  file: any;
+  imageUrl: string;
+  visibility: string;
 }) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(boardAction.editBoardName({ boardTag, name }));
+      dispatch(
+        boardAction.editBoardItem({ boardTag, name, imageUrl, visibility })
+      );
 
-      const response = await editBoardName({
+      await editBoard({
         boardTag,
         name,
+        file,
+        visibility,
       });
-      console.log(response);
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);

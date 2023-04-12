@@ -6,28 +6,32 @@ import noImage from "../asset/img/no-image.jpg";
 import { BsThreeDots } from "react-icons/bs";
 import UpdateBoardDetailsModal from "./UpdateBoardDetailsModal";
 import EditBoardNameForm from "./EditBoardNameForm";
+import { useState } from "react";
 
 const BoardItem = ({
   img,
   boardName,
   collaborators,
   boardRef,
-  display,
-  setDisplay,
   boardTag,
-  displayEditBoardNameForm,
-  setDisplayEditBoardNameForm,
+  boardId,
+  boardVisibility,
+  displayUpdateBoardModal,
+  setDisplayUpdateBoardModal,
 }: {
   img: string;
   boardName: string;
   collaborators: string[] | undefined;
   boardRef: string;
-  display: boolean;
-  displayEditBoardNameForm: boolean;
   boardTag: string;
-  setDisplay: Function;
-  setDisplayEditBoardNameForm: Function;
+  boardId: number;
+  boardVisibility: string;
+  displayUpdateBoardModal: null | number;
+  setDisplayUpdateBoardModal: Function;
 }) => {
+  const [displayEditBoardForm, setDisplayEditBoardForm] =
+    useState<boolean>(false);
+
   const dispatchFn = useAppDispatch();
   const navigate = useNavigate();
 
@@ -46,34 +50,31 @@ const BoardItem = ({
   };
 
   const displayUpdateBoardModalHandler = () => {
-    setDisplay(true);
+    setDisplayUpdateBoardModal(boardId);
   };
 
   return (
     <div
       className="bg-color-white p-3 rounded-lg shadow-3xl  cursor-pointer relative"
       data-closeinput="true"
-      onClick={(e: any) => {
-        if (e.target.dataset.closeinput) {
-          setDisplayEditBoardNameForm(false);
-        }
-      }}
     >
-      <div
-        className="rounded-lg  w-full h-[10rem] overflow-hidden"
-        onClick={viewBoardHandler}
-      >
-        <img
-          src={img || noImage}
-          data-board={boardRef}
-          alt="board-img"
-          className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
-        />
-      </div>
-      {!displayEditBoardNameForm && (
-        <div className="flex justify-between items-center">
+      {!displayEditBoardForm && (
+        <div
+          className="rounded-lg  w-full h-[10rem] overflow-hidden"
+          onClick={viewBoardHandler}
+        >
+          <img
+            src={img || noImage}
+            data-board={boardRef}
+            alt="board-img"
+            className=" hover:scale-[1.1] object-cover w-full h-[10rem] relative transition-all duration-300 ease-linear"
+          />
+        </div>
+      )}
+      {!displayEditBoardForm && (
+        <div className="flex justify-between items-center my-4 ">
           <p
-            className="mb-4 mt-2 font-semibold capitalize cursor-pointer"
+            className=" font-semibold capitalize cursor-pointer"
             onClick={viewBoardHandler}
             data-board={boardRef}
           >
@@ -114,17 +115,20 @@ const BoardItem = ({
           </small>
         )}
       </div>
-      {displayEditBoardNameForm && (
+      {displayEditBoardForm && (
         <EditBoardNameForm
-          setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
+          setDisplayEditBoardNameForm={setDisplayEditBoardForm}
           boardTag={boardTag}
+          img={img}
+          boardVisibility={boardVisibility}
+          boardName={boardName}
         />
       )}
       <UpdateBoardDetailsModal
-        display={display}
-        setDisplay={setDisplay}
-        boardTag={boardTag}
-        setDisplayEditBoardNameForm={setDisplayEditBoardNameForm}
+        boardId={boardId}
+        display={displayUpdateBoardModal}
+        setDisplay={setDisplayUpdateBoardModal}
+        setDisplayEditBoardForm={setDisplayEditBoardForm}
       />
     </div>
   );
