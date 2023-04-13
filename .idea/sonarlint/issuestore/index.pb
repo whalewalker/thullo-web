@@ -8,10 +8,14 @@ $src/components/DescriptionEditor.tsx,8/c/8c44fafd653b7a513fe4208a91946755d800e
 N
 src/components/CommentList.tsx,e/5/e562cd53d9666b8244ec50f7af7061d9ccafa5d9
 P
- .github/pull_request_template.md,9/9/99d2d4406193bf0dc3e7b84a6c9b9109997a4864
-J
-src/actions/taskActions.ts,9/8/980198367ecd500a76d9325d78aaedd126b5a631
-G
-src/slice/boardSlice.ts,6/6/665ce1ec738cfc243e2bdb48522731c70ee8896a
-U
-%src/components/WebSocketComponent.tsx,2/3/234afb5ae40a44f74d93863750677d7a1cddf30f
+ src/components/UnsplashModal.tsx,b/8/b8dfaaa440f120a98787e83920a12899eed4d0ca
+L
+src/components/TaskModal.tsx,6/1/613386e4dd2f79fa419464e0b60672565f56fd63
+N
+src/components/MembersList.tsx,d/4/d4ca1bfd644ec43e2fa950980638961adf29829d
+M
+src/components/LabelModal.tsx,4/5/4565989563dc7a331b039789f7104603d02ffe04
+O
+src/components/DragDropCard.tsx,8/7/87f184ab876a8b8dff9ef2b082cc09c16b0de6ef
+Q
+!src/components/AddMemberModal.tsx,5/e/5ee11aa518404e247c3513c0ce67af8ef7a30890

@@ -10,6 +10,7 @@ const storedBoardItem = JSON.parse(storedBoard);
 const boardSlice = createSlice({
   name: "board",
   initialState: {
+    displayMenuModal: false,
     displayAddColumnForm: false,
     displayTaskModal: false,
     boardTag: storedBoardTag || "",
@@ -124,6 +125,10 @@ const boardSlice = createSlice({
     },
     toggleDispayAddColumnForm(state: any, action: { payload: boolean }) {
       state.displayAddColumnForm = action.payload;
+    },
+
+    setDisplayMenuModal(state: any, action: {payload: boolean}){
+      state.displayMenuModal = action.payload
     },
 
     toggleDisplayTaskModal(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
 import { useAppSelector, useAppDispatch } from "../hooks/customHook";
@@ -109,12 +109,14 @@ const DragAndDropBox = () => {
     }
   }
 
-  function onDragStart(start: DragStart) {}
+  const [columnModalId, setColumnModalId] = useState<any>(null);
+  const onUpdateColumnModalId = (id: any) => setColumnModalId(id);
+
 
   return (
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext onDragEnd={onDragEnd} >
           {boardItem.taskColumn.map((column: dragDropColumn, _: any) => (
-              <DragDropColumn key={String(column.name)} column={column} />
+              <DragDropColumn onShowModalHandler={onUpdateColumnModalId} showModal={columnModalId} key={String(column.name)} column={column} />
           ))}
         </DragDropContext>
 

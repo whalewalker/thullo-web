@@ -35,7 +35,7 @@ const BoardDetail = () => {
 
     const displayAddColumnForm = useAppSelector(
         (state) => state.board.displayAddColumnForm
-    );
+    )
 
     const isImage = (url: string) => {
         return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
