@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useRef, useState} from "react";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
-import { dragDropColumn, Task } from "../utils/types";
+import { TaskColumn, Task } from "../utils/types";
 import emptyImg from "../asset/img/no-image.jpg";
 import { RxCross2 } from "react-icons/rx";
 import { FaUserCircle, FaUserFriends } from "react-icons/fa";
@@ -50,8 +50,8 @@ const TaskModal = () => {
   };
 
   useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const handleOutsideClick = (e: any) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
         closeModal();
       }
     };
@@ -66,7 +66,7 @@ const TaskModal = () => {
   const cardId = useAppSelector((state) => state.board.taskId);
 
   const columnItem = boardItem.taskColumn.filter(
-    (column: dragDropColumn) => column.name === columnId
+    (column: TaskColumn) => column.name === columnId
   )[0];
 
   const [cardItem] = columnItem.tasks.filter(

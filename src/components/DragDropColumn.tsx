@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import DragDropCard from "./DragDropCard";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
 import AddAnotherCardForm from "./AddAnotherCardForm";
-import { Task, dragDropColumn } from "../utils/types";
+import { Task, TaskColumn } from "../utils/types";
 import AddAnotherColumnForm from "./AddAnotherColumnForm";
-import {log} from "util";
+import Btn from "./Btn";
+import ThreeDotModal from "./ThreeDotModal";
+import {formatTaskColumnName} from "../utils/helperFn";
+import DeleteWarningModal from "./DeleteWarningModal";
 
 
-const ModalButton = ({ onClick, label }: { onClick: any, label: string }) => {
-    return (
-        <button
-            onClick={onClick}
-            className="text-xs py-1.5 text-color-grey-3 block hover:text-color-black transition-all duration-150 ease-in"
-        >
-            {label}
-        </button>
-    );
+
+type MenuContentProps = {
+    columnName: string;
+    renameLabel: string;
+    deleteLabel: string;
 };
 
 interface Props {
@@ -30,29 +29,21 @@ interface Props {
 const TaskColumnModal: React.FC<Props> = ({content, handleEdit, handleDelete}) => {
     const  {renameLabel, deleteLabel} = content;
     return (
-        <>
-            {
-                <div className="border border-color-grey-2 rounded-lg px-3 pr-10 absolute top-3 right-4 bg-color-white ">
-                    <ModalButton onClick={handleEdit} label={renameLabel} />
+                <ThreeDotModal className="absolute top-10 right-0">
+                    <Btn onClick={handleEdit}
+                         label={renameLabel}
+                         className="text-xs py-1.5 text-color-grey-3 block hover:text-color-black transition-all duration-150 ease-in" />
                     <hr className="border-color-grey-2 w-fu11" />
-                    <ModalButton onClick={handleDelete} label={deleteLabel} />
-                </div>
-            }
-        </>
+                    <Btn
+                        onClick={handleDelete}
+                         label={deleteLabel}
+                         className="text-xs py-1.5 text-color-grey-3 block hover:text-color-black transition-all duration-150 ease-in" />
+                </ThreeDotModal>
     );
 };
 
-const TaskColumnName = ({ name, handleClick }: {name: string, handleClick: any}) => {
-    const formatTaskColumnName = (name: string) => {
-        if (name.trim().length > 0)
-            return name.replace(/_/, " ").toLowerCase();
-    }
-
-    return (
-        <p>
-            {formatTaskColumnName(name)}
-        </p>
-    );
+const TaskColumnName = ({ name}: {name: string}) => {
+    return <p>{formatTaskColumnName(name)}</p>;
 };
 
 const ThreeDotsIcon = ({ handleClick }: {handleClick: any}) => {
@@ -64,66 +55,83 @@ const ThreeDotsIcon = ({ handleClick }: {handleClick: any}) => {
     );
 };
 
-type MenuContentProps = {
-    columnName: string;
-    renameLabel: string;
-    deleteLabel: string;
+type DragDropColumnProps = {
+    editTaskName: string;
+    setEditTaskName: (name: string) => void;
+    column: TaskColumn;
+    showModal: string;
+    onShowModalHandler: (name: string) => void;
+    closeModal: () => void;
 };
 
-const DragDropColumn = ({column, showModal, onShowModalHandler}: { column: dragDropColumn, showModal: any, onShowModalHandler: any }) => {
-    const [displayAddCardModal, setDisplayAddCardModal] = useState<boolean>(false);
-    const dispatchFn = useAppDispatch();
-    const boardItem = useAppSelector((state: any) => state.board.boardItem);
-    const [showEditForm, setShowEditForm] = useState<string>("");
-    const [showMenu, setShowMenu] = useState<string>("");
-    const [menuContent, setMenuContent] = useState<MenuContentProps>({
+export const DragDropColumn = ({
+                                   editTaskName,
+                                   setEditTaskName,
+                                   column,
+                                   showModal,
+                                   onShowModalHandler,
+                                   closeModal,
+                               }: DragDropColumnProps) => {
+    const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const dispatch = useAppDispatch();
+    const boardItem = useAppSelector((state) => state.board.boardItem);
+
+    const menuContent = {
         columnName: column.name,
         renameLabel: "Rename",
         deleteLabel: "Delete from list",
-    });
-
-    const handleEditClick = (columnName: string) => {
-        setShowEditForm(columnName);
     };
-
-    const handleCloseEditForm = () => {
-        setShowEditForm("");
-    };
-
-    const handleMenuClick = (columnName: string) => {
-        setShowMenu(columnName);
-    };
-
-    const handleCloseMenu = () => {
-        setShowMenu("");
-    };
-
     const isCurrentColumn = (columnName: string) => columnName === column.name;
 
-    const onAddCardModalHandler = async () => {
-        const columnId: string | null | any = column.name;
-        dispatchFn(boardAction.setColumnId(columnId));
+    const handleAddCardModal = async () => {
+        const columnId = column.name;
+        dispatch(boardAction.setColumnId(columnId));
         setDisplayAddCardModal(true);
     };
 
+    const onDeleteModalHandler = () => {
+            setDeleteModal(true);
+            closeModal();
+    }
+
+    const onCloseModalHandler = () => {
+        setDeleteModal(false);
+    }
+
+    const onDeleteTaskColumnHandler = () => {
+        // Make an API call to the server to delete the column
+        console.log("Deleted");
+    }
+
     return (
-      <div className="relative">
-          <div className="flex items-center mb-4 capitalize">
-              {(
-                  <>
-                      <TaskColumnName name={column.name} handleClick={() => handleEditClick(column.name)} />
-                      <ThreeDotsIcon handleClick={() => handleMenuClick(column.name)} />
-                  </>
-              )}
-              {/*{isCurrentColumn(showEditForm) && (<AddAnotherColumnForm/>)}*/}
-              { (
-                  <TaskColumnModal
-                      content={menuContent}
-                      handleEdit={() => {handleEditClick(column.name)}}
-                      handleDelete={() => ()=> console.log("Hello")}
-                  />
-              )}
-          </div>
+        <div className="relative">
+
+            <DeleteWarningModal
+                title="Delete task column?"
+                message='This will permanently delete this option from the "Status"
+                field. This cannot be undone.'
+                onConfirm={onDeleteTaskColumnHandler}
+                onCancel={onCloseModalHandler}
+                isOpen={deleteModal}
+            />
+
+            <div className="flex items-center h-16">
+                {!isCurrentColumn(editTaskName) && (
+                    <>
+                        <TaskColumnName name={column.name} />
+                        <ThreeDotsIcon handleClick={() => onShowModalHandler(column.name)} />
+                    </>
+                )}
+                {isCurrentColumn(editTaskName) && <AddAnotherColumnForm value={formatTaskColumnName(column.name)} />}
+                {isCurrentColumn(showModal) && !isCurrentColumn(editTaskName) && (
+                    <TaskColumnModal
+                        content={menuContent}
+                        handleEdit={() => setEditTaskName(column.name)}
+                        handleDelete={onDeleteModalHandler}
+                    />
+                )}
+            </div>
 
     <StrictModeDroppable droppableId={column.name}>
         {(provided) => (
@@ -132,7 +140,7 @@ const DragDropColumn = ({column, showModal, onShowModalHandler}: { column: dragD
             ref={provided.innerRef}
             className="min-h-[0.5rem]"
           >
-            {/* list of draggables */}
+            {/* list of draggable */}
             {column.tasks.map((card: Task, i: number) => (
               <DragDropCard
                 key={String(card.id)}
@@ -153,13 +161,12 @@ const DragDropColumn = ({column, showModal, onShowModalHandler}: { column: dragD
         />
       )}
       {!displayAddCardModal && (
-        <button
-          onClick={onAddCardModalHandler}
+        <Btn label="Add another card"
+          onClick={handleAddCardModal}
           className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg w-full hover:text-[#6f99ff] transition-all duration-300 ease-in"
         >
-          Add another card
           <BsPlusLg className="text-current " />
-        </button>
+        </Btn>
       )}
     </div>
   );

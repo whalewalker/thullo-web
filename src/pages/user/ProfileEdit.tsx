@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import profileImage from "../../asset/img/profile.png";
 import FormCard from "../../components/FormCard";
-import InputComponent from "../../components/InputComponent";
+import Input from "../../components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { registrationOption } from "../../utils/formValidation";
 import ReactLoading from "react-loading";
@@ -67,7 +67,7 @@ const ProfileEdit = () => {
 
     return (
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <InputComponent
+        <Input
           width="w-3/5"
           pl="pl-4"
           label="name"
@@ -78,7 +78,7 @@ const ProfileEdit = () => {
           name="name"
           validation={registrationOption.name}
         />
-        <InputComponent
+        <Input
           height="pb-12"
           width="w-3/5"
           pl="pl-4"
@@ -89,7 +89,7 @@ const ProfileEdit = () => {
           error={errors}
           name="bio"
         />
-        <InputComponent
+        <Input
           width="w-3/5"
           pl="pl-4"
           label="phoneNumber"
@@ -99,7 +99,7 @@ const ProfileEdit = () => {
           error={errors}
           name="phoneNumber"
         />
-        <InputComponent
+        <Input
           width="w-3/5"
           pl="pl-4"
           label="email"
@@ -111,7 +111,7 @@ const ProfileEdit = () => {
           name="email"
           validation={registrationOption.email}
         />
-        <InputComponent
+        <Input
           width="w-3/5"
           pl="pl-4"
           label="password"

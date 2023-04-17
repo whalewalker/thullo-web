@@ -1,11 +1,14 @@
 import React from "react";
-import InputComponent from "./InputComponent";
+import InputComponent from "./Input";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
 
-const AddAnotherColumnForm = () => {
+interface AddAnotherColumnFormProps {
+  value: string
+}
+const AddAnotherColumnForm = ({value}: AddAnotherColumnFormProps) => {
   const dispatchFn = useAppDispatch();
 
   type FormData = {
@@ -15,10 +18,9 @@ const AddAnotherColumnForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      columnName: "",
+      columnName: value,
     },
   });
 
@@ -44,6 +46,10 @@ const AddAnotherColumnForm = () => {
       </div>
     </form>
   );
+};
+
+AddAnotherColumnForm.defaultProps = {
+  value: "",
 };
 
 export default AddAnotherColumnForm;

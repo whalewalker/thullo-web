@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {useNavigate} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {resetPassword} from "../../actions/authAction";
-import InputComponent from "../../components/InputComponent";
+import Input from "../../components/Input";
 import {registrationOption} from "../../utils/formValidation";
 import {IoMdLock} from "react-icons/io";
 
@@ -65,7 +65,7 @@ const ResetPassword = () => {
 
         return (
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <InputComponent
+                <Input
                     placeholder={"New Password"}
                     type={"password"}
                     register={register}
@@ -77,7 +77,7 @@ const ResetPassword = () => {
                     }
 
                 />
-                <InputComponent
+                <Input
                     placeholder={"Confirm Password"}
                     type={"password"}
                     register={register}
