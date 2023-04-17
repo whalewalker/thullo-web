@@ -2,7 +2,7 @@ import AuthSection from "../../components/AuthSection";
 import React from "react";
 import FormCard from "../../components/FormCard";
 import {SubmitHandler, useForm} from "react-hook-form";
-import InputComponent from "../../components/InputComponent";
+import InputComponent from "../../components/Input";
 import {registrationOption} from "../../utils/formValidation";
 import {BsPersonCircle} from "react-icons/bs";
 import {AiOutlineMail} from "react-icons/ai";

@@ -1,14 +1,28 @@
 import React from "react";
-import { DragDropContext, DropResult, DragStart } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
 import { useAppSelector, useAppDispatch } from "../hooks/customHook";
-import { dragDropColumn } from "../utils/types";
+import { TaskColumn } from "../utils/types";
 import {
   moveTaskWithinColumn,
   moveTaskBetweenColumn,
 } from "../actions/taskActions";
 
-const DragAndDropBox = () => {
+interface DragAndDropBoxProps {
+    editTaskName: string;
+    setEditTaskName: React.Dispatch<React.SetStateAction<string>>;
+    onUpdateColumnModalId: (columnId: string) => void;
+    columnModalId: string;
+    closeModal: any;
+}
+
+const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
+                                                           editTaskName,
+                                                           setEditTaskName,
+                                                           onUpdateColumnModalId,
+                                                           columnModalId,
+                                                           closeModal
+                                                       }) => {
   const boardItem = useAppSelector((state) => state.board.boardItem);
 
   const dispatchFn = useAppDispatch();
@@ -109,14 +123,20 @@ const DragAndDropBox = () => {
     }
   }
 
-  function onDragStart(start: DragStart) {}
-
   return (
-    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {boardItem.taskColumn.map((column: dragDropColumn, _: any) => (
-        <DragDropColumn key={String(column.name)} column={column} />
-      ))}
-    </DragDropContext>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {boardItem.taskColumn.map((column: TaskColumn, _: any) => (
+              <DragDropColumn
+                  editTaskName={editTaskName}
+                  setEditTaskName={setEditTaskName}
+                  onShowModalHandler={onUpdateColumnModalId}
+                  showModal={columnModalId}
+                  column={column}
+                  closeModal={closeModal}
+              />
+          ))}
+        </DragDropContext>
+
   );
 };
 

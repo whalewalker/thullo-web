@@ -1,6 +1,6 @@
 import AuthSection from "../../components/AuthSection";
 import {SubmitHandler, useForm} from "react-hook-form";
-import InputComponent from "../../components/InputComponent";
+import InputComponent from "../../components/Input";
 import {registrationOption} from "../../utils/formValidation";
 import {AiOutlineMail} from "react-icons/ai";
 import {IoMdLock} from "react-icons/io";

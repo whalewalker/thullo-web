@@ -5,7 +5,7 @@ import {toastError} from "../utils/helperFn";
 import AttachedItem from "./AttachedItem";
 import {useAppDispatch, useAppSelector} from "../hooks/customHook";
 import {addAttachment} from "../actions/taskActions";
-import {dragDropColumn, Task} from "../utils/types";
+import {TaskColumn, Task} from "../utils/types";
 
 
 interface AttachmentsProps {
@@ -20,7 +20,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
         const cardId = useAppSelector((state) => state.board.taskId);
 
         let columnItem = boardItem.taskColumn.filter(
-            (column: dragDropColumn) => column.name === columnId
+            (column: TaskColumn) => column.name === columnId
         )[0];
 
         let [cardItem] = columnItem.tasks.filter(

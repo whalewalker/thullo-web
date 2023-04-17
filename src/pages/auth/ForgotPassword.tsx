@@ -1,6 +1,6 @@
 import React from "react";
 import FormCard from "../../components/FormCard";
-import InputComponent from "../../components/InputComponent";
+import InputComponent from "../../components/Input";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {registrationOption} from "../../utils/formValidation";
 import {AiOutlineMail} from "react-icons/ai";

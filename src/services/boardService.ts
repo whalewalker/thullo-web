@@ -1,24 +1,25 @@
 import { api } from "../api/api";
 import { ACCESS_TOKEN } from "../utils/constants";
-import { checkToken } from "../utils/helperFn";
+import {checkToken} from "../utils/helperFn";
+import {AddBoardData} from "../utils/types";
 
-export const createBoard = async (
-  file: any,
-  boardName: string
-): Promise<any> => {
+export const createBoard = async (data: AddBoardData): Promise<any> => {
   await checkToken();
+
+  const formData = new FormData();
+  formData.append("boardName", data.boardName);
+  formData.append("file", data.file);
+  formData.append("boardVisibility", data.visibility);
+
   const config = {
     headers: {
-      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
     },
   };
-  let fd = new FormData();
-  fd.append("boardName", boardName);
-  fd.append("file", file);
 
-  return await api.post(`/boards`, fd, config);
+    return await api.post(`/boards`, formData, config);
 };
+
 
 export const getBoard = async (boardTag: string): Promise<any> => {
   await checkToken();
@@ -48,15 +49,10 @@ export const getAllBoards = async (): Promise<any> => {
 
 export const editBoard = async ({
   boardTag,
-  name,
+  boardName,
   file,
   visibility,
-}: {
-  boardTag: string;
-  name: string;
-  file: any;
-  visibility: string;
-}): Promise<any> => {
+}: AddBoardData): Promise<any> => {
   await checkToken();
 
   const config = {
@@ -67,7 +63,7 @@ export const editBoard = async ({
   };
 
   let fd = new FormData();
-  fd.append("boardName", name);
+  fd.append("boardName", boardName);
   file && fd.append("file", file);
   fd.append("boardVisibility", visibility);
 

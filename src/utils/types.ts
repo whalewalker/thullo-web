@@ -4,7 +4,7 @@ export interface Board {
   name: string;
   id: number;
   imageUrl: string;
-  collaborators: undefined | string[];
+  collaborators: [];
   taskColumn: {
     name: string;
     tasks: [];
@@ -27,7 +27,15 @@ export interface Board {
   }[];
 }
 
-export interface dragDropColumn {
+export interface AddBoardData {
+  file?: any;
+  boardName?: string | any;
+  visibility?: string | any;
+  boardTag?: string,
+  imageUrl?: any
+}
+
+export interface TaskColumn {
   name: string;
   tasks: [];
   createdAt: string;

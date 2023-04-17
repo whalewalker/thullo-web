@@ -1,8 +1,7 @@
 import React from "react";
-import InputComponent from "./InputComponent";
+import InputComponent from "./Input";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { addTask } from "../actions/taskActions";
 import ReactLoading from "react-loading";

@@ -1,20 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import emptyImg from "../asset/img/empty img.jpg";
 import { RxCross2 } from "react-icons/rx";
 import { AiFillPicture, AiOutlinePlus } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
-import InputComponent from "./InputComponent";
+import Input from "./Input";
 import { registrationOption } from "../utils/formValidation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { fileHandler } from "../utils/helperFn";
-import { addBoard } from "../actions/boardAction";
+import {addBoard, editBoardAction} from "../actions/boardAction";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import ReactLoading from "react-loading";
+import Btn from "./Btn";
 
-const AddBoardModal = (props: { closeModal: any }) => {
-  const [boardImg, setBoardImg] = useState(emptyImg);
-  const [file, setFile] = useState();
-  const [privateBoard, setPrivateBoard] = useState(false);
+
+interface AddBoardModalProps {
+  closeModal: any;
+  value?: string;
+  visibility?: string;
+  imageUrl?: any;
+  action?: string
+  boardTag?: string
+}
+
+
+const AddBoardModal: React.FC<AddBoardModalProps> = ({
+                                                  closeModal,
+                                                  value,
+                                                  visibility,
+                                                  imageUrl,
+                                                  boardTag,
+                                                  action
+                                                     }) => {
+  const [boardImg, setBoardImg] = useState(imageUrl || emptyImg);
+  const [file, setFile] = useState(imageUrl || null);
+  const [boardVisibility, setBoardVisibility] = useState(visibility || "PRIVATE");
   const [checkFile, setCheckFile] = useState(false);
   const dispatchFn = useAppDispatch();
   const isLoading = useAppSelector((state) => state.board.isLoading);
@@ -26,15 +45,12 @@ const AddBoardModal = (props: { closeModal: any }) => {
     setBoardImg(fileHandler(e));
   };
 
-  const resetBoardImgHandler = () => {
-    setBoardImg(emptyImg);
-  };
-
   const togglePrivateHandler = () => {
-    setPrivateBoard((prevState) => !prevState);
+    if (boardVisibility === "PRIVATE")
+      setBoardVisibility("PUBLIC");
+    else
+      setBoardVisibility("PRIVATE");
   };
-
-  useEffect(() => {}, [dispatchFn]);
 
   type FormData = {
     boardName: string;
@@ -46,7 +62,7 @@ const AddBoardModal = (props: { closeModal: any }) => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      boardName: "",
+      boardName: value,
     },
   });
 
@@ -55,9 +71,26 @@ const AddBoardModal = (props: { closeModal: any }) => {
       setCheckFile(true);
       return;
     }
-    await dispatchFn(addBoard(file, data.boardName));
-    props.closeModal();
+
+    const boardData = {
+      file: file !== imageUrl ? file : null,
+      boardName: data.boardName === value ? null : data.boardName,
+      visibility: boardVisibility !== visibility ? boardVisibility : null,
+    };
+
+    if (action === "edit") {
+      const editedData = {
+        ...boardData,
+        boardTag: boardTag,
+        imageUrl: imageUrl,
+      };
+      await dispatchFn(editBoardAction(editedData));
+    } else {
+      await dispatchFn(addBoard(boardData));
+    }
+    closeModal();
   };
+
 
   return (
     <div className="w-full h-screen fixed bg-color-black-transparent flex items-center justify-center top-0 left-0 z-30 ">
@@ -85,15 +118,15 @@ const AddBoardModal = (props: { closeModal: any }) => {
               Please add a board Image
             </small>
           )}
-          <div
-            className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer"
-            onClick={resetBoardImgHandler}
+          <Btn
+            className="absolute -top-6 -translate-y-4 -right-8  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer"
+            onClick={closeModal}
           >
             <RxCross2 className="w-6 h-6" />
-          </div>
+          </Btn>
         </div>
         <div className="w-full my-2.5">
-          <InputComponent
+          <Input
             placeholder={"Add board title"}
             type={"text"}
             register={register}
@@ -121,9 +154,9 @@ const AddBoardModal = (props: { closeModal: any }) => {
             id="board-img"
             className="hidden"
           />
-          <p
+          <Btn
             className={`font-medium cursor-pointer text-sm  rounded-lg border-0 py-2.5 px-4 flex items-center  grow ${
-              privateBoard
+                boardVisibility === "PRIVATE"
                 ? "bg-color-btn text-color-white"
                 : "bg-color-grey-1 text-color-grey-3"
             }`}
@@ -131,16 +164,16 @@ const AddBoardModal = (props: { closeModal: any }) => {
           >
             <IoMdLock
               className={`mr-3 w-5 h-5 ${
-                privateBoard ? " text-color-white" : " text-color-grey-3"
+                  boardVisibility === "PRIVATE" ? " text-color-white" : " text-color-grey-3"
               }`}
             />
-            <span>Private</span>
-          </p>
+            <span>{boardVisibility}</span>
+          </Btn>
         </div>
         <div className="flex items-center justify-end mt-6">
           <button
             className="border-0 outline-none text-[#828282] mr-4 hover:text-color-btn transition-all duration-300 ease-in"
-            onClick={props.closeModal}
+            onClick={closeModal}
           >
             cancel
           </button>
@@ -162,8 +195,8 @@ const AddBoardModal = (props: { closeModal: any }) => {
               ""
             ) : (
               <>
-                <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white" />
-                <span>Create</span>
+              {action === "create" && <AiOutlinePlus className="w-5 h-5 mr-3 text-color-white" />}
+                <span>{`${action === "edit" ? "Edit" : "Create"}`}</span>
               </>
             )}
           </button>
@@ -172,5 +205,9 @@ const AddBoardModal = (props: { closeModal: any }) => {
     </div>
   );
 };
+
+AddBoardModal.defaultProps = {
+  action: "create"
+}
 
 export default AddBoardModal;

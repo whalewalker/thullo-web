@@ -7,7 +7,7 @@ import {
   moveTask,
   addTaskCoverImage,
 } from "../services/taskService";
-import { dragDropColumn } from "../utils/types";
+import { TaskColumn } from "../utils/types";
 
 export const addTask = ({
   columnId,
@@ -53,7 +53,7 @@ export const moveTaskWithinColumn = ({
   boardRef,
   position,
 }: {
-  newColumn: dragDropColumn;
+  newColumn: TaskColumn;
   boardTag: string;
   boardRef: string;
   position: number;
@@ -83,8 +83,8 @@ export const moveTaskBetweenColumn = ({
   boardRef,
   position,
 }: {
-  startColumn: dragDropColumn;
-  endColumn: dragDropColumn;
+  startColumn: TaskColumn;
+  endColumn: TaskColumn;
   boardTag: string;
   position: number;
   boardRef: string;

@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Board, dragDropColumn, Task } from "../utils/types";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AddBoardData, Board, TaskColumn, Task} from "../utils/types";
 
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
@@ -10,6 +10,7 @@ const storedBoardItem = JSON.parse(storedBoard);
 const boardSlice = createSlice({
   name: "board",
   initialState: {
+    displayMenuModal: false,
     displayAddColumnForm: false,
     displayTaskModal: false,
     boardTag: storedBoardTag || "",
@@ -60,7 +61,7 @@ const boardSlice = createSlice({
       const { columnId, task } = action.payload;
       const boardItem = state.boardItem;
       const boardColumnIndex = boardItem.taskColumn.findIndex(
-        (column: dragDropColumn) => column.name === columnId
+        (column: TaskColumn) => column.name === columnId
       );
 
       const boardColumn = state.boardItem.taskColumn[boardColumnIndex];
@@ -75,7 +76,7 @@ const boardSlice = createSlice({
     },
     moveTaskWithinBoardTaskColumn(
       state: any,
-      action: { payload: { newColumn: dragDropColumn } }
+      action: { payload: { newColumn: TaskColumn } }
     ) {
       const { newColumn } = action.payload;
       // process
@@ -96,7 +97,7 @@ const boardSlice = createSlice({
     moveTaskBetweenBoardTaskColumns(
       state: any,
       action: {
-        payload: { startColumn: dragDropColumn; endColumn: dragDropColumn };
+        payload: { startColumn: TaskColumn; endColumn: TaskColumn };
       }
     ) {
       const { startColumn, endColumn } = action.payload;
@@ -126,6 +127,10 @@ const boardSlice = createSlice({
       state.displayAddColumnForm = action.payload;
     },
 
+    setDisplayMenuModal(state: any, action: {payload: boolean}){
+      state.displayMenuModal = action.payload
+    },
+
     toggleDisplayTaskModal(
       state: any,
       action: {
@@ -142,7 +147,7 @@ const boardSlice = createSlice({
       const board: Board = state.boardItem;
 
       const columnIndex: number = board.taskColumn.findIndex(
-        (column: dragDropColumn) => column.name === state.columnId
+        (column: TaskColumn) => column.name === state.columnId
       );
 
       const taskIndex: number = board.taskColumn[columnIndex].tasks.findIndex(
@@ -174,7 +179,7 @@ const boardSlice = createSlice({
       const board: Board = state.boardItem;
 
       const columnIndex: number = board.taskColumn.findIndex(
-        (column: dragDropColumn) => column.name === state.columnId
+        (column: TaskColumn) => column.name === state.columnId
       );
 
       const taskIndex: number = board.taskColumn[columnIndex].tasks.findIndex(
@@ -193,28 +198,22 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    editBoardItem(
-      state: any,
-      action: {
-        payload: {
-          boardTag: string;
-          name: string;
-          imageUrl: any;
-          visibility: string;
-        };
-      }
-    ) {
-      const { boardTag, name, imageUrl, visibility } = action.payload;
+    editBoardItem: (state, action: PayloadAction<AddBoardData>) => {
+      const { boardTag, boardName , imageUrl, visibility } = action.payload;
 
       const boardIndex = state.boardList.findIndex(
-        (board: Board) => board.boardTag === boardTag
+          (board: Board) => board.boardTag === boardTag
       );
 
-      state.boardList[boardIndex].name = name;
-      state.boardList[boardIndex].imageUrl = imageUrl;
-      state.boardList[boardIndex].boardVisibility = visibility;
-
-      localStorage.setItem("boardList", JSON.stringify(state.boardList));
+      if (boardIndex !== -1) {
+        state.boardList[boardIndex] = {
+          ...state.boardList[boardIndex],
+          boardName,
+          imageUrl,
+          visibility,
+        };
+        localStorage.setItem("boardList", JSON.stringify(state.boardList));
+      }
     },
     addCommentToTaskComments(
       state: any,

@@ -38,3 +38,8 @@ export const checkToken = () => {
     }
 };
 
+export const formatTaskColumnName = (name: string) => {
+    if (name.trim().length > 0)
+        return name.replace(/_/, " ").toLowerCase();
+}
+
