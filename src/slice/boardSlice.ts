@@ -1,21 +1,22 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AddBoardData, Board, TaskColumn, Task} from "../utils/types";
-
+import { createSlice } from "@reduxjs/toolkit";
+import { AddBoardData, Board, TaskColumn, Task } from "../utils/types";
 const storedBoardList: any = localStorage.getItem("boardList");
 const storedList = JSON.parse(storedBoardList);
 const storedBoardTag: any = localStorage.getItem("boardTag");
 const storedBoard: any = localStorage.getItem("boardItem");
 const storedBoardItem = JSON.parse(storedBoard);
+const taskModalState: any = localStorage.getItem("taskModalState");
+const storedTaskModalState = JSON.parse(taskModalState);
 
 const boardSlice = createSlice({
   name: "board",
   initialState: {
     displayMenuModal: false,
     displayAddColumnForm: false,
-    displayTaskModal: false,
+    displayTaskModal: storedTaskModalState.display || false,
     boardTag: storedBoardTag || "",
-    taskId: undefined,
-    columnId: null,
+    taskId: storedTaskModalState.taskId || undefined,
+    columnId: storedTaskModalState.columnId || null,
     boardItem: storedBoardItem || undefined,
     isLoading: false,
     successMsg: "",
@@ -127,21 +128,50 @@ const boardSlice = createSlice({
       state.displayAddColumnForm = action.payload;
     },
 
-    setDisplayMenuModal(state: any, action: {payload: boolean}){
-      state.displayMenuModal = action.payload
+    setDisplayMenuModal(state: any, action: { payload: boolean }) {
+      state.displayMenuModal = action.payload;
     },
 
-    toggleDisplayTaskModal(
+    openTaskModal(
       state: any,
       action: {
         payload: { cardId: number | undefined; columnId: string | undefined };
       }
     ) {
       const { cardId, columnId } = action.payload;
-      state.displayTaskModal = !state.displayTaskModal;
+      state.displayTaskModal = true;
       state.taskId = cardId;
       state.columnId = columnId;
+      localStorage.setItem(
+        "taskModalState",
+        JSON.stringify({
+          display: state.displayTaskModal,
+          taskId: state.taskId,
+          columnId: state.columnId,
+        })
+      );
     },
+
+    closeTaskModal(
+      state: any,
+      action: {
+        payload: { cardId: number | undefined; columnId: string | undefined };
+      }
+    ) {
+      const { cardId, columnId } = action.payload;
+      state.displayTaskModal = false;
+      state.taskId = undefined;
+      state.columnId = "";
+      localStorage.setItem(
+        "taskModalState",
+        JSON.stringify({
+          display: state.displayTaskModal,
+          taskId: state.taskId,
+          columnId: state.columnId,
+        })
+      );
+    },
+
     addImageToTaskCard(state: any, action: { payload: string | undefined }) {
       // find the task
       const board: Board = state.boardItem;
@@ -198,11 +228,11 @@ const boardSlice = createSlice({
 
       localStorage.setItem("boardItem", JSON.stringify(item));
     },
-    editBoardItem: (state, action: PayloadAction<AddBoardData>) => {
-      const { boardTag, boardName , imageUrl, visibility } = action.payload;
+    editBoardItem: (state: any, action: any) => {
+      const { boardTag, boardName, imageUrl, visibility } = action.payload;
 
       const boardIndex = state.boardList.findIndex(
-          (board: Board) => board.boardTag === boardTag
+        (board: Board) => board.boardTag === boardTag
       );
 
       if (boardIndex !== -1) {
