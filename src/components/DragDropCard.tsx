@@ -23,12 +23,9 @@ const DragDropCard = ({
       cardId: card.id,
       columnId: columnId,
     };
-    dispatchFn(boardAction.toggleDisplayTaskModal(newTaskModal));
+    dispatchFn(boardAction.openTaskModal(newTaskModal));
     localStorage.setItem("activeTaskModal", JSON.stringify(newTaskModal));
   };
-
-
-
 
   return (
     <Draggable draggableId={String(card.id)} index={index}>

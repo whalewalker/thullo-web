@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useRef, useState} from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { boardAction } from "../slice/boardSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { TaskColumn, Task } from "../utils/types";
@@ -73,6 +73,8 @@ const TaskModal = () => {
     (task: Task) => task.id === cardId
   );
 
+  console.log(cardItem);
+
   const [imageUrl, setImgUrl] = useState(
     (cardItem && cardItem.imageUrl) || emptyImg
   );
@@ -82,7 +84,7 @@ const TaskModal = () => {
   }) => {
     if (e.target.dataset.close) {
       dispatchFn(
-        boardAction.toggleDisplayTaskModal({
+        boardAction.closeTaskModal({
           cardId: undefined,
           columnId: undefined,
         })
@@ -134,7 +136,7 @@ const TaskModal = () => {
               className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer "
               onClick={() => {
                 dispatchFn(
-                  boardAction.toggleDisplayTaskModal({
+                  boardAction.closeTaskModal({
                     cardId: undefined,
                     columnId: undefined,
                   })
@@ -191,18 +193,17 @@ const TaskModal = () => {
               />
 
               <UnsplashModal
-                  display={displayModal}
-                  setUrl={setImgUrl}
-                  setDisplay={setDisplayModal}
-                  boardTag={boardItem.boardTag}
-                  boardRef={cardItem.boardRef}
+                display={displayModal}
+                setUrl={setImgUrl}
+                setDisplay={setDisplayModal}
+                boardTag={boardItem.boardTag}
+                boardRef={cardItem.boardRef}
               />
-              <LabelModal display={displayModal}  />
+              <LabelModal display={displayModal} />
               <AddMemberModal
-                  display={displayModal}
-                  addMemberModalDisplay={addMemberModal}
+                display={displayModal}
+                addMemberModalDisplay={addMemberModal}
               />
-
             </div>
           </div>
         </div>
