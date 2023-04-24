@@ -94,17 +94,16 @@ const BoardItem = ({
     const [displayEditBoardForm, setDisplayEditBoardForm] =
         useState<boolean>(false);
 
-    const dispatchFn = useAppDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const viewBoardHandler: any = async (e: {
         target: { dataset: { board: string } };
     }) => {
-        const reference = e.target.dataset.board;
-        await dispatchFn(getBoardItem(reference));
-
-        dispatchFn(boardAction.setBoardTag(reference));
-        navigate(`/user/board/${boardName}`);
+        const boardTag = e.target.dataset.board;
+        // await dispatch(getBoardItem(boardTag));
+        dispatch(boardAction.setBoardTag(boardTag));
+        navigate(`/user/board/${boardTag}`);
     };
 
     const displayUpdateBoardModalHandler = () => {

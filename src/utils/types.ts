@@ -5,26 +5,7 @@ export interface Board {
   id: number;
   imageUrl: string;
   collaborators: [];
-  taskColumn: {
-    name: string;
-    tasks: [];
-    createdAt: string;
-    imageUrl: string | undefined;
-    updatedAt: string;
-    boardRef: string;
-    contributors: [];
-    comments: [];
-    description: null | string;
-    position: number;
-    labels: {
-      backgroundCode: string;
-      colorCode: string;
-      createdAt: string;
-      id: number;
-      name: string;
-      updatedAt: string;
-    }[];
-  }[];
+  taskColumn: TaskColumn[];
 }
 
 export interface AddBoardData {
@@ -36,10 +17,25 @@ export interface AddBoardData {
 }
 
 export interface TaskColumn {
+  id: number;
   name: string;
   tasks: [];
   createdAt: string;
+  imageUrl: string | undefined;
   updatedAt: string;
+  boardRef: string;
+  contributors: [];
+  comments: [];
+  description: null | string;
+  position: number;
+  labels: {
+    backgroundCode: string;
+    colorCode: string;
+    createdAt: string;
+    id: number;
+    name: string;
+    updatedAt: string;
+  }[];
 }
 
 export interface Task {

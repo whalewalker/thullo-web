@@ -1,12 +1,10 @@
-import React from "react";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import React, {useEffect} from "react";
+import {DragDropContext, DropResult} from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
-import { useAppSelector, useAppDispatch } from "../hooks/customHook";
-import { TaskColumn } from "../utils/types";
-import {
-  moveTaskWithinColumn,
-  moveTaskBetweenColumn,
-} from "../actions/taskActions";
+import {useAppDispatch, useAppSelector} from "../hooks/customHook";
+import {TaskColumn} from "../utils/types";
+import {moveTaskBetweenColumn, moveTaskWithinColumn,} from "../actions/taskActions";
+import {boardAction} from "../slice/boardSlice";
 
 interface DragAndDropBoxProps {
     editTaskName: string;
@@ -23,9 +21,9 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
                                                            columnModalId,
                                                            closeModal
                                                        }) => {
-  const boardItem = useAppSelector((state) => state.board.boardItem);
+    const dispatch = useAppDispatch();
+    const boardItem = useAppSelector((state) => state.board.boardItem);
 
-  const dispatchFn = useAppDispatch();
 
   function onDragEnd({ destination, source }: DropResult) {
     // Make sure we have a valid destination
@@ -71,7 +69,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
 
       // pass the removed item id, destination index
 
-      dispatchFn(
+      dispatch(
         moveTaskWithinColumn({
           newColumn: newCol,
           boardTag: boardItem.boardTag,
@@ -109,7 +107,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
 
       // pass the removed item id, destination index
 
-      dispatchFn(
+      dispatch(
         moveTaskBetweenColumn({
           startColumn: newStartCol,
           endColumn: newEndCol,
@@ -118,14 +116,12 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
           boardRef: start.tasks[source.index].boardRef,
         })
       );
-
-      return;
     }
   }
 
   return (
         <DragDropContext onDragEnd={onDragEnd}>
-          {boardItem.taskColumn.map((column: TaskColumn, _: any) => (
+          {boardItem.taskColumn.map((column: TaskColumn, index: any) => (
               <DragDropColumn
                   editTaskName={editTaskName}
                   setEditTaskName={setEditTaskName}
@@ -133,6 +129,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
                   showModal={columnModalId}
                   column={column}
                   closeModal={closeModal}
+                  key={index}
               />
           ))}
         </DragDropContext>

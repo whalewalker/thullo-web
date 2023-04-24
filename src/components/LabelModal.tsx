@@ -50,7 +50,7 @@ const LabelModal = ({display}: { display: string; }) => {
 
         if (!label.name) return;
         setLabels((prevState: Label[]): any => [label, ...prevState]);
-        dispatchFn(boardAction.addLabelToCard(label));
+        // dispatchFn(boardAction.addLabelToCard(label));
         setLabelInput("");
         setLabelColor(generateRandomLabelColor())
     };

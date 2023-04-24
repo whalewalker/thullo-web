@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
 import AddAnotherCardForm from "./AddAnotherCardForm";
 import { Task, TaskColumn } from "../utils/types";
-import AddAnotherColumnForm from "./AddAnotherColumnForm";
+import TaskColumnForm from "./TaskColumnForm";
 import Btn from "./Btn";
 import ThreeDotModal from "./ThreeDotModal";
 import {formatTaskColumnName} from "../utils/helperFn";
@@ -105,7 +105,7 @@ export const DragDropColumn = ({
     }
 
     return (
-        <div className="relative">
+        <div className="relative snap-center">
 
             <DeleteWarningModal
                 title="Delete task column?"
@@ -123,7 +123,12 @@ export const DragDropColumn = ({
                         <ThreeDotsIcon handleClick={() => onShowModalHandler(column.name)} />
                     </>
                 )}
-                {isCurrentColumn(editTaskName) && <AddAnotherColumnForm value={formatTaskColumnName(column.name)} />}
+                {isCurrentColumn(editTaskName) &&
+                    <TaskColumnForm
+                        value={formatTaskColumnName(column.name)}
+                        boardTag={boardItem.boardTag}
+                    />
+                }
                 {isCurrentColumn(showModal) && !isCurrentColumn(editTaskName) && (
                     <TaskColumnModal
                         content={menuContent}

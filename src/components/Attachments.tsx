@@ -16,12 +16,12 @@ interface AttachmentsProps {
 const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
 
         const boardItem = useAppSelector((state) => state.board.boardItem);
-        const columnId = useAppSelector((state) => state.board.columnId);
+        const columnName = useAppSelector((state) => state.board.columnName);
         const cardId = useAppSelector((state) => state.board.taskId);
 
-        let columnItem = boardItem.taskColumn.filter(
-            (column: TaskColumn) => column.name === columnId
-        )[0];
+    const [columnItem] = boardItem.taskColumn.filter(
+        (column: TaskColumn) => column.name === columnName
+    );
 
         let [cardItem] = columnItem.tasks.filter(
             (task: Task) => task.id === cardId
@@ -47,7 +47,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                 return;
             }
 
-            const newAttachment = await dispatchFn(addAttachment(boardRef, boardTag, columnId, file));
+            const newAttachment = await dispatchFn(addAttachment(boardRef, boardTag, columnName, file));
             if (newAttachment) {
                 setAttachments((prevState: { fileName: string; createdAt: string; fileUrl: string }[]): any => {
                     return [...prevState, newAttachment];
@@ -101,7 +101,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                                   id
                               }: { fileName: string, fileUrl: string, createdAt: string, id: number }) => (
                             <AttachedItem key={createdAt} attachment={{fileName, fileUrl, createdAt, id}}
-                                          boardRef={boardRef} boardTag={boardTag} columnId={columnId}
+                                          boardRef={boardRef} boardTag={boardTag} columnId={columnName}
                                           setAttachments={setAttachments}/>
                         ))
                     }

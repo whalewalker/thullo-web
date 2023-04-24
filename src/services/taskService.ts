@@ -30,12 +30,12 @@ export const createTask = async ({
 export const moveTask = async ({
   boardRef,
   boardTag,
-  status,
+  taskColumnId,
   position,
 }: {
   boardRef: string;
   boardTag: string;
-  status: string;
+  taskColumnId: number;
   position: number;
 }): Promise<any> => {
   await checkToken();
@@ -47,7 +47,7 @@ export const moveTask = async ({
     },
   };
 
-  let data = { boardRef, status, position };
+  let data = { boardRef, taskColumnId, position };
   return await api.put(`/tasks/${boardTag}/move`, JSON.stringify(data), config);
 };
 
@@ -104,12 +104,12 @@ export const addTaskCoverImage = async ({
     },
   };
 
-  let formdata = new FormData();
-  formdata.append("file", imageObj);
+  let formData = new FormData();
+  formData.append("file", imageObj);
 
   return await api.put(
       `/tasks/${boardTag}/${boardRef}/cover-image`,
-      formdata,
+      formData,
       config
   );
 };

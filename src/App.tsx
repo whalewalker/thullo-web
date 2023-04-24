@@ -15,6 +15,7 @@ import Profile from "./pages/user/Profile";
 import ProfileMain from "./pages/user/ProfileMain";
 import ProfileEdit from "./pages/user/ProfileEdit";
 import OauthRedirectHandler from "./pages/auth/OauthRedirectHandler";
+import Hello from "./components/Hello";
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
           }
         >
           <Route path="dashboard" element={<DashboardMain />} />
-          <Route path="board/:boardId" element={<BoardDetail />} />
+          <Route path="board/:boardTag" element={<Hello />} />
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileMain />} />
             <Route path="edit" element={<ProfileEdit />} />

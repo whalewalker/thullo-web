@@ -6,16 +6,9 @@ import { getBoards } from "../../actions/boardAction";
 import { Board } from "../../utils/types";
 
 const DashboardMain = () => {
-  const [displayAddBoardModal, setDisplayAddBoardModal] =
-    useState<boolean>(false);
-
-  const [displayUpdateBoardModal, setDisplayUpdateBoardModal] = useState<
-    null | number
-  >(null);
-
-  const dispatchFn = useAppDispatch();
-
-  // getting the board list data
+  const [displayAddBoardModal, setDisplayAddBoardModal] = useState<boolean>(false);
+  const [displayUpdateBoardModal, setDisplayUpdateBoardModal] = useState<null | number>(null);
+  const dispatch = useAppDispatch();
   const boardList: Board[] = useAppSelector((state) => state.board.boardList);
 
   const toggleAddBoardModalHandler: React.MouseEventHandler = () => {
@@ -23,8 +16,8 @@ const DashboardMain = () => {
   };
 
   useEffect(() => {
-    dispatchFn(getBoards());
-  }, [dispatchFn]);
+    dispatch(getBoards());
+  }, [dispatch]);
 
   const hideUpdateBoardModalHandler: any = (e: {
     target: { dataset: { close: string } };

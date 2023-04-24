@@ -36,6 +36,7 @@ export const addBoard = createAsyncThunk(
 
 export const getBoardItem = (boardTag: string) => {
   return async (dispatch: Function) => {
+    dispatch(boardAction.setIsLoading(true));
     try {
       const response = await getBoard(boardTag);
       dispatch(boardAction.setBoard(response.data.data));
@@ -66,7 +67,7 @@ export const getBoards = () => {
 export const editBoardAction = (data: AddBoardData) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(boardAction.editBoardItem(data));
+      // dispatch(boardAction.editBoardItem(data));
 
       await editBoard(data);
     } catch (error) {

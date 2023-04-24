@@ -60,13 +60,14 @@ export const moveTaskWithinColumn = ({
 }) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(boardAction.moveTaskWithinBoardTaskColumn({ newColumn }));
+      // dispatch(boardAction.moveTaskWithinBoardTaskColumn({ newColumn }));
       await moveTask({
         position,
         boardRef,
         boardTag,
-        status: newColumn.name,
+        taskColumnId: newColumn.id,
       });
+
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
@@ -91,18 +92,18 @@ export const moveTaskBetweenColumn = ({
 }) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(
-        boardAction.moveTaskBetweenBoardTaskColumns({
-          startColumn,
-          endColumn,
-        })
-      );
+      // dispatch(
+      //   boardAction.moveTaskBetweenBoardTaskColumns({
+      //     startColumn,
+      //     endColumn,
+      //   })
+      // );
 
       await moveTask({
         boardTag,
         boardRef,
         position,
-        status: endColumn.name,
+        taskColumnId: endColumn.id,
       });
     } catch (err) {
       dispatch(boardAction.setError(true));
@@ -126,7 +127,7 @@ export const updateTaskCoverImage = ({
 }) => {
   return async (dispatch: Function) => {
     try {
-      dispatch(boardAction.addImageToTaskCard(imageUrl));
+      // dispatch(boardAction.addImageToTaskCard(imageUrl));
 
       await addTaskCoverImage({
         boardTag,
@@ -221,27 +222,27 @@ export const removeAttachment =
   ) =>
   async (dispatch: Function) => {
     try {
-      await deleteAttachment(Number(attachmentId), boardTag, boardRef);
-      let storedBoard = JSON.parse(localStorage.getItem("boardItem") || "{}");
-      const column = storedBoard.taskColumn.find(
-        (column: { name: string }) => column.name === columnId
-      );
-      const task = column.tasks.find(
-        (task: { boardRef: string; attachments: any[] }) =>
-          task.boardRef === boardRef
-      );
-      task.attachments = task.attachments.filter(
-        (attachment: { id: number }) => attachment.id !== Number(attachmentId)
-      );
-      localStorage.setItem("boardItem", JSON.stringify(storedBoard));
+      // await deleteAttachment(Number(attachmentId), boardTag, boardRef);
+      // let storedBoard = JSON.parse(localStorage.getItem("boardItem") || "{}");
+      // const column = storedBoard.taskColumn.find(
+      //   (column: { name: string }) => column.name === columnId
+      // );
+      // const task = column.tasks.find(
+      //   (task: { boardRef: string; attachments: any[] }) =>
+      //     task.boardRef === boardRef
+      // );
+      // task.attachments = task.attachments.filter(
+      //   (attachment: { id: number }) => attachment.id !== Number(attachmentId)
+      // );
+      // localStorage.setItem("boardItem", JSON.stringify(storedBoard));
 
-      const attachments = storedBoard.taskColumn
-        .find((column: { name: string }) => column.name === columnId)
-        .tasks.find(
-          (task: { boardRef: string; attachments: any[] }) =>
-            task.boardRef === boardRef
-        ).attachments;
-      callback(attachments);
+      // const attachments = storedBoard.taskColumn
+      //   .find((column: { name: string }) => column.name === columnId)
+      //   .tasks.find(
+      //     (task: { boardRef: string; attachments: any[] }) =>
+      //       task.boardRef === boardRef
+      //   ).attachments;
+      // callback(attachments);
     } catch (err) {
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);

@@ -5,11 +5,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../hooks/customHook";
 import { boardAction } from "../slice/boardSlice";
 
-interface AddAnotherColumnFormProps {
-  value: string
+interface TaskColumnFormProps {
+  value: string,
+  action?: string,
+  boardTag: string
 }
-const AddAnotherColumnForm = ({value}: AddAnotherColumnFormProps) => {
-  const dispatchFn = useAppDispatch();
+const TaskColumnForm = ({value, action, boardTag}: TaskColumnFormProps) => {
+  const dispatch = useAppDispatch();
 
   type FormData = {
     columnName: string;
@@ -24,9 +26,13 @@ const AddAnotherColumnForm = ({value}: AddAnotherColumnFormProps) => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = () => {
-    dispatchFn(boardAction.toggleDispayAddColumnForm(false));
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    if (action === "addTaskColumn") {
+      console.log(data)
+    }
+    dispatch(boardAction.toggleDisplayAddColumnForm(false));
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -48,8 +54,8 @@ const AddAnotherColumnForm = ({value}: AddAnotherColumnFormProps) => {
   );
 };
 
-AddAnotherColumnForm.defaultProps = {
+TaskColumnForm.defaultProps = {
   value: "",
 };
 
-export default AddAnotherColumnForm;
+export default TaskColumnForm;
