@@ -10,10 +10,11 @@ export interface Board {
 
 export interface AddBoardData {
   file?: any;
-  boardName?: string | any;
+  name?: string | any;
   visibility?: string | any;
   boardTag?: string,
   imageUrl?: any
+  callback: Function
 }
 
 export interface TaskColumn {
@@ -66,3 +67,19 @@ export interface Comment {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface EditTaskOptions {
+  boardTag: string;
+  boardRef: string;
+  name?: string;
+  file?: any;
+  description?: string;
+  imageUrl?: string | undefined
+}
+
+export interface TaskColumnOptions {
+  boardTag: string;
+  name?: string;
+  taskColumnId?: number;
+}
+

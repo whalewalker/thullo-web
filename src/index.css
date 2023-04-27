@@ -15,7 +15,31 @@ html {
 }
 
 body {
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+code{
+  background-color: #e2e6e8;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+}
+
+/* Style for unordered lists */
+ul {
+  list-style: disc; /* Change the bullet point to a filled circle */
+  margin-left: 1.5rem; /* Add some left margin to the list */
+}
+
+/* Style for ordered lists */
+ol {
+  list-style: decimal; /* Change the bullet point to a number */
+  margin-left: 1.5rem; /* Add some left margin to the list */
+}
+
+/* Style for list items */
+li {
+  margin-bottom: 0.2rem; /* Add some space between list items */
 }
 
 img {

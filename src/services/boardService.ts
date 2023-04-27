@@ -7,7 +7,7 @@ export const createBoard = async (data: AddBoardData): Promise<any> => {
   await checkToken();
 
   const formData = new FormData();
-  formData.append("boardName", data.boardName);
+  formData.append("name", data.name);
   formData.append("file", data.file);
   formData.append("boardVisibility", data.visibility);
 
@@ -49,7 +49,7 @@ export const getAllBoards = async (): Promise<any> => {
 
 export const editBoard = async ({
   boardTag,
-  boardName,
+  name,
   file,
   visibility,
 }: AddBoardData): Promise<any> => {
@@ -63,9 +63,21 @@ export const editBoard = async ({
   };
 
   let fd = new FormData();
-  fd.append("boardName", boardName);
+  fd.append("name", name);
   file && fd.append("file", file);
   fd.append("boardVisibility", visibility);
 
   return await api.put(`boards/${boardTag}`, fd, config);
+};
+
+export const deleteBoard = async (boardTag: string): Promise<any> => {
+  await checkToken();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+
+  return await api.delete(`boards/${boardTag}`, config);
 };

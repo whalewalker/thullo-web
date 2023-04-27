@@ -1,7 +1,7 @@
 import React from "react";
 
 interface BtnProps {
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     className: string;
     label?: string;
     children?: React.ReactNode;

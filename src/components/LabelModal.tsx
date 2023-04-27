@@ -19,7 +19,7 @@ interface Label {
 }
 
 const LabelModal = ({display}: { display: string; }) => {
-    const dispatchFn = useAppDispatch();
+    const dispatch = useAppDispatch();
     const [labelInput, setLabelInput] = useState("");
 
     useEffect(() => {
@@ -50,7 +50,7 @@ const LabelModal = ({display}: { display: string; }) => {
 
         if (!label.name) return;
         setLabels((prevState: Label[]): any => [label, ...prevState]);
-        // dispatchFn(boardAction.addLabelToCard(label));
+        dispatch(boardAction.addLabelToCard(label));
         setLabelInput("");
         setLabelColor(generateRandomLabelColor())
     };

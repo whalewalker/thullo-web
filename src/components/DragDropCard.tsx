@@ -7,27 +7,22 @@ import { useAppDispatch } from "../hooks/customHook";
 import ImageCache from "./ImageCache";
 import { isImage } from "../utils/helperFn";
 
-const DragDropCard = ({
-  card,
-  index,
-  columnId,
-}: {
+interface DragDropCardProps {
   card: Task;
-  index: number;
-  columnId: string;
-}) => {
-  const dispatchFn = useAppDispatch();
+  columnId: number;
+  index: number
+}
+const DragDropCard: React.FC<DragDropCardProps> = ({ card, columnId, index }) => {
+  const dispatch = useAppDispatch();
 
   const displayTaskModal = () => {
     const newTaskModal = {
       cardId: card.id,
       columnId: columnId,
     };
-    dispatchFn(boardAction.toggleDisplayTaskModal(newTaskModal));
+    dispatch(boardAction.toggleDisplayTaskModal(newTaskModal));
     localStorage.setItem("activeTaskModal", JSON.stringify(newTaskModal));
   };
-
-
 
 
   return (

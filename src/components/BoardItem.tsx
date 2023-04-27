@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {boardAction} from "../slice/boardSlice";
 import {useAppDispatch} from "../hooks/customHook";
-import {getBoardItem} from "../actions/boardAction";
+import {deleteBoardAction, getBoardItem} from "../actions/boardAction";
 import noImage from "../asset/img/no-image.jpg";
 import {BsThreeDots} from "react-icons/bs";
 import React, {useState} from "react";
@@ -13,17 +13,20 @@ import Members from "./Members";
 
 
 const BoardUpdateModal = ({
+                              boardTag,
                               boardId,
                               display,
                               setDisplay,
                               setDisplayEditBoardForm,
                           }: {
+    boardTag: string,
     boardId: number;
     display: null | number;
     setDisplay: Function;
     setDisplayEditBoardForm: Function;
 }) => {
     const [deleteModal, setDeleteModal] = useState(false);
+    const dispatch = useAppDispatch();
 
     const displayEditBoardFormHandler = () => {
         setDisplayEditBoardForm(true);
@@ -32,16 +35,17 @@ const BoardUpdateModal = ({
         setDeleteModal(false);
     }
 
-    const deleteBoard = () => {
-        // Delete board
-        console.log("Board deleted")
+    const deleteBoard = async () => {
+        await dispatch(deleteBoardAction(boardTag));
+        setDeleteModal(false);
     }
 
     return (
         <>
             <DeleteWarningModal
                 title="Delete board?"
-                message='This board will permanently delete. This cannot be undone.'
+                message='This action will result in the permanent deletion of the board, and there
+                will be no way to undo it or retrieve any of its contents once it is done.'
                 onConfirm={deleteBoard}
                 onCancel={onCloseModalHandler}
                 isOpen={deleteModal}
@@ -91,8 +95,7 @@ const BoardItem = ({
     displayUpdateBoardModal: null | number;
     setDisplayUpdateBoardModal: Function;
 }) => {
-    const [displayEditBoardForm, setDisplayEditBoardForm] =
-        useState<boolean>(false);
+    const [displayEditBoardForm, setDisplayEditBoardForm] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -101,8 +104,9 @@ const BoardItem = ({
         target: { dataset: { board: string } };
     }) => {
         const boardTag = e.target.dataset.board;
-        // await dispatch(getBoardItem(boardTag));
+        await dispatch(getBoardItem(boardTag));
         dispatch(boardAction.setBoardTag(boardTag));
+        dispatch(boardAction.setBoardName(boardName));
         navigate(`/user/board/${boardTag}`);
     };
 
@@ -153,6 +157,7 @@ const BoardItem = ({
                 />
             )}
             <BoardUpdateModal
+                boardTag={boardTag}
                 boardId={boardId}
                 display={displayUpdateBoardModal}
                 setDisplay={setDisplayUpdateBoardModal}

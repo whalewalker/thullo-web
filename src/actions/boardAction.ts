@@ -2,7 +2,7 @@ import { extractMessage, toastError, toastSuccess } from "../utils/helperFn";
 import {
   createBoard,
   getBoard,
-  getAllBoards, editBoard,
+  getAllBoards, editBoard, deleteBoard,
 
 } from "../services/boardService";
 import { boardAction } from "../slice/boardSlice";
@@ -22,25 +22,31 @@ export const addBoard = createAsyncThunk(
 
         // dispatching an action that adds board to boardList
         dispatch(boardAction.addBoardToBoardList(response.data.data));
-        return response.data.data;
+        data.callback();
       } catch (err) {
         dispatch(boardAction.setIsLoading(false));
         dispatch(boardAction.setError(true));
         const errorMsg = extractMessage(err);
-        toastError(extractMessage(errorMsg));
+        toastError(errorMsg);
         dispatch(boardAction.setErrorMsg(errorMsg));
-        throw err;
+        if (err.response.status !== 400) {
+          data.callback();
+        }
       }
     }
 );
+
 
 export const getBoardItem = (boardTag: string) => {
   return async (dispatch: Function) => {
     dispatch(boardAction.setIsLoading(true));
     try {
       const response = await getBoard(boardTag);
+      dispatch(boardAction.setIsLoading(false));
       dispatch(boardAction.setBoard(response.data.data));
+
     } catch (err) {
+      dispatch(boardAction.setIsLoading(false));
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
       toastError(extractMessage(errorMsg));
@@ -66,13 +72,40 @@ export const getBoards = () => {
 
 export const editBoardAction = (data: AddBoardData) => {
   return async (dispatch: Function) => {
+    dispatch(boardAction.setIsLoading(true));
     try {
-      // dispatch(boardAction.editBoardItem(data));
+      const response: any = await editBoard(data);
+      dispatch(boardAction.setIsLoading(false));
+      toastSuccess(extractMessage(response.data.message));
 
-      await editBoard(data);
-    } catch (error) {
+      // dispatching an action that adds board to boardList
+      dispatch(boardAction.editBoardItem(response.data.data));
+      data.callback();
+    } catch (err) {
       dispatch(boardAction.setError(true));
-      const errorMsg = extractMessage(error);
+      const errorMsg = extractMessage(err);
+      toastError(errorMsg);
+      dispatch(boardAction.setErrorMsg(errorMsg));
+
+      if (err.response.status !== 400) {
+        data.callback();
+      }
+    }
+  };
+};
+
+export const deleteBoardAction = (boardTag: string) => {
+  return async (dispatch: Function) => {
+    dispatch(boardAction.setIsLoading(true));
+    try {
+      const response: any = await deleteBoard(boardTag);
+      dispatch(boardAction.setIsLoading(false));
+      toastSuccess(extractMessage(response.data.message));
+
+      dispatch(boardAction.deleteBoardItem(boardTag));
+    } catch (err) {
+      dispatch(boardAction.setError(true));
+      const errorMsg = extractMessage(err);
       toastError(errorMsg);
       dispatch(boardAction.setErrorMsg(errorMsg));
     }

@@ -1,13 +1,14 @@
 import {api} from "../api/api";
 import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
 import {checkToken} from "../utils/helperFn";
+import {EditTaskOptions} from "../utils/types";
 
 export const createTask = async ({
   columnId,
   boardTag,
   taskName,
 }: {
-  columnId: string;
+  columnId: number;
   boardTag: string;
   taskName: string;
 }): Promise<any> => {
@@ -22,7 +23,7 @@ export const createTask = async ({
 
   let fd = new FormData();
   fd.append("name", taskName);
-  fd.append("status", columnId);
+  fd.append("taskColumnId", columnId.toString());
 
   return await api.post(`/tasks/${boardTag}`, fd, config);
 };
@@ -88,15 +89,13 @@ export const getUnsplashPictures = async (imageName: string): Promise<any> => {
   return response.data.results;
 };
 
-export const addTaskCoverImage = async ({
-  boardTag,
-  boardRef,
-  imageObj,
-}: {
-  boardTag: string;
-  boardRef: string;
-  imageObj: any;
-}): Promise<any> => {
+export const editTask = async ({
+                                 boardTag,
+                                 boardRef,
+                                 name,
+                                 file,
+                                 description,
+                               }: EditTaskOptions): Promise<any> => {
   await checkToken();
   const config = {
     headers: {
@@ -104,15 +103,19 @@ export const addTaskCoverImage = async ({
     },
   };
 
-  let formData = new FormData();
-  formData.append("file", imageObj);
+  const formData = new FormData();
+  const optionalFields: [string, any][] = [["file", file], ["name", name], ["description", description]];
+  optionalFields.forEach(([fieldName, fieldValue]) => {
+    if (fieldValue != null) {
+      formData.append(fieldName, fieldValue);
+    }
+  });
 
-  return await api.put(
-      `/tasks/${boardTag}/${boardRef}/cover-image`,
-      formData,
-      config
-  );
+  const response = await api.put(`/tasks/${boardTag}/${boardRef}`, formData, config);
+  return response.data.data;
 };
+
+
 
 export const getTaskCoverImage = async (
   boardTag: string,

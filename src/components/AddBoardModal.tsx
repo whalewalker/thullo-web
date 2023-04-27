@@ -35,7 +35,7 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({
   const [file, setFile] = useState(imageUrl || null);
   const [boardVisibility, setBoardVisibility] = useState(visibility || "PRIVATE");
   const [checkFile, setCheckFile] = useState(false);
-  const dispatchFn = useAppDispatch();
+  const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => state.board.isLoading);
 
   const imageHandler = (e: { target: { files: any } }) => {
@@ -74,8 +74,9 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({
 
     const boardData = {
       file: file !== imageUrl ? file : null,
-      boardName: data.boardName === value ? null : data.boardName,
+      name: data.boardName === value ? null : data.boardName,
       visibility: boardVisibility !== visibility ? boardVisibility : null,
+      callback: closeModal
     };
 
     if (action === "edit") {
@@ -84,11 +85,10 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({
         boardTag: boardTag,
         imageUrl: imageUrl,
       };
-      await dispatchFn(editBoardAction(editedData));
+      await dispatch(editBoardAction(editedData));
     } else {
-      await dispatchFn(addBoard(boardData));
+      await dispatch(addBoard(boardData));
     }
-    closeModal();
   };
 
 
@@ -207,7 +207,7 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({
 };
 
 AddBoardModal.defaultProps = {
-  action: "create"
+  action: ""
 }
 
 export default AddBoardModal;

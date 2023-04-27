@@ -11,6 +11,7 @@ import Btn from "./Btn";
 import ThreeDotModal from "./ThreeDotModal";
 import {formatTaskColumnName} from "../utils/helperFn";
 import DeleteWarningModal from "./DeleteWarningModal";
+import {removeTaskColumn} from "../actions/taskColumnAction";
 
 
 
@@ -56,6 +57,7 @@ const ThreeDotsIcon = ({ handleClick }: {handleClick: any}) => {
 };
 
 type DragDropColumnProps = {
+    boardTag: string
     editTaskName: string;
     setEditTaskName: (name: string) => void;
     column: TaskColumn;
@@ -64,7 +66,7 @@ type DragDropColumnProps = {
     closeModal: () => void;
 };
 
-export const DragDropColumn = ({
+export const DragDropColumn = ({   boardTag,
                                    editTaskName,
                                    setEditTaskName,
                                    column,
@@ -85,8 +87,10 @@ export const DragDropColumn = ({
     const isCurrentColumn = (columnName: string) => columnName === column.name;
 
     const handleAddCardModal = async () => {
-        const columnId = column.name;
+        const columnId = column.id;
+        const columnName = column.name;
         dispatch(boardAction.setColumnId(columnId));
+        dispatch(boardAction.setColumnName(columnName));
         setDisplayAddCardModal(true);
     };
 
@@ -100,8 +104,13 @@ export const DragDropColumn = ({
     }
 
     const onDeleteTaskColumnHandler = () => {
-        // Make an API call to the server to delete the column
-        console.log("Deleted");
+        setDeleteModal(false);
+        dispatch(removeTaskColumn({taskColumnId: column.id, boardTag}))
+    }
+
+    const setEditColumnNameHandler = () => {
+        dispatch(boardAction.setColumnId(column.id));
+        setEditTaskName(column.name);
     }
 
     return (
@@ -125,6 +134,7 @@ export const DragDropColumn = ({
                 )}
                 {isCurrentColumn(editTaskName) &&
                     <TaskColumnForm
+                        action="updateTaskColumn"
                         value={formatTaskColumnName(column.name)}
                         boardTag={boardItem.boardTag}
                     />
@@ -132,13 +142,13 @@ export const DragDropColumn = ({
                 {isCurrentColumn(showModal) && !isCurrentColumn(editTaskName) && (
                     <TaskColumnModal
                         content={menuContent}
-                        handleEdit={() => setEditTaskName(column.name)}
+                        handleEdit={setEditColumnNameHandler}
                         handleDelete={onDeleteModalHandler}
                     />
                 )}
             </div>
 
-    <StrictModeDroppable droppableId={column.name}>
+    <StrictModeDroppable droppableId={column.id.toString()}>
         {(provided) => (
           <ul
             {...provided.droppableProps}
@@ -150,7 +160,7 @@ export const DragDropColumn = ({
               <DragDropCard
                 key={String(card.id)}
                 card={card}
-                columnId={column.name}
+                columnId={column.id}
                 index={i}
               />
             ))}

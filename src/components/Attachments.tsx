@@ -5,29 +5,17 @@ import {toastError} from "../utils/helperFn";
 import AttachedItem from "./AttachedItem";
 import {useAppDispatch, useAppSelector} from "../hooks/customHook";
 import {addAttachment} from "../actions/taskActions";
-import {TaskColumn, Task} from "../utils/types";
 
 
 interface AttachmentsProps {
-    boardTag: string;
+    attachments: [];
     boardRef: string;
+    boardTag: string
 }
 
-const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
-
-        const boardItem = useAppSelector((state) => state.board.boardItem);
-        const columnName = useAppSelector((state) => state.board.columnName);
-        const cardId = useAppSelector((state) => state.board.taskId);
-
-    const [columnItem] = boardItem.taskColumn.filter(
-        (column: TaskColumn) => column.name === columnName
-    );
-
-        let [cardItem] = columnItem.tasks.filter(
-            (task: Task) => task.id === cardId
-        );
-
-        const [attachments, setAttachments] = useState([...cardItem.attachments]);
+const Attachments = ({attachments, boardRef, boardTag}: AttachmentsProps) => {
+        const columnId = useAppSelector((state) => state.board.columnId);
+        const [attachmentItem, setAttachmentItem] = useState([...attachments]);
         const [displayMoreAttachments, setDisplayMoreAttachments] = useState<boolean>(false);
         const dispatchFn = useAppDispatch();
 
@@ -39,7 +27,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
             }
 
             const attachmentExists = (name: string) => {
-                return attachments.some((attachment: { fileName: string; }) => attachment.fileName === name);
+                return attachmentItem.some((attachment: { fileName: string; }) => attachment.fileName === name);
             };
 
             if (attachmentExists(file.name)) {
@@ -47,9 +35,9 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                 return;
             }
 
-            const newAttachment = await dispatchFn(addAttachment(boardRef, boardTag, columnName, file));
+            const newAttachment = await dispatchFn(addAttachment(boardRef, boardTag, columnId, file));
             if (newAttachment) {
-                setAttachments((prevState: { fileName: string; createdAt: string; fileUrl: string }[]): any => {
+                setAttachmentItem((prevState: { fileName: string; createdAt: string; fileUrl: string }[]): any => {
                     return [...prevState, newAttachment];
                 });
             }
@@ -59,7 +47,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
             setDisplayMoreAttachments((prevState) => !prevState);
         };
 
-        const sliceNumber = displayMoreAttachments ? attachments.length : 3;
+        const sliceNumber = displayMoreAttachments ? attachmentItem.length : 3;
 
         let updateFileValue = (e: any) => {
             e.target.value = null;
@@ -81,7 +69,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                     />
                     <label
                         htmlFor="add-file"
-                        className="cursor-pointer ml-3 border px-2.5 py-1 rounded-lg  text-xs flex items-center text-color-grey-3 border-color-border hover:text-color-grey-4 hover:border-color-grey-4"
+                        className="cursor-pointer ml-3 border px-2 py-1 rounded  text-xs flex items-center text-color-grey-3 border-color-border hover:text-color-grey-4 hover:border-color-grey-4"
                     >
                         <AiOutlinePlus className="text-current w-2.5 h-2.5 mr-2"/>
                         Add
@@ -92,7 +80,7 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                         displayMoreAttachments ? "h-[15rem] overflow-auto scroll" : "overflow-hidden"
                     } `}
                 >
-                    {attachments
+                    {attachmentItem
                         .slice(0, sliceNumber)
                         .map(({
                                   fileName,
@@ -101,13 +89,13 @@ const Attachments = ({boardTag, boardRef}: AttachmentsProps) => {
                                   id
                               }: { fileName: string, fileUrl: string, createdAt: string, id: number }) => (
                             <AttachedItem key={createdAt} attachment={{fileName, fileUrl, createdAt, id}}
-                                          boardRef={boardRef} boardTag={boardTag} columnId={columnName}
-                                          setAttachments={setAttachments}/>
+                                          boardRef={boardRef} boardTag={boardTag} columnId={columnId}
+                                          setAttachments={setAttachmentItem}/>
                         ))
                     }
 
                 </div>
-                {attachments.length > 3 && (
+                {attachmentItem.length > 3 && (
                     <p
                         className="text-sm text-color-grey-3 cursor-pointer mt-1"
                         onClick={toggleDisplayMoreAttachmentsHandler}

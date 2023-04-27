@@ -7,9 +7,6 @@ import {boardAction} from "../../slice/boardSlice";
 import TaskModal from "../../components/TaskModal";
 import Btn from "../../components/Btn";
 import Members from "../../components/Members";
-import {getBoardItem} from "../../actions/boardAction";
-import {useParams} from "react-router-dom";
-import Spinner from "../../components/Spinner";
 
 const BoardDetail = () => {
     const dispatch = useAppDispatch();
@@ -18,17 +15,8 @@ const BoardDetail = () => {
     const [editTaskName, setEditTaskName] = useState<any>("");
     const onUpdateColumnModalId = (id: any) => setColumnModalId(id);
     const boardItem = useAppSelector((state) => state.board.boardItem);
-    const isLoading = useAppSelector((state) => state.board.isLoading);
     const displayTaskModal = useAppSelector((state) => state.board.displayTaskModal);
-    const {boardTag = ''} = useParams(); // set default value to empty string if boardTag is undefined
-
-    const getBoardItemData = async (boardTag: string) => {
-        await dispatch(getBoardItem(boardTag));
-    }
-    useEffect(() => {
-        console.log("Got here")
-        getBoardItemData(boardTag);
-    }, [boardTag, dispatch, getBoardItemData]);
+    const displayAddColumnForm = useAppSelector(state => state.board.displayAddColumnForm);
 
 
     useEffect(() => {
@@ -53,10 +41,6 @@ const BoardDetail = () => {
         dispatch(boardAction.toggleDisplayAddColumnForm(true));
     };
 
-    const displayAddColumnForm = useAppSelector(
-        (state) => state.board.displayAddColumnForm
-    )
-
     const closeForms: any = (e: { target: { dataset: { close: string } } }) => {
         if (e.target.dataset.close) {
             closeModal();
@@ -66,9 +50,6 @@ const BoardDetail = () => {
 
 
     return (
-        isLoading ? (
-                <Spinner/>
-            ) :
             <section
                 className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4"
                 data-close="yes"
@@ -92,19 +73,19 @@ const BoardDetail = () => {
                         setEditTaskName={setEditTaskName}
                         closeModal={closeModal}
                     />
-                {/*    {!displayAddColumnForm && (*/}
-                {/*        <Btn*/}
-                {/*            label="Add another list"*/}
-                {/*            className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"*/}
-                {/*            onClick={displayAddColumnFormHandler}*/}
-                {/*        >*/}
-                {/*            <BsPlusLg className="text-current "/>*/}
-                {/*        </Btn>*/}
-                {/*    )}*/}
-                {/*    {displayAddColumnForm && <TaskColumnForm action="addTaskColumn" boardTag={boardItem.boardTag}/>}*/}
+                    {!displayAddColumnForm && (
+                        <Btn
+                            label="Add another list"
+                            className="bg-[#DAE4FD] flex text-[#2F80ED] justify-between items-center py-2 px-3.5 rounded-lg"
+                            onClick={displayAddColumnFormHandler}
+                        >
+                            <BsPlusLg className="text-current "/>
+                        </Btn>
+                    )}
+                    {displayAddColumnForm && <TaskColumnForm boardTag={boardItem.boardTag}/>}
                 </div>
 
-                {/*{displayTaskModal && <TaskModal/>}*/}
+                {displayTaskModal && <TaskModal/>}
             </section>
     );
 };

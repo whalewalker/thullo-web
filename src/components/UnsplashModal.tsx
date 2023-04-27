@@ -3,7 +3,7 @@ import {FiSearch} from "react-icons/fi";
 import {getUnsplashPictures} from "../services/taskService";
 import ReactLoading from "react-loading";
 import {useAppDispatch} from "../hooks/customHook";
-import {updateTaskCoverImage} from "../actions/taskActions";
+import {updateTaskDetails} from "../actions/taskActions";
 import axios, {AxiosResponse} from "axios";
 import {toastError} from "../utils/helperFn";
 
@@ -29,7 +29,7 @@ const UnsplashModal = ({
     const [searchImageName, setSearchImageName] = useState("");
     const [images, setImages] = useState<Array<Image>>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const dispatchFn = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const searchImageHandler = (e: { target: { value: string } }) => {
         setSearchImageName(e.target.value);
@@ -43,10 +43,10 @@ const UnsplashModal = ({
     }, [display])
 
     const setSearchedImage = async (imageUrl: string) => {
-        let imageObj = await fetch(imageUrl).then((response) => response.blob());
+        let file = await fetch(imageUrl).then((response) => response.blob());
         setUrl(imageUrl);
-        dispatchFn(
-            updateTaskCoverImage({boardTag, boardRef, imageObj, imageUrl})
+        dispatch(
+            updateTaskDetails({boardTag, boardRef,  file, imageUrl})
         );
     };
 
@@ -68,7 +68,7 @@ const UnsplashModal = ({
                     }
                     return {id: item.id, alt: item.alt_description, url: item.urls.small};
                 } catch (error) {
-                    toastError(`Error fetching image size for ${item.urls.small}`);
+                    toastError(`Error fetching image from unsplash`);
                     console.log(`Error fetching image size for ${item.urls.small}`, error)
                     return null;
                 }
