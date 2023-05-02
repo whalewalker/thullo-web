@@ -103,7 +103,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
 
     return (
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-          {boardItem.taskColumn.map((column: TaskColumn, index: any) => (
+          {boardItem?.taskColumn?.map((column: TaskColumn, index: any) => (
               <DragDropColumn
                   boardTag={boardItem.boardTag}
                   editTaskName={editTaskName}

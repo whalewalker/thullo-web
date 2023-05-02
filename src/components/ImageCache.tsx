@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {getTaskCoverImage} from "../services/taskService";
 import {useAppSelector} from "../hooks/customHook";
-import {extractMessage, toastError} from "../utils/helperFn";
 import noImage from "../asset/img/no-image.jpg";
 import axios from "axios";
 
@@ -36,9 +35,7 @@ const ImageCache = ({boardRef, className, img}: ImageCacheProps) => {
                 localStorage.setItem(cacheKey, url);
                 setImage(url);
             }).catch(err => {
-            console.log(err)
-                if(err.status !== 403)
-                    toastError(extractMessage(err))
+            console.log(err);
         });
     }
 

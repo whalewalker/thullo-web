@@ -10,7 +10,7 @@ import {AiFillPicture} from "react-icons/ai";
 import DescriptionEditor from "./DescriptionEditor";
 import Attachments from "./Attachments";
 import CommentBox from "./CommentBox";
-import CommentList from "./CommentList";
+import Comments from "./Comments";
 import {fileHandler} from "../utils/helperFn";
 import UnsplashModal from "./UnsplashModal";
 import LabelModal from "./LabelModal";
@@ -18,13 +18,15 @@ import MembersList from "./MembersList";
 import AddMemberModal from "./AddMemberModal";
 import ImageCache from "./ImageCache";
 import {updateTaskDetails} from "../actions/taskActions";
+import EditableText from "./EditableText";
 
-interface Btn {
+
+interface ActionItem {
     title: string;
     icon: ReactElement;
 }
 
-const actionBtn: Btn[] = [
+const actionBtn: ActionItem[] = [
     {
         title: "Cover",
         icon: <AiFillPicture className="text-current w-2.5 h-2.5 mr-3"/>,
@@ -64,12 +66,8 @@ const TaskModal = () => {
     const boardItem = useAppSelector((state) => state.board.boardItem);
     const columnId = useAppSelector((state) => state.board.columnId);
     const cardId = useAppSelector((state) => state.board.taskId);
-
-    const columnItem = boardItem.taskColumn.find(
-        (column: TaskColumn) => column.id === columnId
-    );
-
-    const cardItem = columnItem?.tasks.find((task: Task) => task.id === cardId);
+    const columnItem = boardItem?.taskColumn?.find((column: TaskColumn) => column.id === columnId)!;
+    const cardItem = columnItem?.tasks?.find((task: Task) => task.id === cardId);
 
     const [imageUrl, setImageUrl] = useState(
         cardItem?.imageUrl || emptyImg
@@ -92,8 +90,8 @@ const TaskModal = () => {
     const onSetTaskImageHandler = (e: any) => {
         const imageUrl = fileHandler(e);
         setImageUrl(imageUrl);
-        const boardTag = boardItem.boardTag;
-        const boardRef = cardItem.boardRef;
+        const boardTag = boardItem?.boardTag;
+        const boardRef = cardItem?.boardRef;
         const file = e.target.files[0];
 
         dispatch(
@@ -117,7 +115,7 @@ const TaskModal = () => {
                         >
                             <ImageCache
                                 img={imageUrl}
-                                boardRef={cardItem.boardRef}
+                                boardRef={cardItem?.boardRef}
                                 className="object-cover w-full h-[10rem] relative rounded-lg"
                             />
                         </label>
@@ -146,36 +144,38 @@ const TaskModal = () => {
                     </div>
                     <div className="flex mt-3 justify-between">
                         <div className="w-[70%]">
-                            <p className="text-[#000000] font-normal text-base">
-                                {cardItem.name}
-                            </p>
+                            <EditableText
+                                boardTag={boardItem?.boardTag}
+                                boardRef={cardItem?.boardRef}
+                                initialText={cardItem?.name}
+                            />
                             <p className="text-text-p-color text-xs font-semibold mt-1">
                                 <span className="text-[#BDBDBD] ">In list: </span>
-                                {columnItem.name}
+                                {columnItem?.name}
                             </p>
                             <DescriptionEditor
-                                boardTag={boardItem.boardTag}
-                                boardRef={cardItem.boardRef}
-                                description={cardItem.description}
+                                boardTag={boardItem?.boardTag}
+                                boardRef={cardItem?.boardRef}
+                                description={cardItem?.description}
                             />
                             <Attachments
-                                boardTag={boardItem.boardTag}
-                                boardRef={cardItem.boardRef}
-                                attachments={cardItem.attachments}
+                                boardTag={boardItem?.boardTag}
+                                boardRef={cardItem?.boardRef}
+                                attachments={cardItem?.attachments}
                             />
                             <CommentBox
-                                taskId={cardItem.id}
-                                boardRef={cardItem.boardRef}
-                                columnId={columnItem.id}
+                                taskId={cardItem?.id}
+                                boardRef={cardItem?.boardRef}
+                                columnId={columnItem?.id}
                             />
-                            <CommentList comments={cardItem.comments}/>
+                            <Comments/>
                         </div>
                         <div className="w-[25%] h-fit" ref={modalRef}>
                             <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
                                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2"/>
                                 Actions
                             </p>
-                            {actionBtn.map((btn: Btn, i) => (
+                            {actionBtn.map((btn: ActionItem, i) => (
                                 <button
                                     key={i}
                                     className={`flex w-full items-center rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
@@ -198,8 +198,8 @@ const TaskModal = () => {
                                 display={displayModal}
                                 setUrl={setImageUrl}
                                 setDisplay={setDisplayModal}
-                                boardTag={boardItem.boardTag}
-                                boardRef={cardItem.boardRef}
+                                boardTag={boardItem?.boardTag}
+                                boardRef={cardItem?.boardRef}
                             />
                             <LabelModal display={displayModal}/>
                             <AddMemberModal

@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {boardAction} from "../slice/boardSlice";
 import {useAppDispatch} from "../hooks/customHook";
-import {deleteBoardAction, getBoardItem} from "../actions/boardAction";
+import {deleteBoardAction} from "../actions/boardAction";
 import noImage from "../asset/img/no-image.jpg";
 import {BsThreeDots} from "react-icons/bs";
 import React, {useState} from "react";
@@ -104,8 +104,6 @@ const BoardItem = ({
         target: { dataset: { board: string } };
     }) => {
         const boardTag = e.target.dataset.board;
-        await dispatch(getBoardItem(boardTag));
-        dispatch(boardAction.setBoardTag(boardTag));
         dispatch(boardAction.setBoardName(boardName));
         navigate(`/user/board/${boardTag}`);
     };

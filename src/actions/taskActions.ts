@@ -1,5 +1,5 @@
 import {boardAction} from "../slice/boardSlice";
-import {extractMessage, toastError, toastSuccess} from "../utils/helperFn";
+import {extractMessage, toastError} from "../utils/helperFn";
 import {
     createAttachment,
     createTask,
@@ -57,12 +57,13 @@ export const moveTaskWithinColumn = ({
     return async (dispatch: Function) => {
         try {
             dispatch(boardAction.moveTaskWithinBoardTaskColumn({newColumn}));
-            await moveTask({
+             await moveTask({
                 position,
                 boardRef,
                 boardTag,
                 taskColumnId: newColumn.id,
             });
+
 
         } catch (err) {
             dispatch(boardAction.setError(true));
@@ -115,19 +116,17 @@ export const updateTaskDetails = ({
                                       boardRef,
                                       name,
                                       file,
-                                      description,
-                                      imageUrl
+                                      description
                                   }: EditTaskOptions) => async (dispatch: Function) => {
     try {
-        dispatch(boardAction.addImageToTaskCard(imageUrl));
-
-        await editTask({
+        const response = await editTask({
             boardTag,
             boardRef,
             name,
             file,
             description,
         });
+        dispatch(boardAction.updateTask(response.data.data))
     } catch (err) {
         dispatch(boardAction.setError(true));
         const errorMsg = extractMessage(err);
@@ -154,13 +153,12 @@ export const createComment = ({
 }) => {
     return async (dispatch: Function) => {
         try {
-            const response = await createCommentReq({
+            await createCommentReq({
                 boardRef,
                 message,
                 mentionedUsers,
                 taskId,
             });
-
             dispatch(
                 boardAction.addCommentToTaskComments({
                     user,
@@ -228,7 +226,6 @@ export const removeAttachment =
                 task.attachments = task.attachments.filter(
                     (attachment: { id: number }) => attachment.id !== Number(attachmentId)
                 );
-                localStorage.setItem("boardItem", JSON.stringify(storedBoard));
 
                 const attachments = storedBoard.taskColumn
                     .find((column: { name: string }) => column.name === columnId)

@@ -7,6 +7,8 @@ import {boardAction} from "../../slice/boardSlice";
 import TaskModal from "../../components/TaskModal";
 import Btn from "../../components/Btn";
 import Members from "../../components/Members";
+import {useParams} from "react-router-dom";
+import {getBoardItem} from "../../actions/boardAction";
 
 const BoardDetail = () => {
     const dispatch = useAppDispatch();
@@ -17,7 +19,12 @@ const BoardDetail = () => {
     const boardItem = useAppSelector((state) => state.board.boardItem);
     const displayTaskModal = useAppSelector((state) => state.board.displayTaskModal);
     const displayAddColumnForm = useAppSelector(state => state.board.displayAddColumnForm);
+    const {boardTag = ""} = useParams();
 
+    useEffect(() => {
+        dispatch(getBoardItem(boardTag));
+        dispatch(boardAction.setBoardTag(boardTag));
+    }, [boardTag, dispatch])
 
     useEffect(() => {
         const activeTaskModal = localStorage.getItem("activeTaskModal");
@@ -48,7 +55,6 @@ const BoardDetail = () => {
         }
     };
 
-
     return (
             <section
                 className="flex items-center flex-col px-8 pb-4 h-[calc(100vh-5rem)] sm:px-4"
@@ -56,7 +62,7 @@ const BoardDetail = () => {
                 onClick={closeForms}
             >
                 <div className="flex items-center my-8 w-full sm:mt-[4rem]  sm:flex-wrap sm:justify-between">
-                    <Members collaborators={boardItem.collaborators}/>
+                    <Members collaborators={boardItem?.collaborators}/>
                     <p className="ml-auto flex items-center bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 sm:order-2">
                         <BsThreeDots className="w-3 h-3 text-current mr-2"/>
                         Show Menu
@@ -82,7 +88,7 @@ const BoardDetail = () => {
                             <BsPlusLg className="text-current "/>
                         </Btn>
                     )}
-                    {displayAddColumnForm && <TaskColumnForm boardTag={boardItem.boardTag}/>}
+                    {displayAddColumnForm && <TaskColumnForm boardTag={boardItem?.boardTag}/>}
                 </div>
 
                 {displayTaskModal && <TaskModal/>}

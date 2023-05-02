@@ -18,7 +18,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-code{
+.description code{
   background-color: #e2e6e8;
   border-radius: 0.25rem;
   padding: 0.25rem;
@@ -26,19 +26,19 @@ code{
 }
 
 /* Style for unordered lists */
-ul {
+.description ul {
   list-style: disc; /* Change the bullet point to a filled circle */
   margin-left: 1.5rem; /* Add some left margin to the list */
 }
 
 /* Style for ordered lists */
-ol {
+.description ol {
   list-style: decimal; /* Change the bullet point to a number */
   margin-left: 1.5rem; /* Add some left margin to the list */
 }
 
 /* Style for list items */
-li {
+.description li {
   margin-bottom: 0.2rem; /* Add some space between list items */
 }
 

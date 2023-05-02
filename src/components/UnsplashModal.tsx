@@ -43,11 +43,14 @@ const UnsplashModal = ({
     }, [display])
 
     const setSearchedImage = async (imageUrl: string) => {
-        let file = await fetch(imageUrl).then((response) => response.blob());
-        setUrl(imageUrl);
-        dispatch(
-            updateTaskDetails({boardTag, boardRef,  file, imageUrl})
-        );
+        try {
+            const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const file = new File([response.data], 'image.png', { type: response.headers['content-type'] });
+            setUrl(imageUrl);
+            dispatch(updateTaskDetails({ boardTag, boardRef, file}));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const onSubmitSearchInputHandler = async (e: { preventDefault: Function }) => {

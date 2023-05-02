@@ -15,9 +15,9 @@ interface AttachmentsProps {
 
 const Attachments = ({attachments, boardRef, boardTag}: AttachmentsProps) => {
         const columnId = useAppSelector((state) => state.board.columnId);
-        const [attachmentItem, setAttachmentItem] = useState([...attachments]);
+        const [attachmentItem, setAttachmentItem] = useState(attachments ? [...attachments] : []);
         const [displayMoreAttachments, setDisplayMoreAttachments] = useState<boolean>(false);
-        const dispatchFn = useAppDispatch();
+        const dispatch = useAppDispatch();
 
         const fileUploadHandler = async (e: { target: { files: any } }) => {
             const file = e.target.files[0];
@@ -35,7 +35,7 @@ const Attachments = ({attachments, boardRef, boardTag}: AttachmentsProps) => {
                 return;
             }
 
-            const newAttachment = await dispatchFn(addAttachment(boardRef, boardTag, columnId, file));
+            const newAttachment = await dispatch(addAttachment(boardRef, boardTag, columnId, file));
             if (newAttachment) {
                 setAttachmentItem((prevState: { fileName: string; createdAt: string; fileUrl: string }[]): any => {
                     return [...prevState, newAttachment];

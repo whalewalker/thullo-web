@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../asset/img/thullo-logo.png";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";

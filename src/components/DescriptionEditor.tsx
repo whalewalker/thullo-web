@@ -6,6 +6,7 @@ import Parser from "html-react-parser";
 import {useAppDispatch} from "../hooks/customHook";
 import {updateTaskDetails} from "../actions/taskActions";
 import Btn from "./Btn";
+import BtnIcon from "./BtnIcon";
 
 interface DescriptionEditorProps {
     boardTag: string;
@@ -17,7 +18,7 @@ const DescriptionEditor = ({boardTag, boardRef, description}: DescriptionEditorP
     const dispatch = useAppDispatch();
     const [displayEditor, setDisplayEditor] = useState(false);
     const [editorKey, setEditorKey] = useState(2);
-    const [editorContent, setEditorContent] = useState(description);
+    const [editorContent, setEditorContent] = useState<string>(description || "");
 
     const editorRef: React.MutableRefObject<any> = useRef();
 
@@ -47,13 +48,12 @@ const DescriptionEditor = ({boardTag, boardRef, description}: DescriptionEditorP
                     <span className=" text-xs font-semibold ml-1">Description</span>
                 </p>
                 {editorContent && (
-                    <Btn
-                        className="ml-3 border px-2 py-1 rounded  text-xs flex items-center text-color-grey-3 border-color-border"
-                        onClick={toggleDisplayEditor}
-                    >
+
+                    <BtnIcon  onClick={toggleDisplayEditor}>
                         <RiPencilFill className="text-current w-2.5 h-2.5 mr-2"/>
                         Edit
-                    </Btn>
+                    </BtnIcon>
+
                 )}
             </div>
 
@@ -66,7 +66,7 @@ const DescriptionEditor = ({boardTag, boardRef, description}: DescriptionEditorP
                 Add a description...
             </p>
             {!displayEditor && (
-                <div className="mt-1 w-full text-sm">{Parser(editorContent)}</div>
+                <div className="mt-1 w-full text-sm description">{Parser(editorContent as string)}</div>
             )}
             <form
                 className={`w-full mt-2 ${displayEditor ? "block" : "hidden"}`}

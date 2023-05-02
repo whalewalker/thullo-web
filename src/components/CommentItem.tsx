@@ -1,7 +1,14 @@
 import React from "react";
-import profileImage from "../asset/img/profile-pic.jpg";
+import Btn from "./Btn";
 
-const CommentItem = ({message, name}: { message: string; name: string }) => {
+interface CommentItemProps {
+    message: string;
+    name: string;
+    profileImage: string;
+    date: string
+}
+
+const CommentItem = ({message, name, profileImage, date}: CommentItemProps) => {
     const regex = /(@\w+|#\w+|https?:\/\/\S+)/g;
     const parts = message.split(regex);
 
@@ -15,24 +22,20 @@ const CommentItem = ({message, name}: { message: string; name: string }) => {
                 />
                 <div className="flex-1 flex-col  ">
                     <p className="text-xs font-bold text-[#000000]">{name}</p>
-                    <p className="text-[#BDBDBD] text-[10px] font-medium">
-                        24 August at 20:43
-                    </p>
+                    <p className="text-[#BDBDBD] text-[10px] font-medium">{date}</p>
                 </div>
                 <div className="flex items-center text-xs text-color-grey-3">
-                    <button type="button" className="border-0 outline-0">
-                        Edit
-                    </button>
+                    Edit
+                    <Btn label="" btnType="button" className="border-0 outline-0"/>
                     <small className="mx-1">-</small>
-                    <button type="button" className="border-0 outline-0">
-                        Delete
-                    </button>
+                    <Btn label="Delete" btnType="button" className="border-0 outline-0"/>
                 </div>
             </div>
             <div className="text-[#000000] text-sm font-normal py-2">
                 {parts.map((part, index) =>
                     regex.test(part) ? (part.startsWith("http") ? (
-                            <a target="_blank" key={index} href={part} className="text-[#2F80ED]" rel="noreferrer">{part}</a>) :
+                            <a target="_blank" key={index} href={part} className="text-[#2F80ED]"
+                               rel="noreferrer">{part}</a>) :
                         (<span key={index} className="text-[#2F80ED]">{part}</span>)) : part)}
             </div>
         </div>

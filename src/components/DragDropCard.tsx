@@ -45,7 +45,7 @@ const DragDropCard: React.FC<DragDropCardProps> = ({ card, columnId, index }) =>
           <small className="text-[10px] text-color-grey-3">
             {card.boardRef}
           </small>
-          <p className="text-[#000] font-normal mb-1">{card.name}</p>
+          <p className="text-[#000] font-normal mb-1 break-words">{card.name}</p>
           {card.labels && (
             <div className="flex items-center  w-full flex-wrap pb-2">
               {card.labels.map((label, i) => (
@@ -65,7 +65,7 @@ const DragDropCard: React.FC<DragDropCardProps> = ({ card, columnId, index }) =>
                 return isImage(userAvatar) ? (
                   <img
                     src={userAvatar}
-                    alt="collab-img"
+                    alt="collaborator-img"
                     key={i}
                     className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
                       i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"

@@ -57,11 +57,15 @@ export const getBoardItem = (boardTag: string) => {
 
 export const getBoards = () => {
   return async (dispatch: Function) => {
+    dispatch(boardAction.setIsLoading(true))
     try {
       const response: any = await getAllBoards();
+      dispatch(boardAction.setIsLoading(false))
+
       // dispatching an action that adds board to boardList
       dispatch(boardAction.getAllBoards(response.data.data));
     } catch (err) {
+      dispatch(boardAction.setIsLoading(false))
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
       toastError(extractMessage(errorMsg));
@@ -104,6 +108,7 @@ export const deleteBoardAction = (boardTag: string) => {
 
       dispatch(boardAction.deleteBoardItem(boardTag));
     } catch (err) {
+      dispatch(boardAction.setIsLoading(false));
       dispatch(boardAction.setError(true));
       const errorMsg = extractMessage(err);
       toastError(errorMsg);

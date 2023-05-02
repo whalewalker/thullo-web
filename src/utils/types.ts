@@ -6,37 +6,17 @@ export interface Board {
   imageUrl: string;
   collaborators: [];
   taskColumn: TaskColumn[];
+  [key: string]: any;
 }
 
-export interface AddBoardData {
-  file?: any;
-  name?: string | any;
-  visibility?: string | any;
-  boardTag?: string,
-  imageUrl?: any
-  callback: Function
-}
+
 
 export interface TaskColumn {
   id: number;
   name: string;
-  tasks: [];
+  tasks: Task[];
   createdAt: string;
-  imageUrl: string | undefined;
-  updatedAt: string;
-  boardRef: string;
-  contributors: [];
-  comments: [];
-  description: null | string;
-  position: number;
-  labels: {
-    backgroundCode: string;
-    colorCode: string;
-    createdAt: string;
-    id: number;
-    name: string;
-    updatedAt: string;
-  }[];
+  [key: string]: any;
 }
 
 export interface Task {
@@ -51,14 +31,27 @@ export interface Task {
   comments: [] | undefined;
   description: null | string;
   position: number;
-  labels: {
-    backgroundCode: string;
-    colorCode: string;
-    createdAt: string;
-    id: number;
-    name: string;
-    updatedAt: string;
-  }[];
+  labels: Label[];
+  attachments: [];
+  [key: string]: any;
+}
+export interface Label{
+  backgroundCode: string;
+  colorCode: string;
+  createdAt: string;
+  id: number;
+  name: string;
+  updatedAt: string;
+}
+
+export interface AddBoardData {
+  file?: any;
+  name?: string | any;
+  visibility?: string | any;
+  boardTag?: string,
+  imageUrl?: any
+  callback: Function
+  [key: string]: any;
 }
 
 export interface Comment {
@@ -66,6 +59,8 @@ export interface Comment {
   message: string;
   createdAt: string;
   updatedAt: string;
+  user: User
+  [key: string]: any;
 }
 
 export interface EditTaskOptions {
@@ -74,12 +69,24 @@ export interface EditTaskOptions {
   name?: string;
   file?: any;
   description?: string;
-  imageUrl?: string | undefined
+  imageUrl?: string
+  [key: string]: any;
 }
 
 export interface TaskColumnOptions {
   boardTag: string;
   name?: string;
   taskColumnId?: number;
+  [key: string]: any;
+}
+
+export interface User {
+  id: number
+  name: string,
+  imageUrl: string,
+  bio: string,
+  phoneNumber: string,
+  email: string,
+  [key: string]: any;
 }
 
