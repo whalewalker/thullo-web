@@ -54,7 +54,7 @@ const Attachments = ({attachments, boardRef, boardTag}: AttachmentsProps) => {
         };
 
         return (
-            <div className="mt-3 w-full mb-5">
+            <div className="mt-3 w-full my-5">
                 <div className="flex items-center">
                     <p className="flex text-[#bdbdbd] items-center">
                         <MdDescription className="text-current w-2.5 h-2.5"/>

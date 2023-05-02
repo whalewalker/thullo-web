@@ -69,8 +69,12 @@ const BoardDetail = () => {
                     </p>
                 </div>
                 <div
-                    className="w-full bg-[#F8F9FD] rounded-lg p-7 grid grid-cols-5 xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll "
+                    className="column w-full bg-[#F8F9FD] rounded-lg p-7 grid  xl:grid-cols-17 gap-7 overflow-auto flex-1 items-start scroll "
                     data-close="yes"
+                    style={{
+                        gridTemplateColumns: `repeat(${boardItem?.taskColumn?.length + 1}, minmax(17rem, 17rem))`
+
+                    }}
                 >
                     <DragAndDropBox
                         columnModalId={columnModalId}

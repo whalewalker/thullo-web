@@ -107,7 +107,7 @@ const TaskModal = () => {
         >
             <div className="w-[50%] h-[90vh] md:w-[90%] relative">
                 <div
-                    className="w-full h-full  bg-color-white p-6 rounded-lg  overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
+                    className="w-full h-full  bg-color-white p-6 rounded-lg relative overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
                     <div className="w-full h-[10rem]  rounded-lg relative">
                         <label
                             htmlFor="task-image"
@@ -142,7 +142,7 @@ const TaskModal = () => {
                             <RxCross2 className="w-6 h-6"/>
                         </div>
                     </div>
-                    <div className="flex mt-3 justify-between">
+                    <div className="flex mt-6 justify-between">
                         <div className="w-[70%]">
                             <EditableText
                                 boardTag={boardItem?.boardTag}
@@ -170,7 +170,7 @@ const TaskModal = () => {
                             />
                             <Comments/>
                         </div>
-                        <div className="w-[25%] h-fit" ref={modalRef}>
+                        <div className="w-[25%] h-fit relative" ref={modalRef}>
                             <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
                                 <FaUserCircle className="text-current w-2.5 h-2.5 mr-2"/>
                                 Actions
@@ -193,21 +193,20 @@ const TaskModal = () => {
                                 display={displayModal}
                                 setMemberModalDisplay={setAddMemberModal}
                             />
-
-                            <UnsplashModal
-                                display={displayModal}
-                                setUrl={setImageUrl}
-                                setDisplay={setDisplayModal}
-                                boardTag={boardItem?.boardTag}
-                                boardRef={cardItem?.boardRef}
-                            />
-                            <LabelModal display={displayModal}/>
-                            <AddMemberModal
-                                display={displayModal}
-                                addMemberModalDisplay={addMemberModal}
-                            />
-
                         </div>
+
+                        <UnsplashModal
+                            display={displayModal}
+                            setUrl={setImageUrl}
+                            setDisplay={setDisplayModal}
+                            boardTag={boardItem?.boardTag}
+                            boardRef={cardItem?.boardRef}
+                        />
+                        <LabelModal display={displayModal}/>
+                        <AddMemberModal
+                            display={displayModal}
+                            addMemberModalDisplay={addMemberModal}
+                        />
                     </div>
                 </div>
             </div>
