@@ -59,7 +59,6 @@ const UnsplashModal = ({
         const result: Array<{ id: string; alt_description: string; urls: { small: string } }> = await getUnsplashPictures(
             searchImageName
         );
-        setIsLoading(false);
         const images = await Promise.all(
             result.map(async (item) => {
                 try {
@@ -71,19 +70,21 @@ const UnsplashModal = ({
                     }
                     return {id: item.id, alt: item.alt_description, url: item.urls.small};
                 } catch (error) {
+                    setIsLoading(false);
                     toastError(`Error fetching image from unsplash`);
                     console.log(`Error fetching image size for ${item.urls.small}`, error)
                     return null;
                 }
             })
         );
+        setIsLoading(false);
         setImages(images.filter((image): image is Image => !!image));
     };
 
 
     return (
         <div
-            className={`w-[16.3rem] h-max transition-all duration-800 ease-linear absolute right-0 top-40  bg-color-white rounded-lg p-2   shadow-4xl cursor-default ${
+            className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white rounded-lg p-2   shadow-4xl cursor-default ${
                 display === "Cover" ? " visible" : "delay-300 hidden"}`}
         >
             <p className="text-xs font-semibold text-color-grey-4">Photo Search</p>

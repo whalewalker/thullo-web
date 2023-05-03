@@ -5,6 +5,7 @@ import {toastError} from "../utils/helperFn";
 import AttachedItem from "./AttachedItem";
 import {useAppDispatch, useAppSelector} from "../hooks/customHook";
 import {addAttachment} from "../actions/taskActions";
+import {Attachment} from "../utils/types";
 
 
 interface AttachmentsProps {
@@ -82,15 +83,13 @@ const Attachments = ({attachments, boardRef, boardTag}: AttachmentsProps) => {
                 >
                     {attachmentItem
                         .slice(0, sliceNumber)
-                        .map(({
-                                  fileName,
-                                  fileUrl,
-                                  createdAt,
-                                  id
-                              }: { fileName: string, fileUrl: string, createdAt: string, id: number }) => (
-                            <AttachedItem key={createdAt} attachment={{fileName, fileUrl, createdAt, id}}
-                                          boardRef={boardRef} boardTag={boardTag} columnId={columnId}
-                                          setAttachments={setAttachmentItem}/>
+                        .map(({fileName, fileUrl, createdAt, id}: Attachment) => (
+                            <AttachedItem
+                                key={createdAt}
+                                attachment={{fileName, fileUrl, createdAt, id}}
+                                boardRef={boardRef} boardTag={boardTag} columnId={columnId}
+                                setAttachments={setAttachmentItem}
+                            />
                         ))
                     }
 

@@ -1,20 +1,22 @@
 import React from "react";
 import CommentItem from "./CommentItem";
-import { Comment } from "../utils/types";
-import {useAppSelector} from "../hooks/customHook";
+import {Comment} from "../utils/types";
 
+interface CommentProps {
+  comments: Comment[];
+}
 
-const Comments = () => {
-  const comments = useAppSelector(state => state.board.comments);
+const Comments = ({comments}: CommentProps) => {
+
   return (
     <div className="mt-5">
-      {comments.map((comment: Comment) => (
+      {comments?.map((comment: Comment) => (
         <CommentItem
-            key={comment.id}
-            name={comment.user.name}
-            message={comment.message}
-            date={comment.createdAt}
-            profileImage={comment.user.imageUrl}
+            key={comment?.id}
+            name={comment?.createdBy?.name}
+            message={comment?.message}
+            date={comment?.createdAt}
+            profileImage={comment?.createdBy?.imageUrl}
         />
       ))}
     </div>

@@ -1,8 +1,6 @@
 
 E
 src/utils/helperFn.ts,e/c/ec4cb36dc19435650b7b28906c023b19e9a82fba
-H
-src/pages/auth/Login.tsx,0/0/0005e03db3b17ba89a6bd3f710dcb805f325588d
 P
  .github/pull_request_template.md,9/9/99d2d4406193bf0dc3e7b84a6c9b9109997a4864
 <
@@ -23,8 +21,6 @@ P
  src/components/AddBoardModal.tsx,e/9/e9aa712a708a1effdbce7205be537fbc6488f034
 L
 src/services/boardService.ts,8/e/8e43b15b85c4c810f1bc016e35a154a8ad209fab
-O
-src/components/AttachedItem.tsx,d/4/d45d9b03042f78da165ee84acea7114fbf9e8b01
 ;
 src/App.tsx,8/3/835da56f32df714aaed6285a5b7fc3a7807851e4
 F
@@ -43,14 +39,8 @@ A
 ,.idea/inspectionProfiles/Project_Default.xml,4/9/496a238a6afa168dbaf6efd37bb459331589579c
 J
 src/actions/boardAction.ts,7/d/7d3c40afe4cf3edcbe7b9e676d48f69be8b9c57d
-]
--src/components/skeleton/BoardItemSkeleton.tsx,3/f/3f1363c9f01cdf0eb0029ba6a99256a3478d7612
 J
 src/components/BtnIcon.tsx,3/9/39bfa0a0584b67f55ecff66683db011b8732c568
-N
-src/components/CommentItem.tsx,a/3/a33860d50a3a4c46548acc4db9eba360106834e4
-K
-src/components/Comments.tsx,4/2/42fff3d65493d2450f98dc344f24b0527256380f
 T
 $src/components/DescriptionEditor.tsx,8/c/8c44fafd653b7a513fe4208a91946755d800ec57
 O
@@ -61,9 +51,23 @@ J
 src/components/Members.tsx,1/4/14f8a13590824384a9a15d2da3e40da4ca77ec8e
 I
 src/components/NavBar.tsx,1/2/1200e670fbc5785feb3fc9305ffd70b68c936856
-K
-src/services/taskService.ts,c/0/c0532a9415c1c1a4c64920a26814f66655825962
-B
-src/utils/types.ts,f/5/f51d97a396a91e089d771f27b21a34c8b4b918a8
 F
 src/slice/userSlice.ts,1/6/16daf5422fd3189a81f90c092676ef90cb9f3a8d
+O
+src/components/EditableText.tsx,1/6/163a766c603764a5213d82f613827e77d6791cb9
+L
+src/components/BoardItem.tsx,e/c/ecc7840edddad56cf237d19ed9c0a06d6db19b60
+B
+tailwind.config.js,0/9/0918cbb76f2c44f223706cec9d31a32cd1177ce4
+=
+src/index.css,c/5/c5d38a62d1faae90a2acaa34b79a7ef365c917e4
+P
+ src/pages/user/DashboardMain.tsx,1/6/1647b45c82f4ad7c39473b78f77a988bc0a35114
+Q
+!src/components/DragAndDropBox.tsx,7/7/7730701214bf7d1dec6bbd54384c6af46726771e
+Q
+!src/components/DragDropColumn.tsx,d/0/d08906d9f2877f8ac53776161ace7db2795fbc00
+M
+src/components/ImageCache.tsx,5/0/50bb6ea298c8f20c7958098c0ac1e977f6bf7b78
+K
+src/components/FormCard.tsx,9/e/9ec3057e94e200fbc68cbd2086e6bc58b88079be

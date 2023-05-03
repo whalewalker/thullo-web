@@ -1,7 +1,7 @@
 import {api} from "../api/api";
 import {ACCESS_TOKEN, UNSPLASH_ACCESS_KEY} from "../utils/constants";
 import {checkToken} from "../utils/helperFn";
-import {EditTaskOptions} from "../utils/types";
+import {EditTaskOptions, LabelOptions} from "../utils/types";
 
 export const createTask = async ({
                                      columnId,
@@ -52,13 +52,14 @@ export const moveTask = async ({
     return await api.put(`/tasks/${boardTag}/move`, data, config);
 };
 
-export const createCommentReq = async ({
-                                           message,
-                                           mentionedUsers,
-                                           taskId,
-                                       }: {
+export const createComment = async ({
+                                        message,
+                                        mentionedUsers,
+                                        boardRef,
+                                        boardTag
+                                    }: {
     boardRef: string;
-    taskId: number;
+    boardTag: string;
     message: string;
     mentionedUsers: string[];
 }): Promise<any> => {
@@ -71,15 +72,8 @@ export const createCommentReq = async ({
         },
     };
 
-    let data = {
-        message,
-        taskId,
-        mentionedUsers,
-    };
-
-    const raw = JSON.stringify(data);
-
-    return await api.put(`/comments/boardRef`, raw, config);
+    let data = {message, mentionedUsers};
+    return await api.post(`/comments/${boardTag}/${boardRef}`, data, config);
 };
 
 export const getUnsplashPictures = async (imageName: string): Promise<any> => {
@@ -170,4 +164,25 @@ export const deleteAttachment = async (
         },
     };
     return api.delete(`/tasks/${boardTag}/${boardRef}/${attachmentId}`, config);
+};
+
+export const createLabel = async (
+    boardTag: string,
+    boardRef: string,
+    label: LabelOptions
+): Promise<any> => {
+    await checkToken();
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+        },
+    };
+
+    return api.post(
+        `/labels/${boardTag}/${boardRef}`,
+        {...label},
+        config
+    );
 };

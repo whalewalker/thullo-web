@@ -5,9 +5,9 @@ import {
     createTask,
     deleteAttachment,
     moveTask,
-    editTask, createCommentReq,
+    editTask, createComment, createLabel,
 } from "../services/taskService";
-import {EditTaskOptions, TaskColumn} from "../utils/types";
+import {EditTaskOptions, LabelOptions, TaskColumn} from "../utils/types";
 
 export const addTask = ({
                             columnId,
@@ -57,7 +57,7 @@ export const moveTaskWithinColumn = ({
     return async (dispatch: Function) => {
         try {
             dispatch(boardAction.moveTaskWithinBoardTaskColumn({newColumn}));
-             await moveTask({
+            await moveTask({
                 position,
                 boardRef,
                 boardTag,
@@ -136,39 +136,35 @@ export const updateTaskDetails = ({
 };
 
 
-export const createComment = ({
-                                  boardRef,
-                                  message,
-                                  mentionedUsers,
-                                  taskId,
-                                  user,
-                                  columnId,
-                              }: {
+export const addComment = ({
+                               boardRef,
+                               message,
+                               mentionedUsers,
+                               columnId,
+                               boardTag
+                           }: {
     boardRef: string;
-    user: string;
-    taskId: number;
+    boardTag: string;
     message: string;
     columnId: number;
     mentionedUsers: string[];
 }) => {
     return async (dispatch: Function) => {
+        dispatch(boardAction.setIsLoading(true));
         try {
-            await createCommentReq({
+            const response = await createComment({
+                boardTag,
                 boardRef,
                 message,
-                mentionedUsers,
-                taskId,
+                mentionedUsers
             });
+            const comment = response.data.data;
+            dispatch(boardAction.setIsLoading(false));
             dispatch(
-                boardAction.addCommentToTaskComments({
-                    user,
-                    boardRef,
-                    columnId,
-                    taskId,
-                    comment: message,
-                })
+                boardAction.addCommentToTaskComments({boardRef, columnId, comment})
             );
         } catch (err) {
+            dispatch(boardAction.setIsLoading(false));
             dispatch(boardAction.setError(true));
             const errorMsg = extractMessage(err);
             toastError(extractMessage(errorMsg));
@@ -178,23 +174,13 @@ export const createComment = ({
 };
 
 export const addAttachment =
-    (boardRef: string, boardTag: string, columnId: string | undefined, file: string) =>
+    (boardRef: string, boardTag: string, columnId: number | undefined, file: string) =>
         async (dispatch: Function) => {
             try {
                 const response = await createAttachment(boardTag, boardRef, file);
                 const attachmentData = response.data.data;
-
-                const storedBoard = JSON.parse(localStorage.getItem("boardItem") || "{}");
-                storedBoard.taskColumn
-                    .find((column: { name: string }) => column.name === columnId)
-                    .tasks.find(
-                    (task: { boardRef: string; attachments: any[] }) =>
-                        task.boardRef === boardRef
-                )
-                    .attachments.push(attachmentData);
-                localStorage.setItem("boardItem", JSON.stringify(storedBoard));
-
-                return attachmentData; // Return the new attachment data
+                dispatch(boardAction.addAttachmentToTask({columnId, boardRef, attachmentData}))
+                return attachmentData;
             } catch (err) {
                 dispatch(boardAction.setError(true));
                 const errorMsg = extractMessage(err);
@@ -241,3 +227,20 @@ export const removeAttachment =
                 dispatch(boardAction.setErrorMsg(errorMsg));
             }
         };
+
+export const addLabel = ({label, boardTag, boardRef}:
+                             {label: LabelOptions, boardTag: string , boardRef: string}) => {
+    return async (dispatch: Function) =>{
+        try {
+            const response = await createLabel(boardTag, boardRef, label);
+            const labelData = response.data.data;
+            console.log(labelData)
+            dispatch(boardAction.addLabelToCard(labelData));
+        } catch (err) {
+            dispatch(boardAction.setError(true));
+            const errorMsg = extractMessage(err);
+            toastError(extractMessage(errorMsg));
+            dispatch(boardAction.setErrorMsg(errorMsg));
+        }
+    }
+}

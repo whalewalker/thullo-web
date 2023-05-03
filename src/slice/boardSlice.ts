@@ -42,7 +42,6 @@ const boardSlice = createSlice({
             },
             getAllBoards(state: any, action: any) {
                 state.boardList = action.payload;
-                localStorage.setItem("boardList", JSON.stringify(action.payload));
             },
             setColumnId(state: any, action: { payload: number | undefined }) {
                 state.columnId = action.payload;
@@ -240,18 +239,41 @@ const boardSlice = createSlice({
                 state.boardList = state.boardList.filter((boardItem: Board) => boardItem.boardTag !== boardTag);
             },
 
+            addAttachmentToTask(state, action: {payload: {columnId: number | undefined, boardRef: string, attachmentData: any}}) {
+                const {columnId, boardRef, attachmentData} = action.payload;
+                const boardItem = state.boardItem;
+                const targetColumn = boardItem.taskColumn.find((column: TaskColumn) => column.id === columnId);
+                const targetTask = targetColumn.tasks.find((task: Task) => task.boardRef === boardRef);
+                targetTask.attachments.push(attachmentData);
+
+                state.boardItem = {
+                    ...state.boardItem,
+                    boardItem: boardItem
+                }
+            },
+
+
             addCommentToTaskComments(
                 state: any,
                 action: {
                     payload: {
-                        user: string;
+                        comment: Comment;
                         boardRef: string;
                         columnId: number;
-                        taskId: number;
-                        comment: string;
                     };
                 }
             ) {
+                const {comment, boardRef, columnId} = action.payload;
+
+                const boardItem = state.boardItem;
+                const targetColumn = boardItem.taskColumn.find((column: TaskColumn) => column.id === columnId);
+                const targetTask = targetColumn.tasks.find((task: Task) => task.boardRef === boardRef);
+                targetTask.comments.push(comment);
+
+                state.boardItem = {
+                    ...state.boardItem,
+                    boardItem: boardItem
+                }
             },
         },
     })

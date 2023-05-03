@@ -15,11 +15,15 @@ const CommentItem = ({message, name, profileImage, date}: CommentItemProps) => {
     return (
         <div className="w-full flex flex-col border-b border-color-grey-2 last:border-0 pt-2 pb-1">
             <div className="flex mb-2 items-start">
-                <img
+
+                {profileImage && <img
                     src={profileImage}
                     alt={name}
-                    className="w-10 h-10 rounded-lg mr-3"
-                />
+                    className="w-[2.3rem] h-[2.3rem] rounded-lg mr-3"
+                />}
+
+                {!profileImage && <p className="w-[2.3rem] h-[2.3rem] flex items-center mr-3 justify-center bg-[#BDBDBD] text-color-white rounded-lg text-sm uppercase">{name.slice(0, 2)}</p>}
+
                 <div className="flex-1 flex-col  ">
                     <p className="text-xs font-bold text-[#000000]">{name}</p>
                     <p className="text-[#BDBDBD] text-[10px] font-medium">{date}</p>

@@ -9,6 +9,7 @@ import Btn from "../../components/Btn";
 import Members from "../../components/Members";
 import {useParams} from "react-router-dom";
 import {getBoardItem} from "../../actions/boardAction";
+import Spinner from "../../components/Spinner";
 
 const BoardDetail = () => {
     const dispatch = useAppDispatch();
@@ -17,9 +18,11 @@ const BoardDetail = () => {
     const [editTaskName, setEditTaskName] = useState<any>("");
     const onUpdateColumnModalId = (id: any) => setColumnModalId(id);
     const boardItem = useAppSelector((state) => state.board.boardItem);
+    const isLoading = useAppSelector((state) => state.board.isLoading);
     const displayTaskModal = useAppSelector((state) => state.board.displayTaskModal);
     const displayAddColumnForm = useAppSelector(state => state.board.displayAddColumnForm);
     const {boardTag = ""} = useParams();
+
 
     useEffect(() => {
         dispatch(getBoardItem(boardTag));
@@ -54,6 +57,10 @@ const BoardDetail = () => {
             dispatch(boardAction.toggleDisplayAddColumnForm(false));
         }
     };
+
+    if(isLoading){
+        return <Spinner/>
+    }
 
     return (
             <section

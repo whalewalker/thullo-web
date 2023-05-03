@@ -19,6 +19,7 @@ import AddMemberModal from "./AddMemberModal";
 import ImageCache from "./ImageCache";
 import {updateTaskDetails} from "../actions/taskActions";
 import EditableText from "./EditableText";
+import Spinner from "./Spinner";
 
 
 interface ActionItem {
@@ -47,31 +48,34 @@ const TaskModal = () => {
     const [displayModal, setDisplayModal] = useState("");
     const modalRef = useRef<any>(null);
 
+
     const closeModal = () => {
         setDisplayModal("");
     };
 
-    useEffect(() => {
-        const handleOutsideClick = (e: any) => {
-            if (modalRef.current && !modalRef.current.contains(e.target)) {
-                closeModal();
-            }
-        };
-        document.addEventListener("mousedown", handleOutsideClick);
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-    }, [modalRef]);
+    // useEffect(() => {
+    //     const handleOutsideClick = (e: any) => {
+    //         if (modalRef.current && !modalRef.current.contains(e.target)) {
+    //             closeModal();
+    //         }
+    //     };
+    //     document.addEventListener("mousedown", handleOutsideClick);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleOutsideClick);
+    //     };
+    // }, [modalRef]);
 
     const boardItem = useAppSelector((state) => state.board.boardItem);
     const columnId = useAppSelector((state) => state.board.columnId);
     const cardId = useAppSelector((state) => state.board.taskId);
+    const isLoading = useAppSelector((state) => state.board.isLoading);
     const columnItem = boardItem?.taskColumn?.find((column: TaskColumn) => column.id === columnId)!;
     const cardItem = columnItem?.tasks?.find((task: Task) => task.id === cardId);
 
     const [imageUrl, setImageUrl] = useState(
         cardItem?.imageUrl || emptyImg
     );
+
 
     const closeTaskModalHandler: any = (e: {
         target: { dataset: { close: string } };
@@ -99,117 +103,125 @@ const TaskModal = () => {
         );
     };
 
+
     return (
         <div
             onClick={closeTaskModalHandler}
             data-close="close"
             className="cursor-pointer w-screen h-screen flex items-center justify-center absolute top-0 left-0 bg-color-black-transparent "
         >
-            <div className="w-[50%] h-[90vh] md:w-[90%] relative">
-                <div
-                    className="w-full h-full  bg-color-white p-6 rounded-lg relative overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
-                    <div className="w-full h-[10rem]  rounded-lg relative">
-                        <label
-                            htmlFor="task-image"
-                            className="w-full h-[10rem] cursor-pointer"
-                        >
-                            <ImageCache
-                                img={imageUrl}
-                                boardRef={cardItem?.boardRef}
-                                className="object-cover w-full h-[10rem] relative rounded-lg"
-                            />
-                        </label>
+            {isLoading ? <Spinner/> : (
+                <div className="w-[50%] h-[90vh] md:w-[90%] relative">
+                    <div
+                        className="w-full h-full  bg-color-white p-6 rounded-lg relative overflow-y-auto  scrollbar-thin scrollbar-thumb-color-grey-3 scrollbar-track-color-grey cursor-default ">
+                        <div className="w-full h-[10rem]  rounded-lg relative">
+                            <label
+                                htmlFor="task-image"
+                                className="w-full h-[10rem] cursor-pointer"
+                            >
+                                <ImageCache
+                                    img={imageUrl}
+                                    boardRef={cardItem?.boardRef}
+                                    className="object-cover w-full h-[10rem] relative rounded-lg"
+                                />
+                            </label>
 
-                        <input
-                            className="hidden"
-                            type={"file"}
-                            accept="image/*"
-                            id="task-image"
-                            onChange={onSetTaskImageHandler}
-                        />
-                        <div
-                            className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer "
-                            onClick={() => {
-                                dispatch(
-                                    boardAction.toggleDisplayTaskModal({
-                                        cardId: undefined,
-                                        columnId: undefined,
-                                    })
-                                );
-                                localStorage.setItem("activeTaskModal", "");
-                            }}
-                        >
-                            <RxCross2 className="w-6 h-6"/>
+                            <input
+                                className="hidden"
+                                type={"file"}
+                                accept="image/*"
+                                id="task-image"
+                                onChange={onSetTaskImageHandler}
+                            />
+                            <div
+                                className="absolute top-0 -translate-y-4 -right-3  p-2 rounded-lg bg-color-btn text-color-white cursor-pointer "
+                                onClick={() => {
+                                    dispatch(
+                                        boardAction.toggleDisplayTaskModal({
+                                            cardId: undefined,
+                                            columnId: undefined,
+                                        })
+                                    );
+                                    localStorage.setItem("activeTaskModal", "");
+                                }}
+                            >
+                                <RxCross2 className="w-6 h-6"/>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex mt-6 justify-between">
-                        <div className="w-[70%]">
-                            <EditableText
-                                boardTag={boardItem?.boardTag}
-                                boardRef={cardItem?.boardRef}
-                                initialText={cardItem?.name}
-                            />
-                            <p className="text-text-p-color text-xs font-semibold mt-1">
-                                <span className="text-[#BDBDBD] ">In list: </span>
-                                {columnItem?.name}
-                            </p>
-                            <DescriptionEditor
-                                boardTag={boardItem?.boardTag}
-                                boardRef={cardItem?.boardRef}
-                                description={cardItem?.description}
-                            />
-                            <Attachments
-                                boardTag={boardItem?.boardTag}
-                                boardRef={cardItem?.boardRef}
-                                attachments={cardItem?.attachments}
-                            />
-                            <CommentBox
-                                taskId={cardItem?.id}
-                                boardRef={cardItem?.boardRef}
-                                columnId={columnItem?.id}
-                            />
-                            <Comments/>
+                        <div className="flex mt-6 justify-between">
+                            <div className="w-[70%]">
+                                <EditableText
+                                    boardTag={boardItem?.boardTag}
+                                    boardRef={cardItem?.boardRef}
+                                    initialText={cardItem?.name}
+                                />
+                                <p className="text-text-p-color text-xs font-semibold mt-1">
+                                    <span className="text-[#BDBDBD] ">In list: </span>
+                                    {columnItem?.name}
+                                </p>
+                                <DescriptionEditor
+                                    boardTag={boardItem?.boardTag}
+                                    boardRef={cardItem?.boardRef}
+                                    description={cardItem?.description}
+                                />
+                                <Attachments
+                                    boardTag={boardItem?.boardTag}
+                                    boardRef={cardItem?.boardRef}
+                                    attachments={cardItem?.attachments}
+                                />
+                                <CommentBox
+                                    boardRef={cardItem?.boardRef}
+                                    columnId={columnItem?.id}
+                                    boardTag={boardItem?.boardTag}
+                                />
+                                <Comments comments={cardItem?.comments}/>
+                            </div>
+                            <div className="w-[25%] h-fit" ref={modalRef}>
+                                <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
+                                    <FaUserCircle className="text-current w-2.5 h-2.5 mr-2"/>
+                                    Actions
+                                </p>
+                                {actionBtn.map((btn: ActionItem, i) => (
+                                    <button
+                                        key={i}
+                                        className={`flex w-full items-center rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
+                                            displayModal === btn.title
+                                                ? "bg-color-grey"
+                                                : "bg-color-grey-1"
+                                        }`}
+                                        onClick={() => setDisplayModal(btn.title)}
+                                    >
+                                        {btn.icon}
+                                        {btn.title}
+                                    </button>
+                                ))}
+                                <MembersList
+                                    display={displayModal}
+                                    setMemberModalDisplay={setAddMemberModal}
+                                />
+                            </div>
+                            <div className="absolute">
+                                <UnsplashModal
+                                    display={displayModal}
+                                    setUrl={setImageUrl}
+                                    setDisplay={setDisplayModal}
+                                    boardTag={boardItem?.boardTag}
+                                    boardRef={cardItem?.boardRef}
+                                />
+                                <LabelModal
+                                    display={displayModal}
+                                    boardTag={boardItem?.boardTag}
+                                    boardRef={cardItem?.boardRef}
+                                />
+                                <AddMemberModal
+                                    display={displayModal}
+                                    addMemberModalDisplay={addMemberModal}
+                                />
+                            </div>
                         </div>
-                        <div className="w-[25%] h-fit relative" ref={modalRef}>
-                            <p className="flex items-center text-[#BDBDBD] text-xs font-semibold mb-3">
-                                <FaUserCircle className="text-current w-2.5 h-2.5 mr-2"/>
-                                Actions
-                            </p>
-                            {actionBtn.map((btn: ActionItem, i) => (
-                                <button
-                                    key={i}
-                                    className={`flex w-full items-center rounded-lg py-1.5 px-2.5 mb-3 text-color-grey-3 font-medium text-sm ${
-                                        displayModal === btn.title
-                                            ? "bg-color-grey"
-                                            : "bg-color-grey-1"
-                                    }`}
-                                    onClick={() => setDisplayModal(btn.title)}
-                                >
-                                    {btn.icon}
-                                    {btn.title}
-                                </button>
-                            ))}
-                            <MembersList
-                                display={displayModal}
-                                setMemberModalDisplay={setAddMemberModal}
-                            />
-                        </div>
-
-                        <UnsplashModal
-                            display={displayModal}
-                            setUrl={setImageUrl}
-                            setDisplay={setDisplayModal}
-                            boardTag={boardItem?.boardTag}
-                            boardRef={cardItem?.boardRef}
-                        />
-                        <LabelModal display={displayModal}/>
-                        <AddMemberModal
-                            display={displayModal}
-                            addMemberModalDisplay={addMemberModal}
-                        />
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
