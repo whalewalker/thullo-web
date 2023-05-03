@@ -3,6 +3,7 @@ import {extractMessage, isImage, toastError, toastSuccess} from "../utils/helper
 import {useAppDispatch} from "../hooks/customHook";
 import {removeAttachment} from "../actions/taskActions";
 import axios from "axios";
+import {Attachment} from "../utils/types";
 
 
 interface DownloadButtonProps {
@@ -14,8 +15,8 @@ interface DownloadButtonProps {
 interface AttachmentItemProps {
     boardRef: string,
     boardTag: string,
-    columnId: string | null
-    attachment: { fileName: string; fileUrl: string; createdAt: string, id: number };
+    columnId: string | undefined
+    attachment: Attachment;
     setAttachments: Function
 }
 

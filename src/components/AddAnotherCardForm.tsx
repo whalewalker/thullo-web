@@ -15,10 +15,11 @@ const AddAnotherCardForm = ({
   boardTag: string;
   removeAddCardModal: Function;
 }) => {
+  const dispatch = useAppDispatch();
+
   const columnId = useAppSelector((state) => state.board.columnId);
   const isLoading = useAppSelector((state) => state.board.isLoading);
 
-  const dispatchFn = useAppDispatch();
 
   type FormData = {
     cardName: string;
@@ -44,7 +45,7 @@ const AddAnotherCardForm = ({
       taskName: data.cardName,
     };
 
-    await dispatchFn(addTask(formData));
+    await dispatch(addTask(formData));
     removeAddCardModal(false);
   };
 

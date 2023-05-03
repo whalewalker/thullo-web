@@ -22,14 +22,12 @@ const userSlice = createSlice({
     errorMsg: "",
     error: false,
     currentUserData: storedUserData || {
-      data: {
         name: "",
         imageUrl: "",
         bio: "",
         phoneNumber: "",
         email: "",
       },
-    },
   },
   reducers: {
     setIsLoading: (state: any, action: { payload: boolean }) => {

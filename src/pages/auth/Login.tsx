@@ -10,6 +10,7 @@ import {Link, useNavigate} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../hooks/customHook";
 import {login} from "../../actions/authAction";
 import ReactLoading from "react-loading";
+import Btn from "../../components/Btn";
 
 const Login = () => {
     const dispatchFn = useAppDispatch();
@@ -65,17 +66,17 @@ const Login = () => {
                         <IoMdLock className="absolute w-5 h-5 top-2.5 left-2.5 text-color-border"/>
                     }
                 />
-                <button
+                <Btn
                     disabled={isLoading}
-                    type="submit"
-                    className={` ${!isLoading && "py-2"} flex justify-center items-center bg-color-btn text-color-white w-full border border-color-btn rounded-lg ${!isLoading && "hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in"} ${isLoading && "opacity-75"}`}
+                    btnType="submit"
+                    className={`py-2 flex justify-center items-center bg-color-btn text-color-white w-full border border-color-btn rounded-lg hover:bg-color-white hover:text-color-btn transition-all duration-300 ease-in ${isLoading && "opacity-75"}`}
                 >
-                    {isLoading && (
+                    {isLoading ? (
                         <ReactLoading type="bubbles" color="#fff" width={40} height={40}/>
+                    ) : (
+                        "Login"
                     )}
-                    {isLoading ? "" : "Login"}
-                </button>
-
+                </Btn>
             </form>
         );
     };

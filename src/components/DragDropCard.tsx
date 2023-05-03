@@ -7,27 +7,22 @@ import { useAppDispatch } from "../hooks/customHook";
 import ImageCache from "./ImageCache";
 import { isImage } from "../utils/helperFn";
 
-const DragDropCard = ({
-  card,
-  index,
-  columnId,
-}: {
+interface DragDropCardProps {
   card: Task;
-  index: number;
-  columnId: string;
-}) => {
-  const dispatchFn = useAppDispatch();
+  columnId: number;
+  index: number
+}
+const DragDropCard: React.FC<DragDropCardProps> = ({ card, columnId, index }) => {
+  const dispatch = useAppDispatch();
 
   const displayTaskModal = () => {
     const newTaskModal = {
       cardId: card.id,
       columnId: columnId,
     };
-    dispatchFn(boardAction.toggleDisplayTaskModal(newTaskModal));
+    dispatch(boardAction.toggleDisplayTaskModal(newTaskModal));
     localStorage.setItem("activeTaskModal", JSON.stringify(newTaskModal));
   };
-
-
 
 
   return (
@@ -50,7 +45,7 @@ const DragDropCard = ({
           <small className="text-[10px] text-color-grey-3">
             {card.boardRef}
           </small>
-          <p className="text-[#000] font-normal mb-1">{card.name}</p>
+          <p className="text-[#000] font-normal mb-1 break-words">{card.name}</p>
           {card.labels && (
             <div className="flex items-center  w-full flex-wrap pb-2">
               {card.labels.map((label, i) => (
@@ -70,7 +65,7 @@ const DragDropCard = ({
                 return isImage(userAvatar) ? (
                   <img
                     src={userAvatar}
-                    alt="collab-img"
+                    alt="collaborator-img"
                     key={i}
                     className={`w-8 h-8 mr-1 sm:w-9 sm:h-9 relative rounded-full ${
                       i === 0 ? "z-20" : i === 1 ? "z-10" : "z-0"

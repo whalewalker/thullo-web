@@ -3,23 +3,17 @@ import colorArray from "../utils/colorArray";
 import {MdLabel} from "react-icons/md";
 import {boardAction} from "../slice/boardSlice";
 import {useAppDispatch} from "../hooks/customHook";
+import {Color, Label} from "../utils/types";
+import {addLabel} from "../actions/taskActions";
 
-interface Color {
-    id: string;
-    textColor: string;
-    backgroundColor: string;
-    blockBg: string;
-    border: string;
+interface LabelModalProps {
+    display: string;
+    boardTag: string;
+    boardRef: string;
 }
 
-interface Label {
-    name: string;
-    backgroundCode: string;
-    colorCode: string;
-}
-
-const LabelModal = ({display}: { display: string; }) => {
-    const dispatchFn = useAppDispatch();
+const LabelModal = ({display, boardTag, boardRef}: LabelModalProps) => {
+    const dispatch = useAppDispatch();
     const [labelInput, setLabelInput] = useState("");
 
     useEffect(() => {
@@ -50,14 +44,14 @@ const LabelModal = ({display}: { display: string; }) => {
 
         if (!label.name) return;
         setLabels((prevState: Label[]): any => [label, ...prevState]);
-        dispatchFn(boardAction.addLabelToCard(label));
+        dispatch(addLabel({label, boardTag, boardRef}))
         setLabelInput("");
         setLabelColor(generateRandomLabelColor())
     };
 
     return (
         <div
-            className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white relative  rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+            className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white rounded-lg p-2 shadow-4xl cursor-default ${
                 display === "Labels"
                     ? " visible"
                     : "delay-300 hidden"

@@ -15,7 +15,35 @@ html {
 }
 
 body {
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+.description code, pre{
+  background-color: #e2e6e8;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.description p{
+  line-height: 2;
+}
+
+/* Style for unordered lists */
+.description ul {
+  list-style: disc; /* Change the bullet point to a filled circle */
+  margin-left: 1.5rem; /* Add some left margin to the list */
+}
+
+/* Style for ordered lists */
+.description ol {
+  list-style: decimal; /* Change the bullet point to a number */
+  margin-left: 1.5rem; /* Add some left margin to the list */
+}
+
+/* Style for list items */
+.description li {
+  margin-bottom: 0.2rem; /* Add some space between list items */
 }
 
 img {
@@ -32,7 +60,7 @@ input {
 
 .scroll::-webkit-scrollbar {
   width: 5px;
-  height: 5px;
+  height: 7px;
 }
 
 /* Track */
@@ -43,9 +71,19 @@ input {
 /* Handle */
 .scroll::-webkit-scrollbar-thumb {
   background: #828282;
+  border-radius: 8px;
 }
 
 /* Handle on hover */
 .scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.column{
+  overflow: hidden;
+}
+
+.column:hover{
+  overflow: scroll;
+}
+

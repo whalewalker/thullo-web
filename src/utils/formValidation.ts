@@ -50,8 +50,8 @@ export const registrationOption = {
       message: "Name must have at least one characters",
     },
     maxLength: {
-      value: 50,
-      message: "Name cannot be greater than 50 characters",
+      value: 100,
+      message: "Name cannot be greater than 100 characters",
     },
   },
 };

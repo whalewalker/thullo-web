@@ -21,7 +21,7 @@ const AddMemberModal = ({
 
   return (
     <div
-      className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white relative rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+      className={`w-[15.5rem] h-max transition-all duration-800 ease-linear bg-color-white rounded-lg p-2 shadow-4xl cursor-default ${
         display === "Members" && addMemberModalDisplay
           ? " visible"
           : "delay-300 hidden"

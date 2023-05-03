@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../asset/img/thullo-logo.png";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
@@ -14,7 +14,7 @@ const NavBar = () => {
   const [displayNav, setDisplayNav] = useState(false);
   const location: string = useLocation().pathname;
   const navigate = useNavigate();
-  const { boardId } = useParams();
+  const boardName: string = useAppSelector((state) => state.board.boardName);
 
   const currentUserData: { data: { name: string } } | undefined =
     useAppSelector((state) => state.user.currentUserData);
@@ -38,10 +38,10 @@ const NavBar = () => {
       className={`flex items-center px-16 h-20 2xl:px-8 sm:px-4 shadow-3xl opacity-90 shadow-[#F6F2F1]`}
     >
       <img src={logo} alt="logo-img" className="w-24  cursor-pointer" />
-      {boardId && (
+      {boardName && (
         <div className="flex items-center ml-10 lg:ml-auto sm:absolute sm:top-20 sm:left-0 sm:w-full sm:justify-between sm:p-4 ">
           <p className="pr-3 py-1 border-r sm:border-r-0 border-color-grey-2 text-text-p-color font-medium text-lg">
-            {boardId}
+            {boardName}
           </p>
           <p
             className="flex items-center ml-5 bg-color-grey-1 rounded-lg py-2 px-4 cursor-pointer text-xs text-color-grey-3 hover:text-color-grey-4 transition-all duration-300 ease-linear hover:bg-color-grey-2"
@@ -57,7 +57,7 @@ const NavBar = () => {
       {!location.includes("profile") && (
         <div
           className={`ml-auto mr-10 smd:mr-4 smd:ml-1 flex justify-between rounded-lg overflow-hidden shadow-md sm:hidden p-1 ${
-            boardId && "lg:hidden"
+              boardName && "lg:hidden"
           }`}
         >
           <input

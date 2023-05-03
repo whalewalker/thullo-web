@@ -1,12 +1,9 @@
 import React from "react";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import {DragDropContext, DropResult} from "react-beautiful-dnd";
 import DragDropColumn from "./DragDropColumn";
-import { useAppSelector, useAppDispatch } from "../hooks/customHook";
-import { TaskColumn } from "../utils/types";
-import {
-  moveTaskWithinColumn,
-  moveTaskBetweenColumn,
-} from "../actions/taskActions";
+import {useAppDispatch, useAppSelector} from "../hooks/customHook";
+import {TaskColumn} from "../utils/types";
+import {moveTaskBetweenColumn, moveTaskWithinColumn,} from "../actions/taskActions";
 
 interface DragAndDropBoxProps {
     editTaskName: string;
@@ -23,116 +20,99 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
                                                            columnModalId,
                                                            closeModal
                                                        }) => {
-  const boardItem = useAppSelector((state) => state.board.boardItem);
+    const dispatch = useAppDispatch();
+    const boardItem = useAppSelector((state) => state.board.boardItem);
 
-  const dispatchFn = useAppDispatch();
+    const onDragEnd = ({ destination, source }: DropResult) => {
+        // Make sure we have a valid destination
+        if (!destination) {
+            return;
+        }
 
-  function onDragEnd({ destination, source }: DropResult) {
-    // Make sure we have a valid destination
-    if (!destination) {
-      return;
+        // If the source and destination columns are the same
+        // AND if the index is the same, the item isn't moving
+        if (
+            source.droppableId === destination.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        // Find the start and end columns
+        const startColumn = boardItem.taskColumn.find(
+            (column: TaskColumn) => column.id.toString() === source.droppableId
+        );
+        const endColumn = boardItem.taskColumn.find(
+            (column: TaskColumn) => column.id.toString() === destination.droppableId
+        );
+
+
+        // Make sure we found the start and end columns
+        if (!startColumn || !endColumn) {
+            console.error('Could not find start or end column');
+            return;
+        }
+
+        // Get the dragged item from the start column
+        const draggedItem = startColumn.tasks[source.index];
+
+        // If start is the same as end, we're in the same column
+        if (startColumn === endColumn) {
+            // Move the item within the column
+            const newTasks = Array.from(startColumn.tasks);
+            newTasks.splice(source.index, 1);
+            newTasks.splice(destination.index, 0, draggedItem);
+            const newColumn = { ...startColumn, tasks: newTasks };
+
+            // Update the state
+            dispatch(
+                moveTaskWithinColumn({
+                    newColumn,
+                    boardTag: boardItem.boardTag,
+                    boardRef: draggedItem.boardRef,
+                    position: destination.index,
+                })
+            );
+        } else {
+            // Move the item between columns
+            const startTasks = Array.from(startColumn.tasks);
+            startTasks.splice(source.index, 1);
+            const newStartColumn = { ...startColumn, tasks: startTasks };
+
+            const endTasks = Array.from(endColumn.tasks);
+            endTasks.splice(destination.index, 0, draggedItem);
+            const newEndColumn = { ...endColumn, tasks: endTasks };
+
+            // Update the state
+            dispatch(
+                moveTaskBetweenColumn({
+                    startColumn: newStartColumn,
+                    endColumn: newEndColumn,
+                    boardTag: boardItem.boardTag,
+                    boardRef: draggedItem.boardRef,
+                    position: destination.index,
+                })
+            );
+        }
     }
 
-    // If the source and destination columns are the same
-    // AND if the index is the same, the item isn't moving
-    if (
-      source.droppableId === destination.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
+
+    const onDragStart = () => {
+
     }
 
-    // Set start and end variables
-    const [start]: any = boardItem.taskColumn.filter(
-      (column: any) => String(column.name) === source.droppableId
-    );
-    const [end]: any = boardItem.taskColumn.filter(
-      (column: any) => String(column.name) === destination.droppableId
-    );
-
-    // (start, end);
-
-    // If start is the same as end, we're in the same column
-    if (start === end) {
-      //   // Move the item within the list
-      //   // Start by making a new list without the dragged item
-      const newTasks = start.tasks.slice();
-      const [removedCard] = newTasks.splice(source.index, 1);
-
-      //   // Then insert the item at the right location
-      newTasks.splice(destination.index, 0, removedCard);
-
-      //   // Then create a new copy of the column object
-      const newCol: any = {
-        ...start,
-        tasks: newTasks,
-      };
-      //   // Update the state
-
-      // pass the removed item id, destination index
-
-      dispatchFn(
-        moveTaskWithinColumn({
-          newColumn: newCol,
-          boardTag: boardItem.boardTag,
-          boardRef: removedCard.boardRef,
-          position: destination.index,
-        })
-      );
-      return;
-    } else {
-      // If start is different from end, we need to update multiple columns
-      // Filter the start list like before
-      const otherTasks = start.tasks.filter(
-        (_: any, idx: number) => idx !== source.index
-      );
-
-      // Create a new start column
-      const newStartCol = {
-        ...start,
-        tasks: otherTasks,
-      };
-
-      // Make a new end list array
-      const newEndTasks = [...end.tasks];
-
-      // Insert the item into the end list
-      newEndTasks.splice(destination.index, 0, start.tasks[source.index]);
-
-      // Create a new end column
-      const newEndCol = {
-        ...end,
-        tasks: newEndTasks,
-      };
-
-      // Update the state
-
-      // pass the removed item id, destination index
-
-      dispatchFn(
-        moveTaskBetweenColumn({
-          startColumn: newStartCol,
-          endColumn: newEndCol,
-          boardTag: boardItem.boardTag,
-          position: destination.index,
-          boardRef: start.tasks[source.index].boardRef,
-        })
-      );
-
-      return;
-    }
-  }
-
-  return (
-        <DragDropContext onDragEnd={onDragEnd}>
-          {boardItem.taskColumn.map((column: TaskColumn, _: any) => (
+    return (
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          {boardItem?.taskColumn?.map((column: TaskColumn, index: any) => (
               <DragDropColumn
+                  boardTag={boardItem.boardTag}
                   editTaskName={editTaskName}
                   setEditTaskName={setEditTaskName}
                   onShowModalHandler={onUpdateColumnModalId}
                   showModal={columnModalId}
                   column={column}
                   closeModal={closeModal}
+                  key={index}
               />
           ))}
         </DragDropContext>

@@ -3,7 +3,7 @@ import {FiSearch} from "react-icons/fi";
 import {getUnsplashPictures} from "../services/taskService";
 import ReactLoading from "react-loading";
 import {useAppDispatch} from "../hooks/customHook";
-import {updateTaskCoverImage} from "../actions/taskActions";
+import {updateTaskDetails} from "../actions/taskActions";
 import axios, {AxiosResponse} from "axios";
 import {toastError} from "../utils/helperFn";
 
@@ -29,7 +29,7 @@ const UnsplashModal = ({
     const [searchImageName, setSearchImageName] = useState("");
     const [images, setImages] = useState<Array<Image>>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const dispatchFn = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const searchImageHandler = (e: { target: { value: string } }) => {
         setSearchImageName(e.target.value);
@@ -43,11 +43,14 @@ const UnsplashModal = ({
     }, [display])
 
     const setSearchedImage = async (imageUrl: string) => {
-        let imageObj = await fetch(imageUrl).then((response) => response.blob());
-        setUrl(imageUrl);
-        dispatchFn(
-            updateTaskCoverImage({boardTag, boardRef, imageObj, imageUrl})
-        );
+        try {
+            const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const file = new File([response.data], 'image.png', { type: response.headers['content-type'] });
+            setUrl(imageUrl);
+            dispatch(updateTaskDetails({ boardTag, boardRef, file}));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const onSubmitSearchInputHandler = async (e: { preventDefault: Function }) => {
@@ -56,7 +59,6 @@ const UnsplashModal = ({
         const result: Array<{ id: string; alt_description: string; urls: { small: string } }> = await getUnsplashPictures(
             searchImageName
         );
-        setIsLoading(false);
         const images = await Promise.all(
             result.map(async (item) => {
                 try {
@@ -68,19 +70,21 @@ const UnsplashModal = ({
                     }
                     return {id: item.id, alt: item.alt_description, url: item.urls.small};
                 } catch (error) {
-                    toastError(`Error fetching image size for ${item.urls.small}`);
+                    setIsLoading(false);
+                    toastError(`Error fetching image from unsplash`);
                     console.log(`Error fetching image size for ${item.urls.small}`, error)
                     return null;
                 }
             })
         );
+        setIsLoading(false);
         setImages(images.filter((image): image is Image => !!image));
     };
 
 
     return (
         <div
-            className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white relative  rounded-lg p-2 z-20  shadow-4xl cursor-default ${
+            className={`w-[16.3rem] h-max transition-all duration-800 ease-linear bg-color-white rounded-lg p-2   shadow-4xl cursor-default ${
                 display === "Cover" ? " visible" : "delay-300 hidden"}`}
         >
             <p className="text-xs font-semibold text-color-grey-4">Photo Search</p>
